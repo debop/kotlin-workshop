@@ -8,3 +8,6 @@
  */
 
 rootProject.name = "kotlin-workshop"
+
+include(":kotlin-basic")
+include(":kotlin-coroutines")
