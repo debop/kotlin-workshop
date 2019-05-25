@@ -11,3 +11,5 @@ rootProject.name = "kotlin-workshop"
 
 include(":kotlin-basic")
 include(":kotlin-coroutines")
+
+include(":spring-data:jdbc")

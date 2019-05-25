@@ -11,14 +11,16 @@ tasks.withType<KotlinCompile> {
 
 sourceSets {
     getByName("main").java.srcDirs("src/main/kotlin")
-    getByName("test").java.srcDirs("src/main/kotlin")
+    getByName("test").java.srcDirs("src/test/kotlin")
 }
 
 dependencies {
 
     implementation(kotlin("stdlib"))
 
-    implementation("io.github.microutils:kotlin-logging:1.6.22")
+    compile("org.apache.commons:commons-lang3:3.9")
+
+    implementation("io.github.microutils:kotlin-logging:1.6.26")
     implementation("org.slf4j:slf4j-api:1.7.25")
     testImplementation("ch.qos.logback:logback-classic:1.2.3")
 
