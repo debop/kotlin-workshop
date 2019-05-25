@@ -66,7 +66,7 @@ subprojects {
         description = "Runs a failfast detekt build."
 
         input = files("src/main/kotlin")
-        config = files("../detekt.yml")
+        config = files("${project.rootProject.rootDir}/detekt.yml")
         filters = ".*/build/.*"
 
         reports {
