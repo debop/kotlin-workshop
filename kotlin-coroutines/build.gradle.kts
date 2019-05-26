@@ -1,19 +1,3 @@
-import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-kotlin {
-    KotlinPlatformType.jvm
-}
-tasks.withType<KotlinCompile> {
-    sourceCompatibility = "1.8"
-    kotlinOptions.jvmTarget = "1.8"
-}
-
-sourceSets {
-    getByName("main").java.srcDirs("src/main/kotlin")
-    getByName("test").java.srcDirs("src/test/kotlin")
-}
-
 dependencies {
 
     implementation(kotlin("stdlib-jdk8"))

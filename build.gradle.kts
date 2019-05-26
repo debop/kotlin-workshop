@@ -1,7 +1,9 @@
 import io.gitlab.arturbosch.detekt.detekt
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformJvmPlugin
+import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     val kotlinVersion: String = "1.3.31"
@@ -36,6 +38,18 @@ subprojects {
 
         plugin("jacoco")
         plugin("maven-publish")
+    }
+    kotlin {
+        KotlinPlatformType.jvm
+    }
+    tasks.withType<KotlinCompile> {
+        sourceCompatibility = "1.8"
+        kotlinOptions.jvmTarget = "1.8"
+    }
+
+    sourceSets {
+        getByName("main").java.srcDirs("src/main/kotlin")
+        getByName("test").java.srcDirs("src/test/kotlin")
     }
 
     val sourceSets = project.the<SourceSetContainer>()

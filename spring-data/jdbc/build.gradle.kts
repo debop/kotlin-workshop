@@ -1,23 +1,7 @@
-import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("plugin.spring")
     kotlin("plugin.noarg")
     kotlin("plugin.jpa")
-}
-
-kotlin {
-    KotlinPlatformType.jvm
-}
-tasks.withType<KotlinCompile> {
-    sourceCompatibility = "1.8"
-    kotlinOptions.jvmTarget = "1.8"
-}
-
-sourceSets {
-    getByName("main").java.srcDirs("src/main/kotlin")
-    getByName("test").java.srcDirs("src/test/kotlin")
 }
 
 dependencies {
