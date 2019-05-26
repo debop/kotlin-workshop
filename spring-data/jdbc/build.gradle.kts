@@ -2,9 +2,9 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.jetbrains.kotlin.plugin.spring") version "1.3.31"
-    id("org.jetbrains.kotlin.plugin.noarg") version "1.3.31"
-    id("org.jetbrains.kotlin.plugin.jpa") version "1.3.31"
+    kotlin("plugin.spring")
+    kotlin("plugin.noarg")
+    kotlin("plugin.jpa")
 }
 
 kotlin {
@@ -22,7 +22,10 @@ sourceSets {
 
 dependencies {
 
-    implementation(kotlin("stdlib"))
+    implementation(kotlin("stdlib-jdk8"))
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${extra["coroutines"]}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:${extra.get("coroutines")}")
 
     compile("org.apache.commons:commons-lang3:3.9")
 
@@ -30,16 +33,14 @@ dependencies {
     compile("org.slf4j:slf4j-api:1.7.25")
     testImplementation("ch.qos.logback:logback-classic:1.2.3")
 
-
-    implementation("org.springframework.data:spring-data-jdbc:1.0.8.RELEASE")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:2.1.5.RELEASE")
+    implementation("org.springframework.boot:spring-boot-starter-data-jdbc:${extra["spring.boot2"]}")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:${extra["spring.boot2"]}")
 
     testImplementation("com.h2database:h2:1.4.199")
 
-    val junitJupiterVersion = extra["junitJupiter"] as String
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${extra["junit.jupiter"]}")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:${extra["junit.jupiter"]}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${extra["junit.jupiter"]}")
 
     testImplementation("org.amshove.kluent:kluent:1.45")
 }

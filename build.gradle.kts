@@ -1,13 +1,21 @@
 import io.gitlab.arturbosch.detekt.detekt
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformJvmPlugin
+import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 
 plugins {
+    val kotlinVersion: String = "1.3.31"
     base
-    kotlin("jvm") version "1.3.31" apply false
+    kotlin("jvm") version kotlinVersion
+    kotlin("plugin.spring") version kotlinVersion apply false
+    kotlin("plugin.noarg") version kotlinVersion apply false
+    kotlin("plugin.jpa") version kotlinVersion apply false
+
     id("io.gitlab.arturbosch.detekt") version "1.0.0-RC12" apply false
     id("org.jetbrains.dokka") version "0.9.17" apply false
 }
+
+val kotlinVersion: String by extra { plugins.getPlugin(KotlinPluginWrapper::class.java).kotlinPluginVersion }
 
 allprojects {
 
@@ -22,10 +30,11 @@ subprojects {
     apply {
         plugin<JavaLibraryPlugin>()
         plugin<KotlinPlatformJvmPlugin>()
-        plugin("io.gitlab.arturbosch.detekt")
-        plugin("jacoco")
 
+        plugin("io.gitlab.arturbosch.detekt")
         plugin("org.jetbrains.dokka")
+
+        plugin("jacoco")
         plugin("maven-publish")
     }
 

@@ -16,7 +16,10 @@ sourceSets {
 
 dependencies {
 
-    implementation(kotlin("stdlib"))
+    implementation(kotlin("stdlib-jdk8"))
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${extra["coroutines"]}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:${extra.get("coroutines")}")
 
     compile("org.apache.commons:commons-lang3:3.9")
 
@@ -25,12 +28,11 @@ dependencies {
     testImplementation("ch.qos.logback:logback-classic:1.2.3")
 
     implementation("net.jodah:failsafe:${extra["failsafe"]}")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${extra.get("coroutines")}")
 
-    val junitJupiterVersion = extra["junitJupiter"]
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${extra["junit.jupiter"]}")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:${extra["junit.jupiter"]}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${extra["junit.jupiter"]}")
 
     testImplementation("org.amshove.kluent:kluent:1.45")
 }
