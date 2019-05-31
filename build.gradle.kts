@@ -39,12 +39,16 @@ subprojects {
         plugin("jacoco")
         plugin("maven-publish")
     }
+
     kotlin {
         KotlinPlatformType.jvm
     }
     tasks.withType<KotlinCompile> {
         sourceCompatibility = "1.8"
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions {
+            jvmTarget = "1.8"
+            freeCompilerArgs = listOf("-Xjsr305=strict")
+        }
     }
 
     sourceSets {

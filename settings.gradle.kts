@@ -13,3 +13,7 @@ include(":kotlin-basic")
 include(":kotlin-coroutines")
 
 include(":spring-data:jdbc")
+
+include(":spring-boot:webflux")
+
+include(":kotlin-tests")

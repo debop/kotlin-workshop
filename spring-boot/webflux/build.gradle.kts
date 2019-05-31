@@ -1,14 +1,15 @@
 plugins {
+    kotlin("jvm")
     kotlin("plugin.spring")
     kotlin("plugin.noarg")
     kotlin("plugin.jpa")
-    // id("org.springframework.boot") version ("2.1.5.RELEASE")
+    id("org.springframework.boot") version ("2.1.5.RELEASE")
     id("io.spring.dependency-management") version "1.0.6.RELEASE"
 }
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.boot:spring-boot-dependencies:${extra["spring.boot2"]}")
+        mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
     }
 
     dependencies {
@@ -23,7 +24,7 @@ dependencyManagement {
 dependencies {
 
     implementation(project(":kotlin-coroutines"))
-    testImplementation(project(":kotlin-tests"))
+    implementation(project(":kotlin-tests"))
 
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
@@ -35,8 +36,14 @@ dependencies {
     implementation("org.apache.commons:commons-lang3:3.9")
     implementation("net.jodah:failsafe:${extra["failsafe"]}")
 
-    implementation("org.springframework.boot:spring-boot-starter-data-jdbc:${extra["spring.boot2"]}")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:${extra["spring.boot2"]}")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(module = "junit")
+    }
+    testImplementation("io.projectreactor:reactor-test")
 
-    testImplementation("com.h2database:h2:1.4.199")
+    implementation("com.atlassian.commonmark:commonmark:0.12.1")
+    implementation("com.atlassian.commonmark:commonmark-ext-autolink:0.12.1")
 }
