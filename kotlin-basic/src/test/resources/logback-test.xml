@@ -25,7 +25,7 @@
         </encoder>
     </appender>
 
-    <logger name="io.github.debop.kotlin.workshop" level="TRACE"/>
+    <logger name="io.github.debop.kotlin" level="TRACE"/>
 
     <root level="INFO">
         <appender-ref ref="console"/>

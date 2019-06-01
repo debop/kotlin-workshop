@@ -52,9 +52,11 @@ class RandomBeansExtension : TestInstancePostProcessor, ParameterResolver {
         val accessor = FieldAccess.get(testInstance.javaClass)
 
         accessor.fields.forEachIndexed { _, field ->
-            if (AnnotationSupport.isAnnotated(field, Random::class.java)) {
-                val randomObject = resolve(field.type, field.getAnnotation(Random::class.java))
-                accessor.set(testInstance, field.name, randomObject)
+            if (field.type != kotlin.Lazy::class.java) {
+                if (AnnotationSupport.isAnnotated(field, Random::class.java)) {
+                    val randomObject = resolve(field.type, field.getAnnotation(Random::class.java))
+                    accessor.set(testInstance, field.name, randomObject)
+                }
             }
         }
     }
