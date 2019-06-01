@@ -2,6 +2,7 @@ import io.gitlab.arturbosch.detekt.detekt
 import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformJvmPlugin
+import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -43,7 +44,8 @@ subprojects {
         plugin("io.spring.dependency-management")
     }
 
-
+    val kotlinVersion: String by extra { plugins.getPlugin(KotlinPluginWrapper::class.java).kotlinPluginVersion }
+    
     tasks.withType<KotlinCompile> {
         sourceCompatibility = "1.8"
         kotlinOptions {
@@ -57,12 +59,12 @@ subprojects {
             mavenBom("org.springframework.boot:spring-boot-dependencies:${extra["spring.boot2"]}")
         }
         dependencies {
-            dependency("org.jetbrains.kotlin:kotlin-stdlib:${extra["kotlin"]}")
-            dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${extra["kotlin"]}")
-            dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${extra["kotlin"]}")
-            dependency("org.jetbrains.kotlin:kotlin-reflect:${extra["kotlin"]}")
-            dependency("org.jetbrains.kotlin:kotlin-test:${extra["kotlin"]}")
-            dependency("org.jetbrains.kotlin:kotlin-test-junit5:${extra["kotlin"]}")
+            dependency("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
+            dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion")
+            dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+            dependency("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+            dependency("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
+            dependency("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinVersion")
 
             dependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:${extra["coroutines"]}")
             dependency("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:${extra["coroutines"]}")
