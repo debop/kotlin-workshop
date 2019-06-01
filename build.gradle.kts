@@ -62,6 +62,7 @@ subprojects {
             dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${extra["kotlin"]}")
             dependency("org.jetbrains.kotlin:kotlin-reflect:${extra["kotlin"]}")
             dependency("org.jetbrains.kotlin:kotlin-test:${extra["kotlin"]}")
+            dependency("org.jetbrains.kotlin:kotlin-test-junit5:${extra["kotlin"]}")
 
             dependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:${extra["coroutines"]}")
             dependency("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:${extra["coroutines"]}")
@@ -96,6 +97,8 @@ subprojects {
 
         testImplementation("org.junit.jupiter:junit-jupiter")
         testImplementation("org.amshove.kluent:kluent")
+        testImplementation(kotlin("test"))
+        testImplementation(kotlin("test-junit5"))
     }
 
     val sourceSets = project.the<SourceSetContainer>()
