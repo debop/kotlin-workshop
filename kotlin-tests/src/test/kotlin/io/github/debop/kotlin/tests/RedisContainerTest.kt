@@ -6,6 +6,7 @@ import io.lettuce.core.RedisFuture
 import io.lettuce.core.api.async.RedisAsyncCommands
 import io.lettuce.core.api.reactive.RedisReactiveCommands
 import io.lettuce.core.api.sync.RedisCommands
+import org.amshove.kluent.shouldBeNull
 import org.amshove.kluent.shouldEqual
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
@@ -84,6 +85,7 @@ class RedisContainerTest {
 
             get("async-key").whenComplete { v, e ->
                 v shouldEqual "async-value"
+                e.shouldBeNull()
             }
                 .toCompletableFuture()
                 .join()
