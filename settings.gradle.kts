@@ -6,14 +6,20 @@
  * Detailed information about configuring a multi-project build in Gradle can be found
  * in the user manual at https://docs.gradle.org/5.4.1/userguide/multi_project_builds.html
  */
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        jcenter()
+    }
+}
 
 rootProject.name = "kotlin-workshop"
 
-include(":kotlin-basic")
-include(":kotlin-coroutines")
+include("kotlin-basic")
+include("kotlin-coroutines")
 
-include(":spring-data:jdbc")
+include("spring-data:jdbc")
 
-include(":spring-boot:webflux")
+include("spring-boot:webflux")
 
-include(":kotlin-tests")
+include("kotlin-tests")
