@@ -5,13 +5,27 @@ import mu.KLogging
 import org.amshove.kluent.shouldEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.bson.Document
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
 class MongoDBContainerTest {
 
     companion object : KLogging()
 
-    private val mongodb = MongoDBContainer.instance
+    lateinit var mongodb: MongoDBContainer
+
+    @BeforeAll
+    fun `setup all`() {
+        mongodb = MongoDBContainer.instance
+    }
+
+    @AfterAll
+    fun `cleanup all`() {
+        if (this::mongodb.isInitialized) {
+            mongodb.close()
+        }
+    }
 
     @Test
     fun `create mongodb testcontainer instance`() {

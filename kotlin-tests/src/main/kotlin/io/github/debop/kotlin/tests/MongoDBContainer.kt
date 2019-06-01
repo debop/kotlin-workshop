@@ -21,6 +21,7 @@ class MongoDBContainer(dockerImageName: String) : GenericContainer<MongoDBContai
         get() = "mongodb://$host:$port"
 
     init {
+        logger.info { "Create MongoDBContainer ... " }
         withExposedPorts(EXPOSED_PORT)
         withCreateContainerCmdModifier { cmd ->
             cmd.withPortBindings(PortBinding(Ports.Binding.bindPort(EXPOSED_PORT), ExposedPort(EXPOSED_PORT)))
@@ -29,6 +30,8 @@ class MongoDBContainer(dockerImageName: String) : GenericContainer<MongoDBContai
         setWaitStrategy(Wait.forListeningPort())
 
         start()
+
+        logger.info { "MongoDBContainer started!!! connectionString=$connectionString" }
     }
 
     companion object : KLogging() {

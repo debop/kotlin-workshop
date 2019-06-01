@@ -73,6 +73,8 @@ subprojects {
 
             dependency("org.junit.jupiter:junit-jupiter:${extra["junit.jupiter"]}")
             dependency("org.amshove.kluent:kluent:1.45")
+
+            dependency("org.testcontainers:testcontainers:${extra["testcontainers"]}")
         }
     }
 

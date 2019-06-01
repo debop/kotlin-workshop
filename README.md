@@ -16,13 +16,15 @@ Kotlin 개발 시 JUnit5 와 TestContainers 를 활용한 테스트 예제 및 �
 
 ## Spring Boot 
 
-Spring Boot 2 에서 Kotlin을 활요하는 예제들 
+Spring Boot 2 에서 Kotlin을 활용하는 예제들 
 
 ### webflux
 
 Spring Framework 5 의 webflux 와 Reactive Mongo를 이용하여 Nonblocking REST API 예를 보여줍니다.
 
 ## Spring Data
+
+다양한 spring-data-xxxx 프로젝트에 대한 예제들 
 
 ### jdbc
 
