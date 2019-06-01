@@ -1,4 +1,4 @@
-package io.github.debop.kotlin.tests
+package io.github.debop.kotlin.tests.containers
 
 import io.lettuce.core.LettuceFutures
 import io.lettuce.core.RedisClient

@@ -1,4 +1,4 @@
-package io.github.debop.kotlin.tests
+package io.github.debop.kotlin.tests.containers
 
 import com.mongodb.MongoClient
 import mu.KLogging

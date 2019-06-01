@@ -1,4 +1,4 @@
-package io.github.debop.kotlin.tests
+package io.github.debop.kotlin.tests.containers
 
 import com.github.dockerjava.api.model.ExposedPort
 import com.github.dockerjava.api.model.PortBinding
