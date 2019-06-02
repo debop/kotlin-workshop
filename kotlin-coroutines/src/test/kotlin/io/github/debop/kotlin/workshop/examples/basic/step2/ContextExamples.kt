@@ -11,10 +11,10 @@ import org.junit.jupiter.api.Test
 import kotlin.coroutines.CoroutineContext
 
 /**
- * CoroutineContextExamples
+ * ContextExamples
  * @author debop (Sunghyouk Bae)
  */
-class CoroutineContextExamples {
+class ContextExamples {
 
     companion object : KLogging()
 

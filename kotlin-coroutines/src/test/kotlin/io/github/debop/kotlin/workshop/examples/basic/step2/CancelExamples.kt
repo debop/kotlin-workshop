@@ -17,10 +17,10 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 /**
- * CoroutineCancelExamples
+ * CancelExamples
  * @author debop (Sunghyouk Bae)
  */
-class CoroutineCancelExamples {
+class CancelExamples {
 
     companion object : KLogging()
 
