@@ -8,15 +8,17 @@ import mu.KLogging
 import java.io.Serializable
 import kotlin.math.absoluteValue
 
-fun weightOf(weight: Double = 0.0, weightUnit: WeightUnit = MILLIGRAM) =
-    Weight(weight * weightUnit.factor)
+fun weightOf(weight: Number = 0.0, weightUnit: WeightUnit = MILLIGRAM) =
+    Weight(weight.toDouble() * weightUnit.factor)
 
-fun Number.milligram(): Weight = weightOf(toDouble(), MILLIGRAM)
-fun Number.gram(): Weight = weightOf(toDouble(), GRAM)
-fun Number.kilogram(): Weight = weightOf(toDouble(), KILOGRAM)
-fun Number.ton(): Weight = weightOf(toDouble(), TON)
+fun <T : Number> T.weight(unit: WeightUnit): Weight = weightOf(this, unit)
 
-operator fun Number.times(weight: Weight): Weight = weight * this.toDouble()
+fun <T : Number> T.milligram(): Weight = weight(MILLIGRAM)
+fun <T : Number> T.gram(): Weight = weight(GRAM)
+fun <T : Number> T.kilogram(): Weight = weight(KILOGRAM)
+fun <T : Number> T.ton(): Weight = weight(TON)
+
+operator fun <T : Number> T.times(weight: Weight): Weight = weight * this.toDouble()
 
 fun String?.toWeight(): Weight = Weight.parse(this)
 

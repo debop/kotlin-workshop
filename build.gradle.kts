@@ -75,6 +75,13 @@ subprojects {
             dependency("ch.qos.logback:logback-classic:1.2.3")
 
             dependency("org.junit.jupiter:junit-jupiter:${extra["junit.jupiter"]}")
+            dependency("org.junit.jupiter:junit-jupiter-api:${extra["junit.jupiter"]}")
+            dependency("org.junit.jupiter:junit-jupiter-engine:${extra["junit.jupiter"]}")
+            dependency("org.junit.jupiter:junit-jupiter-params:${extra["junit.jupiter"]}")
+
+            dependency("org.junit.platform:junit-platform-commons:${extra["junit.platform"]}")
+            dependency("org.junit.platform:junit-platform-engine:${extra["junit.platform"]}")
+
             dependency("org.amshove.kluent:kluent:1.45")
 
             dependency("org.testcontainers:testcontainers:${extra["testcontainers"]}")

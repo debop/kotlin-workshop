@@ -3,7 +3,8 @@ package io.github.debop.kotlin.workshop.concurrent
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater
 
 /**
- * RoundRobinAtomicInt
+ * Atomic Int 값을 Round robin 시켜서 제공합니다.
+ *
  * @author debop (Sunghyouk Bae)
  */
 class RoundRobinAtomicInt(val maximum: Int) {

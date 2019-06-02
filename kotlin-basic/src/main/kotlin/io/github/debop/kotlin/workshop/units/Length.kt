@@ -8,14 +8,16 @@ import mu.KLogging
 import java.io.Serializable
 import kotlin.math.absoluteValue
 
-fun lengthOf(length: Double = 0.0, unit: LengthUnit = MILLIMETER): Length = Length(length * unit.factor)
+fun lengthOf(length: Number = 0.0, unit: LengthUnit = MILLIMETER): Length = Length(length.toDouble() * unit.factor)
 
-fun Number.millimeter(): Length = lengthOf(toDouble(), MILLIMETER)
-fun Number.centimeter(): Length = lengthOf(toDouble(), CENTIMETER)
-fun Number.meter(): Length = lengthOf(toDouble(), METER)
-fun Number.kilometer(): Length = lengthOf(toDouble(), KILOMETER)
+fun <T : Number> T.length(unit: LengthUnit): Length = lengthOf(this, unit)
 
-operator fun Number.times(length: Length): Length = length * this.toDouble()
+fun <T : Number> T.millimeter(): Length = length(MILLIMETER)
+fun <T : Number> T.centimeter(): Length = length(CENTIMETER)
+fun <T : Number> T.meter(): Length = length(METER)
+fun <T : Number> T.kilometer(): Length = length(KILOMETER)
+
+operator fun <T : Number> T.times(length: Length): Length = length * this.toDouble()
 
 fun String?.toLength(): Length = Length.parse(this)
 
@@ -93,7 +95,6 @@ data class Length(val value: Double) : Comparable<Length>, Serializable {
 
         @JvmField
         val RESERVED_VALUES = listOf(MIN_VALUE, MAX_VALUE, POSITIVE_INF, NEGATIVE_INF, NaN)
-
 
         @JvmStatic
         fun parse(expr: String?): Length {
