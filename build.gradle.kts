@@ -74,6 +74,12 @@ subprojects {
             dependency("io.github.microutils:kotlin-logging:1.6.26")
             dependency("ch.qos.logback:logback-classic:1.2.3")
 
+            dependency("org.mongodb:mongo-java-driver:3.10.2")
+            dependency("org.mongodb:mongodb-driver:3.10.2")
+            dependency("org.mongodb:mongodb-driver-async:3.10.2")
+            dependency("org.mongodb:mongodb-driver-core:3.10.2")
+            dependency("org.mongodb:mongodb-driver-reactivestreams:1.11.0")
+
             dependency("org.junit.jupiter:junit-jupiter:${extra["junit.jupiter"]}")
             dependency("org.junit.jupiter:junit-jupiter-api:${extra["junit.jupiter"]}")
             dependency("org.junit.jupiter:junit-jupiter-engine:${extra["junit.jupiter"]}")
