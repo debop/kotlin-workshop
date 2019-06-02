@@ -18,21 +18,23 @@ class ComposeExamples {
 
     val log = logger { }
 
+    suspend fun doSomethingOne(): Int {
+        log.trace { "Something One" }
+        delay(1000)
+        return 13
+    }
+
+    suspend fun doSomethingTwo(): Int {
+        log.trace { "Something Two" }
+        delay(1000)
+        return 29
+    }
+
     @Nested
     inner class Step01 {
 
-        suspend fun doSomethingOne(): Int {
-            delay(1000)
-            return 13
-        }
-
-        suspend fun doSomethingTwo(): Int {
-            delay(1000)
-            return 29
-        }
-
         @Test
-        fun `call multiple suspend method`() = runBlocking<Unit> {
+        fun `같은 Coroutines 에서 실행`() = runBlocking<Unit> {
             val time = measureTimeMillis {
                 val one = doSomethingOne()
                 val two = doSomethingTwo()
@@ -46,18 +48,8 @@ class ComposeExamples {
     @Nested
     inner class Step02 {
 
-        suspend fun doSomethingOne(): Int {
-            delay(1000)
-            return 13
-        }
-
-        suspend fun doSomethingTwo(): Int {
-            delay(1000)
-            return 29
-        }
-
         @Test
-        fun `call multiple suspend method`() = runBlocking<Unit> {
+        fun `async를 통해 다른 Coroutine 에서 실행`() = runBlocking<Unit> {
             val time = measureTimeMillis {
                 val one = async { doSomethingOne() }
                 val two = async { doSomethingTwo() }
