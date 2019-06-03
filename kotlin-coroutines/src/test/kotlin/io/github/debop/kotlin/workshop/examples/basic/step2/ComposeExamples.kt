@@ -1,6 +1,9 @@
 package io.github.debop.kotlin.workshop.examples.basic.step2
 
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging.logger
@@ -8,6 +11,7 @@ import org.amshove.kluent.shouldBeGreaterThan
 import org.amshove.kluent.shouldBeLessThan
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import kotlin.system.measureTimeMillis
 
 /**
@@ -57,6 +61,100 @@ class ComposeExamples {
             }
             log.debug { "Took in $time ms" }
             time shouldBeLessThan 1500
+        }
+    }
+
+    @Nested
+    inner class Step03 {
+        @Test
+        fun `async with lazy start`() = runBlocking<Unit> {
+            val time = measureTimeMillis {
+                val one = async(start = CoroutineStart.LAZY) { doSomethingOne() }
+                val two = async(start = CoroutineStart.LAZY) { doSomethingTwo() }
+
+                // 다른 작업 ...
+
+                one.start()
+                two.start()
+
+                log.trace("The answer is ${one.await() + two.await()}")
+            }
+            log.debug { "Took in $time ms" }
+            time shouldBeLessThan 1500
+        }
+    }
+
+    @Nested
+    inner class Step04 {
+
+        fun somethingUsefulOneAsync() = GlobalScope.async {
+            doSomethingOne()
+        }
+
+        fun somethingUsefulTwoAsync() = GlobalScope.async {
+            doSomethingTwo()
+        }
+
+        @Test
+        fun `async action outside of a coroutine`() {
+            val time = measureTimeMillis {
+                val one = somethingUsefulOneAsync()
+                val two = somethingUsefulTwoAsync()
+
+                runBlocking {
+                    log.trace("The answer is ${one.await() + two.await()}")
+                }
+            }
+            log.debug { "Took in $time ms" }
+            time shouldBeLessThan 1500
+        }
+    }
+
+    @Nested
+    inner class Step05 {
+
+        suspend fun concurrentSum(): Int = coroutineScope {
+            val one = async { doSomethingOne() }
+            val two = async { doSomethingTwo() }
+            one.await() + two.await()
+        }
+
+        @Test
+        fun `combine suspend methods`() = runBlocking<Unit> {
+            val time = measureTimeMillis {
+                log.trace("The answer is ${concurrentSum()}")
+            }
+            log.debug { "Took in $time ms" }
+            time shouldBeLessThan 1500
+        }
+    }
+
+    @Nested
+    inner class Step06 {
+
+        suspend fun failedConcurrentSum(): Int = coroutineScope {
+            val one = async<Int> {
+                try {
+                    delay(Long.MAX_VALUE)
+                    42
+                } finally {
+                    log.info { "First child was cancelled" }
+                }
+            }
+            val two = async<Int> {
+                log.debug { "Second child throws an exception" }
+                throw ArithmeticException()
+            }
+            one.await() + two.await()
+        }
+
+        @Test
+        fun `catch exception of child`() {
+            assertThrows<ArithmeticException> {
+                runBlocking<Unit> {
+                    failedConcurrentSum()
+                }
+            }
         }
     }
 }

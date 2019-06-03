@@ -88,7 +88,7 @@ subprojects {
             dependency("org.junit.platform:junit-platform-commons:${extra["junit.platform"]}")
             dependency("org.junit.platform:junit-platform-engine:${extra["junit.platform"]}")
 
-            dependency("org.amshove.kluent:kluent:1.45")
+            dependency("org.amshove.kluent:kluent:1.49")
 
             dependency("org.testcontainers:testcontainers:${extra["testcontainers"]}")
         }
@@ -102,18 +102,19 @@ subprojects {
 
         implementation(kotlin("stdlib-jdk8"))
         implementation(kotlin("reflect"))
+        testImplementation(kotlin("test"))
+        testImplementation(kotlin("test-junit5"))
+
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8")
 
-        implementation("org.apache.commons:commons-lang3")
+        compile("org.apache.commons:commons-lang3")
         implementation("net.jodah:failsafe")
 
-        implementation("io.github.microutils:kotlin-logging")
+        compile("io.github.microutils:kotlin-logging")
         testImplementation("ch.qos.logback:logback-classic")
 
         testImplementation("org.junit.jupiter:junit-jupiter")
         testImplementation("org.amshove.kluent:kluent")
-        testImplementation(kotlin("test"))
-        testImplementation(kotlin("test-junit5"))
     }
 
     val sourceSets = project.the<SourceSetContainer>()
