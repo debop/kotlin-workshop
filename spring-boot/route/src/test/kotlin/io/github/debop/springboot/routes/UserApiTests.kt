@@ -1,6 +1,6 @@
-package io.github.debop.springboot.webflux
+package io.github.debop.springboot.routes
 
-import io.github.debop.springboot.webflux.domain.model.User
+import io.github.debop.springboot.routes.domain.model.User
 import mu.KLogging
 import org.amshove.kluent.shouldEqual
 import org.junit.jupiter.api.Test

@@ -21,5 +21,7 @@ include("kotlin-coroutines")
 include("spring-data:jdbc")
 
 include("spring-boot:webflux")
+include("spring-boot:webmvc")
+include("spring-boot:route")
 
 include("kotlin-tests")

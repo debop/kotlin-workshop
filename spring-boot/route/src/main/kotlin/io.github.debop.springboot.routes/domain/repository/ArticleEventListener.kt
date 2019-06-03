@@ -1,7 +1,7 @@
-package io.github.debop.springboot.webflux.domain.repository
+package io.github.debop.springboot.routes.domain.repository
 
-import io.github.debop.springboot.webflux.domain.model.Article
-import io.github.debop.springboot.webflux.domain.model.ArticleEvent
+import io.github.debop.springboot.routes.domain.model.Article
+import io.github.debop.springboot.routes.domain.model.ArticleEvent
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener
 import org.springframework.data.mongodb.core.mapping.event.AfterSaveEvent
 import org.springframework.stereotype.Component

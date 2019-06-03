@@ -1,10 +1,8 @@
-package io.github.debop.springboot.webflux.web
+package io.github.debop.springboot.webmvc.web
 
-import io.github.debop.springboot.webflux.domain.model.Article
-import io.github.debop.springboot.webflux.domain.repository.ArticleEventRepository
-import io.github.debop.springboot.webflux.domain.repository.ArticleRepository
-import io.github.debop.springboot.webflux.service.MarkdownConverter
-import org.springframework.http.MediaType
+import io.github.debop.springboot.webmvc.domain.model.Article
+import io.github.debop.springboot.webmvc.domain.repository.ArticleRepository
+import io.github.debop.springboot.webmvc.service.MarkdownConverter
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -21,14 +19,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/article")
 class ArticleController(private val articleRepo: ArticleRepository,
-                        private val articleEventRepo: ArticleEventRepository,
                         private val markdownConverter: MarkdownConverter) {
-
-    val notifications =
-        articleEventRepo
-            .count()
-            .flatMapMany { articleEventRepo.findWithTailableCursorBy().skip(it) }
-            .share()
 
     @GetMapping("/")
     fun findAll() = articleRepo.findAllByOrderByAddedAtDesc()
@@ -51,6 +42,4 @@ class ArticleController(private val articleRepo: ArticleRepository,
     @DeleteMapping("/{slug}")
     fun delete(@PathVariable slug: String) = articleRepo.deleteById(slug)
 
-    @GetMapping("/notifications", produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
-    fun notifications() = notifications
 }
