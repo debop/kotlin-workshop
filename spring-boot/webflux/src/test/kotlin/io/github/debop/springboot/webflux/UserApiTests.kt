@@ -1,6 +1,7 @@
 package io.github.debop.springboot.webflux
 
 import io.github.debop.springboot.webflux.domain.model.User
+import mu.KLogging
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.context.SpringBootTest
@@ -15,11 +16,14 @@ import reactor.test.test
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class UserApiTests(@LocalServerPort port: Int) {
 
+    companion object : KLogging()
+
     private val client: WebClient = WebClient.create("http://localhost:$port")
 
     @Test
     fun `find all users and parse`() {
         client.get().uri("/api/user/").retrieve().bodyToFlux<User>()
+            .doOnNext { logger.trace { "user=$it" } }
             .test()
             .expectNextCount(11)
             .verifyComplete()

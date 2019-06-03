@@ -144,9 +144,6 @@ subprojects {
         testLogging {
             events("FAILED")
         }
-
-        maxParallelForks = Runtime.getRuntime().availableProcessors()
-        setForkEvery(1L)
     }
 
     detekt {
