@@ -5,9 +5,7 @@ import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
 import org.hibernate.annotations.LazyCollection
 import org.hibernate.annotations.LazyCollectionOption.EXTRA
-import org.springframework.data.jpa.repository.JpaRepository
 import java.time.LocalDate
-import javax.persistence.CascadeType
 import javax.persistence.CascadeType.ALL
 import javax.persistence.Column
 import javax.persistence.ElementCollection
@@ -24,13 +22,6 @@ import javax.persistence.MapKeyColumn
 import javax.persistence.OneToMany
 import javax.persistence.OrderBy
 import javax.persistence.OrderColumn
-
-interface OneToOneUserRepository : JpaRepository<User, Long>
-
-interface FatherRepository : JpaRepository<Father, Long>
-
-interface OrderRepository : JpaRepository<Order, Long>
-
 
 @Entity(name = "onetomany_address")
 data class Address(
@@ -50,13 +41,13 @@ data class User(
     var name: String
 ) {
     // One To Many 관계를 JoinTable을 이용하여 연결하고, `@MapKeyColumn`을 이용하여 Map 을 구성한다
-    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    @OneToMany(cascade = [ALL], fetch = LAZY)
     @JoinTable(name = "onetomany_user_address")
     @MapKeyColumn(name = "address_name")
     @ElementCollection(targetClass = Address::class, fetch = FetchType.EAGER)
     val addresses: MutableMap<String, Address> = hashMapOf()
 
-    @ElementCollection(targetClass = String::class, fetch = FetchType.LAZY)
+    @ElementCollection(targetClass = String::class, fetch = LAZY)
     @JoinTable(name = "onetomany_user_nicks", joinColumns = [JoinColumn(name = "user_id")])
     val nicknames: MutableSet<String> = hashSetOf()
 }
@@ -93,12 +84,13 @@ data class Child(
 data class Order(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_id")
     var id: Long? = null,
     var no: String
 ) {
     @OneToMany(mappedBy = "order", cascade = [ALL], fetch = LAZY, orphanRemoval = true)
     @OrderBy("name")
-    @BatchSize(size = 100)
+    @BatchSize(size = 2)
     @LazyCollection(EXTRA)
     val items: MutableSet<OrderItem> = hashSetOf()
 
@@ -123,6 +115,7 @@ data class Order(
 data class OrderItem(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "item_id")
     var id: Long? = null,
     val name: String
 ) {

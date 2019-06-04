@@ -1,6 +1,8 @@
 package io.github.debop.springdata.mapping.tree
 
 import io.github.debop.springdata.jpa.entities.AbstractJpaTreeEntity
+import org.hibernate.annotations.DynamicInsert
+import org.hibernate.annotations.DynamicUpdate
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import javax.persistence.Entity
@@ -9,7 +11,6 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.Index
 import javax.persistence.Table
-
 
 interface TreeNodeRepository : JpaRepository<TreeNode, Long> {
 
@@ -20,6 +21,8 @@ interface TreeNodeRepository : JpaRepository<TreeNode, Long> {
 
 @Entity(name = "tree_treenode")
 @Table(indexes = [Index(name = "ix_tree_treenode_parent", columnList = "parent_id")])
+@DynamicInsert
+@DynamicUpdate
 data class TreeNode(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

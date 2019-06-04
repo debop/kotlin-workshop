@@ -13,7 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
  */
 @DataJpaTest(properties = [
     "spring.jpa.properties.hibernate.format_sql=true",
-    "spring.jpa.properties.hibernate.use_sql_comments=true",
+    "spring.jpa.properties.hibernate.use_sql_comments=false",
     "logging.level.org.hibernate.type.descriptor.sql=trace"
 ])
 abstract class AbstractDataJpaTest {

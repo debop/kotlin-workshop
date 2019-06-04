@@ -1,6 +1,7 @@
 package io.github.debop.springdata.mapping.onetomany.list
 
 import io.github.debop.springdata.AbstractDataJpaTest
+import mu.KotlinLogging.logger
 import org.amshove.kluent.`should contain all`
 import org.amshove.kluent.shouldBeEmpty
 import org.amshove.kluent.shouldEqual
@@ -12,6 +13,8 @@ import java.time.LocalDate
 
 
 class OneToManyTests : AbstractDataJpaTest() {
+
+    val log = logger {}
 
     @Autowired
     private lateinit var userRepo: OneToOneUserRepository
@@ -67,6 +70,12 @@ class OneToManyTests : AbstractDataJpaTest() {
         loaded.items.forEach {
             log.debug("$it")
         }
+
+        // Inner Join 을 이용하여 조회한다.
+        val loaded2 = orderRepo.findAllWithInnerJoins()
+        loaded2.shouldNotBeNull()
+        loaded.items.size shouldEqual order.items.size
+
         orderRepo.deleteAll()
         orderRepo.flush()
         clear()
