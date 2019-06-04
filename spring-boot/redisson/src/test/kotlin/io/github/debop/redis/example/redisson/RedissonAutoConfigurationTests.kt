@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.redisson.api.RedissonClient
 import org.redisson.api.map.event.EntryCreatedListener
-import org.redisson.api.map.event.EntryRemovedListener
+import org.redisson.api.map.event.EntryExpiredListener
 import org.redisson.client.codec.StringCodec
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -59,10 +59,9 @@ class RedissonAutoConfigurationTests : AbstractRedisTests() {
     val createdListener = EntryCreatedListener<Long, Item> { evt ->
         logger.trace { "Cache item created. id=${evt.key}" }
     }
-    val expiredListener = EntryRemovedListener<Long, Item> { evt ->
+    val expiredListener = EntryExpiredListener<Long, Item> { evt ->
         logger.trace { "Cache item expired. id=${evt.key}" }
     }
-
 
     @Test
     fun `save reference object`() {
