@@ -26,4 +26,6 @@ include("spring-boot:webflux")
 include("spring-boot:webmvc")
 include("spring-boot:route")
 
+include("spring-boot:redisson")
+
 include("kotlin-tests")
