@@ -31,4 +31,10 @@ Spring Framework 5 의 webflux 와 Reactive Mongo를 이용하여 Nonblocking RE
 spring-data-jdbc 에 대한 예제
  
 spring-data-jdbc는 spring-data-jpa 만으로는 성능 상의 문제가 있는 부분에 대안으로 적용할 수 있습니다.
-예를 들어, 대량 Insert 또는 통계 조회 등에 대안으로 사용 가능합니다.    
+예를 들어, 대량 Insert 또는 통계 조회 등에 대안으로 사용 가능합니다.   
+
+### jpa
+
+spring-data-jpa 에 대한 예제
+
+다양한 entity mapping 방식과 사용법에 대한 예제를 제공합니다. 

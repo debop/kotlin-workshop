@@ -8,14 +8,11 @@ import org.amshove.kluent.shouldNotEqual
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing
-import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -23,52 +20,6 @@ import javax.persistence.EntityListeners
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
-
-// JPA 에서 entity audit을 수행하려면 `@EnableJpaAuditing` 을 추가해야 한다.
-@EnableJpaAuditing(modifyOnCreate = true)
-@SpringBootApplication
-class SimpleEntityTestApplication
-
-@Entity(name = "simple_simple_entity")
-data class SimpleEntity(
-    @Id
-    @Column(name = "simple_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
-
-    @Column(nullable = false, unique = true)
-    var name: String
-) {
-    // equals 에서 빼기 위해
-    var description: String? = null
-}
-
-// entity audit을 하려면 `@EntityListener` 를 추가해주어야 한다.
-@EntityListeners(AuditingEntityListener::class)
-@Entity(name = "simple_lifecycle_entity")
-data class LifecycleEntity(
-    @Id
-    @Column(name = "simple_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
-
-    @Column(nullable = false)
-    var name: String,
-
-    @Column(name = "createdAt", updatable = false)
-    @CreatedDate
-    var createdAt: LocalDateTime? = null,
-
-    @Column(name = "updatedAt", insertable = false)
-    @LastModifiedDate
-    var updatedAt: LocalDateTime? = null
-)
-
-@Repository
-interface SimpleEntityRepository : JpaRepository<SimpleEntity, Long>
-
-@Repository
-interface LifecycleEntityRepository : JpaRepository<LifecycleEntity, Long>
 
 class SimpleEntityTests : AbstractDataJpaTest() {
 
@@ -138,3 +89,43 @@ class SimpleEntityTests : AbstractDataJpaTest() {
         updated.updatedAt shouldNotEqual saved.createdAt
     }
 }
+
+interface SimpleEntityRepository : JpaRepository<SimpleEntity, Long>
+
+interface LifecycleEntityRepository : JpaRepository<LifecycleEntity, Long>
+
+@Entity(name = "simple_simple_entity")
+data class SimpleEntity(
+    @Id
+    @Column(name = "simple_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long? = null,
+
+    @Column(nullable = false, unique = true)
+    var name: String
+) {
+    // equals 에서 빼기 위해
+    var description: String? = null
+}
+
+// entity audit을 하려면 `@EntityListener` 를 추가해주어야 한다.
+@EntityListeners(AuditingEntityListener::class)
+@Entity(name = "simple_lifecycle_entity")
+data class LifecycleEntity(
+    @Id
+    @Column(name = "simple_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long? = null,
+
+    @Column(nullable = false)
+    var name: String,
+
+    @Column(name = "createdAt", updatable = false)
+    @CreatedDate
+    var createdAt: LocalDateTime? = null,
+
+    @Column(name = "updatedAt", insertable = false)
+    @LastModifiedDate
+    var updatedAt: LocalDateTime? = null
+)
+

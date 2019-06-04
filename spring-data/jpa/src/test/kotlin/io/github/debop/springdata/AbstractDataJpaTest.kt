@@ -1,7 +1,9 @@
 package io.github.debop.springdata
 
 import mu.KotlinLogging.logger
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 
 /**
  * AbstractDataJpaTest
@@ -18,5 +20,12 @@ abstract class AbstractDataJpaTest {
 
     companion object {
         val log = logger {}
+    }
+
+    @Autowired
+    lateinit var em: TestEntityManager
+
+    protected fun clear() {
+        em.clear()
     }
 }
