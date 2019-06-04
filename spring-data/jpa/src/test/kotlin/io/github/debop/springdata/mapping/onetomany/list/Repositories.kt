@@ -25,6 +25,7 @@ class OrderRepositoryImpl : OrderRepositoryExtensions {
     @PersistenceContext
     lateinit var em: EntityManager
 
+    // NOTE: Order가 존재하지만, OrderItem 없는 경우는 빈 결과가 온다. (left outer join 이 기본인 이유이다)
     /*
         select
             order0_.order_id as order_id1_11_,
