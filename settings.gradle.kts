@@ -17,8 +17,10 @@ rootProject.name = "kotlin-workshop"
 
 include("kotlin-basic")
 include("kotlin-coroutines")
+include("kotlin-dagger-example")
 
 include("spring-data:jdbc")
+include("spring-data:jpa")
 
 include("spring-boot:webflux")
 include("spring-boot:webmvc")

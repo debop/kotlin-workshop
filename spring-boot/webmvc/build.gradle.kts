@@ -1,7 +1,6 @@
 plugins {
     kotlin("plugin.spring")
     kotlin("plugin.noarg")
-    kotlin("plugin.jpa")
 }
 
 dependencies {
