@@ -6,3 +6,6 @@ interface BreweryRepository : JpaRepository<Brewery, Long>
 
 interface BeerRepository : JpaRepository<Beer, Long>
 
+interface JugMeterRepository : JpaRepository<JugMeter, Long>
+
+interface JugRepository : JpaRepository<Jug, Long>
