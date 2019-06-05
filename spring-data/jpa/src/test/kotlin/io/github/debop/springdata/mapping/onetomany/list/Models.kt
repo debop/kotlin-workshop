@@ -1,6 +1,5 @@
 package io.github.debop.springdata.mapping.onetomany.list
 
-import org.hibernate.annotations.BatchSize
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
 import org.hibernate.annotations.LazyCollection
@@ -88,9 +87,17 @@ data class Order(
     var id: Long? = null,
     var no: String
 ) {
+    // NOTE: Detail entity 삭제 시 delete 구문만 수행하게 됩니다. (set detail.mater=null 을 하지 않는다)
+    /*
+        Hibernate:
+            delete
+            from
+                onetomany_order_item
+            where
+                item_id=?
+    */
     @OneToMany(mappedBy = "order", cascade = [ALL], fetch = LAZY, orphanRemoval = true)
     @OrderBy("name")
-    @BatchSize(size = 2)
     @LazyCollection(EXTRA)
     val items: MutableSet<OrderItem> = hashSetOf()
 
@@ -122,4 +129,66 @@ data class OrderItem(
     @ManyToOne
     @JoinColumn(name = "order_id")
     var order: Order? = null
+}
+
+@DynamicInsert
+@DynamicUpdate
+@Entity(name = "onetomany_batch")
+data class Batch(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "batch_id")
+    var id: Long? = null,
+    var no: String
+) {
+    // NOTE: @JoinColumn 을 Master entity에 지정하게 되면 아래와 같이 update / delete 를 수행한다.
+    /*
+        Hibernate:
+            update
+                onetomany_batch_item
+            set
+                batch_id=null
+            where
+                batch_id=?
+                and batch_item_id=?
+        Hibernate:
+            delete
+            from
+                onetomany_batch_item
+            where
+                batch_item_id=?
+     */
+    @OneToMany(fetch = LAZY)
+    @JoinColumn(name = "batch_id")
+    @LazyCollection(EXTRA)
+    val items: MutableSet<BatchItem> = hashSetOf()
+
+    fun addItems(vararg itemsToAdd: BatchItem) {
+        itemsToAdd.forEach {
+            items.add(it)
+            it.batch = this
+        }
+    }
+
+    fun removeItems(vararg itemsToRemove: BatchItem) {
+        itemsToRemove.forEach {
+            items.remove(it)
+            it.batch = null
+        }
+    }
+}
+
+@DynamicInsert
+@DynamicUpdate
+@Entity(name = "onetomany_batch_item")
+data class BatchItem(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "batch_item_id")
+    var id: Long? = null,
+    val name: String
+) {
+    @ManyToOne
+    @JoinColumn(name = "batch_id")
+    var batch: Batch? = null
 }

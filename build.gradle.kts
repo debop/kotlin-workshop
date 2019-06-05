@@ -50,7 +50,7 @@ subprojects {
         sourceCompatibility = "1.8"
         kotlinOptions {
             jvmTarget = "1.8"
-            freeCompilerArgs = listOf("-Xjsr305=strict")
+            freeCompilerArgs = listOf("-Xjsr305=strict", "-Xjvm-default=enable")
         }
     }
 
@@ -115,6 +115,8 @@ subprojects {
 
         testImplementation("org.junit.jupiter:junit-jupiter")
         testImplementation("org.amshove.kluent:kluent")
+
+        testImplementation("org.testcontainers:testcontainers")
     }
 
     val sourceSets = project.the<SourceSetContainer>()

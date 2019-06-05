@@ -28,4 +28,13 @@ abstract class AbstractDataJpaTest {
     protected fun clear() {
         em.clear()
     }
+
+    protected fun flush() {
+        em.flush()
+    }
+
+    protected fun flushAndClear() {
+        flush()
+        clear()
+    }
 }

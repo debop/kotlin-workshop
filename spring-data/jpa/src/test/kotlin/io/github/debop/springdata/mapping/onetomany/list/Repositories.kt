@@ -2,6 +2,9 @@ package io.github.debop.springdata.mapping.onetomany.list
 
 import com.querydsl.jpa.impl.JPAQuery
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Modifying
+import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
@@ -11,6 +14,22 @@ interface OneToOneUserRepository : JpaRepository<User, Long>
 
 @Repository
 interface FatherRepository : JpaRepository<Father, Long>
+
+@Repository
+interface BatchRepository : JpaRepository<Batch, Long>
+
+@Repository
+interface BatchItemRepository : JpaRepository<BatchItem, Long> {
+
+    // 이 방식은 관련 item 들을 모두 읽어온 후 하나씩 삭제한다.
+    @Modifying
+    fun deleteAllByBatch_Id(batchId: Long)
+
+    // 이 방식은 batch.id 를 기준으로 item 을 모두 삭제한다 (단 다른 assoication이 있고, cascading 되어 있다면 문제가 될 수 있다)
+    @Modifying
+    @Query("delete from onetomany_batch_item where batch.id=:batchId")
+    fun deleteAllByBatchId(@Param("batchId") batchId: Long)
+}
 
 @Repository
 interface OrderRepository : JpaRepository<Order, Long>, OrderRepositoryExtensions

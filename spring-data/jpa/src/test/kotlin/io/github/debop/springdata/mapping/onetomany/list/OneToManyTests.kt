@@ -18,13 +18,14 @@ class OneToManyTests : AbstractDataJpaTest() {
 
     @Autowired
     private lateinit var userRepo: OneToOneUserRepository
-
     @Autowired
     private lateinit var fatherRepo: FatherRepository
-
     @Autowired
     private lateinit var orderRepo: OrderRepository
-
+    @Autowired
+    private lateinit var batchRepo: BatchRepository
+    @Autowired
+    private lateinit var batchItemRepo: BatchItemRepository
 
     @Test
     fun `one-to-many association with map`() {
@@ -76,9 +77,80 @@ class OneToManyTests : AbstractDataJpaTest() {
         loaded2.shouldNotBeNull()
         loaded.items.size shouldEqual order.items.size
 
+        /*
+            Hibernate:
+                delete
+                from
+                    onetomany_order_item
+                where
+                    item_id=?
+         */
+        loaded.removeItems(item1)
+        orderRepo.saveAndFlush(loaded)
+
         orderRepo.deleteAll()
         orderRepo.flush()
         clear()
+    }
+
+    @Test
+    fun `one-to-many with @JoinColumn`() {
+        val batch = Batch(no = "12345")
+        val item1 = BatchItem(name = "Item1")
+        val item2 = BatchItem(name = "Item2")
+        val item3 = BatchItem(name = "Item3")
+        batch.addItems(item1, item2, item3)
+
+        batchRepo.save(batch)
+        // cascade 가 없으므로 직접 저장해야 한다
+        batchItemRepo.save(item1)
+        batchItemRepo.save(item2)
+        batchItemRepo.save(item3)
+        batchRepo.flush()
+        clear()
+
+        val loaded = batchRepo.findByIdOrNull(batch.id)
+        loaded.shouldNotBeNull()
+        loaded shouldEqual batch
+
+        loaded.items.size shouldEqual batch.items.size
+
+        loaded.removeItems(item1)
+        /*
+            Hibernate:
+                update
+                    onetomany_batch_item
+                set
+                    batch_id=null
+                where
+                    batch_id=?
+                    and batch_item_id=?
+            Hibernate:
+                delete
+                from
+                    onetomany_batch_item
+                where
+                    batch_item_id=?
+         */
+        batchItemRepo.delete(item1)
+        batchRepo.saveAndFlush(loaded)
+        batchItemRepo.flush()
+
+        loaded.items.size shouldEqual batch.items.size - 1
+
+        clear()
+
+        val loaded2 = batchRepo.findByIdOrNull(batch.id)!!
+
+        // 이 방식은 관련 item 들을 모두 읽어온 후 하나씩 삭제한다.
+        // batchItemRepo.deleteAllByBatch_Id(loaded2.id!!)
+
+        // 이 방식은 batch.id 를 기준으로 item 을 모두 삭제한다.
+        batchItemRepo.deleteAllByBatchId(loaded2.id!!)
+        batchItemRepo.flush()
+
+        clear()
+
     }
 
     @Test
