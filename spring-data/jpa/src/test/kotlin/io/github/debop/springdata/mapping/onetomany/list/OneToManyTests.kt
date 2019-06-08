@@ -17,7 +17,7 @@ class OneToManyTests : AbstractDataJpaTest() {
     val log = logger {}
 
     @Autowired
-    private lateinit var userRepo: OneToOneUserRepository
+    private lateinit var userRepo: OneToManyUserRepository
     @Autowired
     private lateinit var fatherRepo: FatherRepository
     @Autowired

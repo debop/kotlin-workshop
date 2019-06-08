@@ -10,7 +10,7 @@ import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 
 @Repository
-interface OneToOneUserRepository : JpaRepository<User, Long>
+interface OneToManyUserRepository : JpaRepository<User, Long>
 
 @Repository
 interface FatherRepository : JpaRepository<Father, Long>
