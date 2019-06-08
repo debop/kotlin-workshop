@@ -82,6 +82,8 @@ subprojects {
             dependency("org.mongodb:mongodb-driver-core:3.10.2")
             dependency("org.mongodb:mongodb-driver-reactivestreams:1.11.0")
 
+            dependency("com.zaxxer:HikariCP:3.3.1")
+
             dependency("org.junit.jupiter:junit-jupiter:${extra["junit.jupiter"]}")
             dependency("org.junit.jupiter:junit-jupiter-api:${extra["junit.jupiter"]}")
             dependency("org.junit.jupiter:junit-jupiter-engine:${extra["junit.jupiter"]}")

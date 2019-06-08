@@ -18,6 +18,7 @@ dependencies {
     kapt("com.querydsl:querydsl-apt:4.2.1:jpa")
     kaptTest("com.querydsl:querydsl-apt:4.2.1:jpa")
 
+    testImplementation("com.zaxxer:HikariCP")
     testImplementation("com.h2database:h2:1.4.199")
 }
 
