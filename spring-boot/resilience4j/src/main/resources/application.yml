@@ -1,0 +1,128 @@
+spring:
+    application.name: resilience4j-demo
+    jackson.serialization.indent_output: true
+
+server:
+    port: 9090
+
+info:
+    name: ${spring.application.name}
+    description: resilience4j demo
+    environment: ${spring.profiles.active}
+    version: 0.0.1
+
+management.endpoints.web.exposure.include: '*'
+management.endpoint.health.show-details: always
+
+management:
+    metrics:
+        tags.application: ${spring.application.name}
+        distribution:
+            percentiles-histogram:
+                http.server.requests: true
+                resilience4j.circuitbreaker.calls: true
+
+# resilience4j.circuitbreaker.metrics.use_legacy_binder: true
+
+resilience4j.circuitbreaker:
+    circuitbreakerAspectOrder: 1
+    configs:
+        default:
+            registerHealthIndicator: true
+            ringBufferSizeInClosedState: 10
+            ringBufferSizeInHalfOpenState: 3
+            automaticTransitionFromOpenToHalfOpenEnabled: true
+            waitDurationInOpenStateMillis: 2000
+            failureRateThreshold: 50
+            eventConsumerBufferSize: 10
+            ignoreExceptions:
+                - io.github.debop.exception.BusinessException
+        shared:
+            registerHealthIndicator: true
+            ringBufferSizeInClosedState: 100
+            ringBufferSizeInHalfOpenState: 30
+            waitDurationInOpenStateMillis: 1000
+            failureRateThreshold: 50
+            eventConsumerBufferSize: 10
+            ignoreExceptions:
+                - io.github.debop.exception.BusinessException
+    instances:
+        backendA:
+            baseConfig: default
+            ringBufferSizeInClosedState: 5
+        
+        backendB:
+            registerHealthIndicator: true
+            ringBufferSizeInClosedState: 10
+            ringBufferSizeInHalfOpenState: 3
+            automaticTransitionFromOpenToHalfOpenEnabled: true
+            waitDurationInOpenStateMillis: 1000
+            failureRateThreshold: 50
+            eventConsumerBufferSize: 10
+            recordFailurePredicate: io.github.debop.exception.RecordFailurePredicate
+        backendC:
+            baseConfig: default
+
+resilience4j.retry:
+    retryAspectOrder: 0
+    configs:
+        default:
+            maxRetryAttempts: 2
+            waitDuration: 100
+            retryExceptions:
+                - org.springframework.web.client.HttpServerErrorException
+                - java.io.IOException
+            ignoreExceptions:
+                - io.github.debop.exception.BusinessException
+    instances:
+        backendA:
+            maxRetryAttempts: 3
+        backendB:
+            maxRetryAttempts: 3
+
+resilience4j.bulkhead:
+    bulkheadAspectOrder: 3
+    configs:
+        default:
+            maxConcurrentCall: 100
+    instances:
+        backendA:
+            maxConcurrentCall: 10
+        backendB:
+            maxWaitTime: 10 # msec
+            maxConcurrentCall: 20
+
+resilience4j.thread-pool-bulkhead:
+    configs:
+        default:
+            threadPoolProperties:
+                maxThreadPoolSize: 4
+                coreThreadPoolSize: 2
+                queueCapacity: 2
+    
+    instances:
+        backendA:
+            baseConfig: default
+        backendB:
+            threadPoolProperties:
+                maxThreadPoolSize: 1
+                coreThreadPoolSize: 1
+                queueCapacity: 1
+
+resilience4j.ratelimiter:
+    ratelimiterAspectOrder: 2
+    configs:
+        default:
+            limitForPeriod: 10
+    
+    instances:
+        backendA:
+            limitForPeriod: 10
+            limitRefreshPeriodInMillis: 1000
+            timeoutInMillis: 0
+            registerHealthIndicator: true
+            eventConsumerBufferSize: 100
+        backendB:
+            limitForPeriod: 6
+            limitRefreshPeriodInMillis: 1000
+            timeoutInMillis: 3000

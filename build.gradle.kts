@@ -6,6 +6,7 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+
     val kotlinVersion = "1.3.31"
 
     base
@@ -44,6 +45,7 @@ subprojects {
         plugin("io.spring.dependency-management")
     }
 
+    // retrive kotlin version from plugins
     val kotlinVersion: String by extra { plugins.getPlugin(KotlinPluginWrapper::class.java).kotlinPluginVersion }
     
     tasks.withType<KotlinCompile> {
@@ -89,6 +91,10 @@ subprojects {
             dependency("org.junit.platform:junit-platform-engine:${extra["junit.platform"]}")
 
             dependency("org.amshove.kluent:kluent:1.49")
+
+            dependency("org.mockito:mockito-core:2.28.2")
+            dependency("org.mockito:mockito-junit-jupiter:2.28.2")
+            dependency("com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0")
 
             dependency("org.testcontainers:testcontainers:${extra["testcontainers"]}")
         }

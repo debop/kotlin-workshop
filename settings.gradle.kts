@@ -25,6 +25,7 @@ include("spring-data:jpa")
 include("spring-boot:webflux")
 include("spring-boot:webmvc")
 include("spring-boot:route")
+include("spring-boot:resilience4j")
 
 include("spring-boot:redisson")
 
