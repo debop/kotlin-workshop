@@ -19,14 +19,15 @@ include("kotlin-basic")
 include("kotlin-coroutines")
 include("kotlin-dagger-example")
 
-include("spring-data:jdbc")
-include("spring-data:jpa")
-
 include("spring-boot:webflux")
 include("spring-boot:webmvc")
 include("spring-boot:route")
 include("spring-boot:resilience4j")
 
 include("spring-boot:redisson")
+
+include("spring-data:jdbc")
+include("spring-data:jpa")
+include("spring-data:multi-store")
 
 include("kotlin-tests")
