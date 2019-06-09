@@ -42,9 +42,8 @@ class SimpleEntityTests {
     }
 
     @Transactional
-    @Rollback(false)
     @Test
-    fun `save and load categories with jooq`() {
+    fun `save and load categories with jdbc and jooq`() {
 
         repository.deleteAll()
 
@@ -75,6 +74,7 @@ class SimpleEntityTests {
         categories[0] shouldEqual cars
     }
 
+    @Transactional
     @Test
     fun `using jOOQ DSL`() {
 

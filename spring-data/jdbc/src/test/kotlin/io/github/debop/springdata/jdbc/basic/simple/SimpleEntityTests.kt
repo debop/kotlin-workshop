@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureJdbc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import org.springframework.transaction.annotation.Transactional
 
 /**
  * SimpleEntityTests
@@ -17,7 +18,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [CategoryConfiguration::class])
 @AutoConfigureJdbc
-class SimpleEntityTests @Autowired constructor(val repository: CategoryRepository) {
+@Transactional
+class SimpleEntityTests(@Autowired val repository: CategoryRepository) {
 
     @Test
     fun `exercise repository for simple entity`() {

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestMethodOrder
 import kotlin.system.measureTimeMillis
 
 /**
@@ -15,7 +16,7 @@ import kotlin.system.measureTimeMillis
  * @author debop (Sunghyouk Bae)
  */
 
-@org.junit.jupiter.api.TestMethodOrder(OrderAnnotation::class)
+@TestMethodOrder(OrderAnnotation::class)
 class StatelessSessionTests : AbstractDataJpaTest() {
 
     companion object : KLogging() {
@@ -125,7 +126,7 @@ class StatelessSessionTests : AbstractDataJpaTest() {
         log.info { "Load finished..." }
     }
 
-    private fun createMaster(name: String, detailCount: Int = 10): StatelessMaster {
+    private fun createMaster(name: String, detailCount: Int = 100): StatelessMaster {
         val master = StatelessMaster(name = name)
         repeat(detailCount) {
             master.details.add(StatelessDetail(name = "details-$it").also { it.master = master })

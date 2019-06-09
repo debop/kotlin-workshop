@@ -10,6 +10,7 @@ import org.springframework.data.jdbc.core.convert.JdbcCustomConversions
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories
 import org.springframework.data.jdbc.repository.config.JdbcConfiguration
 import org.springframework.data.relational.core.mapping.event.BeforeSaveEvent
+import org.springframework.transaction.annotation.EnableTransactionManagement
 import java.sql.Clob
 import java.sql.SQLException
 import java.util.concurrent.atomic.AtomicInteger
@@ -20,6 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger
  */
 @Configuration
 @EnableJdbcRepositories
+@EnableTransactionManagement
 class AggregateConfiguration : JdbcConfiguration() {
 
     private val log: Logger = LoggerFactory.getLogger(AggregateConfiguration::class.java)

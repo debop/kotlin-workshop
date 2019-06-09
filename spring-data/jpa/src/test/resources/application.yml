@@ -7,17 +7,18 @@ spring:
             jdbc-url: jdbc:h2:mem:jpa-test;MVCC=TRUE;
             driver-class-name: org.h2.Driver
             username: sa
-            idle-timeout: 60000
-    
+            idle-timeout: 600000
+            connection-timeout: 60000
+
     jpa:
         properties:
             hibernate:
                 show_sql: true
-                format_sql: true
-                use_sql_comments: true
+                format_sql: false
+                use_sql_comments: false
 
 logging:
     level:
         root: info
-        org.hibernate.type.descriptor.sql: trace  # show parameter values
+        org.hibernate.type.descriptor.sql: debug  # show parameter values in trace
         com.zaxxer.hikari: debug
