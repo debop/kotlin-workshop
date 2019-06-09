@@ -5,12 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 
-/**
- * AbstractDataJpaTest
- *
- * @author debop
- * @since 19. 6. 4
- */
 @DataJpaTest(properties = [
     // define properties in application.yml
     // "spring.jpa.properties.hibernate.show_sql=false",
