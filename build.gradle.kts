@@ -71,8 +71,6 @@ subprojects {
             dependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:${extra["coroutines"]}")
             dependency("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:${extra["coroutines"]}")
 
-            dependency("net.jodah:failsafe:${extra["failsafe"]}")
-
             dependency("io.github.microutils:kotlin-logging:1.6.26")
             dependency("ch.qos.logback:logback-classic:1.2.3")
 
@@ -116,7 +114,6 @@ subprojects {
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8")
 
         compile("org.apache.commons:commons-lang3")
-        implementation("net.jodah:failsafe")
 
         compile("io.github.microutils:kotlin-logging")
         testImplementation("ch.qos.logback:logback-classic")

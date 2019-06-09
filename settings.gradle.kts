@@ -19,6 +19,7 @@ include("kotlin-basic")
 include("kotlin-coroutines")
 include("kotlin-dagger-example")
 
+include("spring-boot:basic")
 include("spring-boot:webflux")
 include("spring-boot:webmvc")
 include("spring-boot:route")

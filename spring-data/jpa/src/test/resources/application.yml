@@ -1,0 +1,23 @@
+spring:
+    test:
+        database:
+            replace: none
+    datasource:
+        hikari:
+            jdbc-url: jdbc:h2:mem:jpa-test;MVCC=TRUE;
+            driver-class-name: org.h2.Driver
+            username: sa
+            idle-timeout: 60000
+    
+    jpa:
+        properties:
+            hibernate:
+                show_sql: true
+                format_sql: true
+                use_sql_comments: true
+
+logging:
+    level:
+        root: info
+        org.hibernate.type.descriptor.sql: trace  # show parameter values
+        com.zaxxer.hikari: debug

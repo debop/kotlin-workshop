@@ -1,7 +1,7 @@
 package io.github.debop.springdata.jpa.mapping
 
 import io.github.debop.springdata.jpa.AbstractDataJpaTest
-import mu.KotlinLogging.logger
+import mu.KLogging
 import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldNotBeNull
 import org.amshove.kluent.shouldNotEqual
@@ -12,9 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class SimpleEntityTests : AbstractDataJpaTest() {
 
-    companion object {
-        val log = logger {}
-    }
+    companion object : KLogging()
 
     @Autowired
     lateinit var lifecycleRepo: LifecycleEntityRepository
@@ -61,7 +59,7 @@ class SimpleEntityTests : AbstractDataJpaTest() {
 
         val saved = lifecycleRepo.save(LifecycleEntity(name = "New Entity"))
 
-        log.debug { "Saved=$saved" }
+        logger.debug { "Saved=$saved" }
 
         saved.id.shouldNotBeNull()
         saved.createdAt.shouldNotBeNull()
@@ -73,7 +71,7 @@ class SimpleEntityTests : AbstractDataJpaTest() {
         // flush를 하지 않으면 실제로 데이터가 저장된 게 아니기 때문에 같은 속성값을 가지게 된다.
         val updated = lifecycleRepo.saveAndFlush(saved)
 
-        log.debug { "Updated=$updated" }
+        logger.debug { "Updated=$updated" }
 
         updated.updatedAt shouldNotEqual saved.createdAt
     }

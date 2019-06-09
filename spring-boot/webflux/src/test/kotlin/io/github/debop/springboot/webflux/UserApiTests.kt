@@ -40,13 +40,13 @@ class UserApiTests(@LocalServerPort port: Int) {
                             lastname = "Georgieva",
                             description = "All views are my own!")
 
-        client.get().uri("/api/user/$userId").retrieve().bodyToMono<User>()
+        client.get()
+            .uri { it.path("/api/user/{userId}").build(mapOf("userId" to userId)) }
+            .retrieve()
+            .bodyToMono<User>()
             .doOnNext { logger.trace { "user=$it" } }
             .test()
-            .consumeNextWith { user ->
-
-                user shouldEqual expected
-            }
+            .consumeNextWith { user -> user shouldEqual expected }
             .verifyComplete()
     }
 }

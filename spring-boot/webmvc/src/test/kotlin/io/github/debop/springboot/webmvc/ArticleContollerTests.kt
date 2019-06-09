@@ -41,7 +41,7 @@ class ArticleContollerTests(@Autowired private val restTemplate: TestRestTemplat
     fun `fineOne article`() {
         val slug = "spring-framework-5-0-goes-ga"
 
-        val article = restTemplate.getForObject<Article>("/api/article/$slug")
+        val article = restTemplate.getForObject<Article>("/api/article/{slug}", slug)
         article.shouldNotBeNull()
 
         article.slug shouldEqual slug
@@ -57,7 +57,7 @@ class ArticleContollerTests(@Autowired private val restTemplate: TestRestTemplat
     fun `findOne article with markdown converter`() {
         val slug = "spring-framework-5-0-goes-ga"
 
-        val article = restTemplate.getForObject<Article>("/api/article/$slug?converter=markdown")
+        val article = restTemplate.getForObject<Article>("/api/article/{slug}?converter=markdown", slug)
 
         article.shouldNotBeNull()
 
@@ -75,7 +75,7 @@ class ArticleContollerTests(@Autowired private val restTemplate: TestRestTemplat
     fun `findOne article with invalid converter`() {
         val slug = "spring-framework-5-0-goes-ga"
 
-        val entity = restTemplate.getForEntity<String>("/api/article/$slug?converter=foo")
+        val entity = restTemplate.getForEntity<String>("/api/article/{slug}?converter=foo", slug)
         entity.statusCode shouldEqual HttpStatus.INTERNAL_SERVER_ERROR
         entity.body!! shouldContain "Only markdown converter is supported"
     }

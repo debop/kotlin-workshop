@@ -35,7 +35,7 @@ class UserApiTests(@Autowired private val restTemplate: TestRestTemplate) {
                             lastname = "Georgieva",
                             description = "All views are my own!")
 
-        val user = restTemplate.getForObject<User>("/api/user/$userId")
+        val user = restTemplate.getForObject<User>("/api/user/{userId}", userId)
         user shouldEqual expected
     }
 }

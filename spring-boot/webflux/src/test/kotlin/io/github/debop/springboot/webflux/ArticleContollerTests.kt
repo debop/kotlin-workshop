@@ -48,7 +48,7 @@ class ArticleContollerTests(@LocalServerPort private val port: Int) {
     fun `fineOne article`() {
         val slug = "spring-framework-5-0-goes-ga"
 
-        client.get().uri("/api/article/$slug").retrieve().bodyToMono<Article>()
+        client.get().uri("/api/article/{slug}", slug).retrieve().bodyToMono<Article>()
             .doOnNext { logger.trace("article slug=${it.slug}") }
             .test()
             .consumeNextWith { article ->
@@ -68,7 +68,7 @@ class ArticleContollerTests(@LocalServerPort private val port: Int) {
     fun `findOne article with markdown converter`() {
         val slug = "spring-framework-5-0-goes-ga"
 
-        client.get().uri("/api/article/$slug?converter=markdown").retrieve().bodyToMono<Article>()
+        client.get().uri("/api/article/{slug}?converter=markdown", slug).retrieve().bodyToMono<Article>()
             .doOnNext { logger.trace("article slug=${it.slug}") }
             .test()
             .consumeNextWith { article ->
@@ -89,7 +89,7 @@ class ArticleContollerTests(@LocalServerPort private val port: Int) {
     fun `findOne article with invalid converter`() {
         val slug = "spring-framework-5-0-goes-ga"
 
-        client.get().uri("/api/article/$slug?converter=foo").exchange()
+        client.get().uri("/api/article/{slug}?converter=foo", slug).exchange()
             .test()
             .consumeNextWith {
                 it.statusCode() shouldEqual HttpStatus.INTERNAL_SERVER_ERROR

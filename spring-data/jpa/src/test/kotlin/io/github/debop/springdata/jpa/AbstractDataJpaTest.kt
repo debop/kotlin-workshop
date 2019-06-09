@@ -12,10 +12,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
  * @since 19. 6. 4
  */
 @DataJpaTest(properties = [
-    //"spring.jpa.properties.hibernate.show_sql=false",
-    "spring.jpa.properties.hibernate.format_sql=false",
-    "spring.jpa.properties.hibernate.use_sql_comments=false",
-    "logging.level.org.hibernate.type.descriptor.sql=false"
+    // define properties in application.yml
+    // "spring.jpa.properties.hibernate.show_sql=false",
+    // "spring.jpa.properties.hibernate.format_sql=false",
+    // "spring.jpa.properties.hibernate.use_sql_comments=false",
+    // "logging.level.org.hibernate.type.descriptor.sql=false"
 ])
 abstract class AbstractDataJpaTest {
 
