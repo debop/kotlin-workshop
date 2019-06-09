@@ -1,0 +1,72 @@
+import nu.studer.gradle.jooq.JooqEdition
+
+plugins {
+    id "idea"
+    id "org.jetbrains.kotlin.plugin.spring"
+    id "org.jetbrains.kotlin.plugin.noarg"
+    id "org.jetbrains.kotlin.plugin.jpa"
+
+    id 'nu.studer.jooq' version '3.0.3'
+}
+
+dependencies {
+
+    api("org.springframework.boot:spring-boot-starter-jooq")
+    api("org.springframework.data:spring-data-jdbc")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    api("org.jooq:jooq:3.11.9")
+
+    // JOOQ schema generation
+    jooqRuntime("org.jooq:jooq-meta-extensions:3.11.9")
+    jooqRuntime("com.h2database:h2:1.4.199")
+
+    testImplementation("com.h2database:h2:1.4.199")
+}
+
+// see : https://www.jooq.org/doc/3.11/manual/code-generation/codegen-ddl/
+jooq {
+    version = "3.11.9"
+    edition = JooqEdition.OSS
+    sample(sourceSets.main) {
+        jdbc {
+            driver = "org.h2.Driver"
+            url = "jdbc:h2:~/jooq-sample;MVCC=true;AUTO_SERVER=TRUE"
+            user = "sa"
+            password = ''
+        }
+        generator {
+            name = 'org.jooq.codegen.DefaultGenerator'
+            strategy {
+                name = 'org.jooq.codegen.DefaultGeneratorStrategy'
+            }
+            database {
+                name = 'org.jooq.meta.extensions.ddl.DDLDatabase'
+                properties {
+                    property {
+                        key = "scripts"
+                        value = "./src/main/resources/schema.sql"
+                    }
+                }
+            }
+            generate {
+                relations = true
+                deprecated = false
+                records = true
+                immutablePojos = true  // generate entity class
+                fluentSetters = true
+            }
+            target {
+                packageName = "io.github.debop.jooq"
+            }
+        }
+    }
+}
+
+idea {
+    module {
+        sourceDirs += file("build/generated-src/jooq/sample")
+        generatedSourceDirs += file("build/generated-src/jooq/sample")
+    }
+}
+

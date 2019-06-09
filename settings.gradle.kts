@@ -28,6 +28,7 @@ include("spring-boot:resilience4j")
 include("spring-boot:redisson")
 
 include("spring-data:jdbc")
+include("spring-data:jooq")
 include("spring-data:jpa")
 include("spring-data:multi-store")
 
