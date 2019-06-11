@@ -27,7 +27,7 @@ import java.time.LocalDateTime
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class ArticleContollerTests(@Autowired private val restTemplate: TestRestTemplate) {
 
-    companion object : KLogging()
+    companion object: KLogging()
 
     @Test
     @Order(1)
