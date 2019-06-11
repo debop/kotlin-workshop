@@ -16,11 +16,12 @@ import kotlin.system.measureTimeMillis
  * @author debop (Sunghyouk Bae)
  */
 
+@Suppress("UNCHECKED_CAST")
 @TestMethodOrder(OrderAnnotation::class)
 class StatelessSessionTests : AbstractDataJpaTest() {
 
     companion object : KLogging() {
-        const val COUNT = 100
+        const val COUNT = 10
     }
 
     @Order(0)
@@ -81,7 +82,7 @@ class StatelessSessionTests : AbstractDataJpaTest() {
             em.entityManager.withStatelessSession {
                 repeat(COUNT) {
                     val master = createMaster("master-$it")
-                    val masterId = this.insert(master)
+                    this.insert(master)
                     master.details.forEach { detail ->
                         this.insert(detail)
                     }
@@ -97,7 +98,7 @@ class StatelessSessionTests : AbstractDataJpaTest() {
         em.entityManager.withStatelessSession {
             repeat(10) {
                 val master = createMaster("master-$it")
-                val masterId = this.insert(master)
+                this.insert(master)
                 log.debug { "Saved master=$master" }
                 master.details.forEach { detail ->
                     detail.master = master
@@ -114,6 +115,7 @@ class StatelessSessionTests : AbstractDataJpaTest() {
         } ?: emptyList<Any?>()
 
         masters.size shouldBeGreaterThan 0
+        log.debug { "masters=$masters" }
 
         masters.forEach {
             val row = it as Array<Any?>
@@ -126,10 +128,11 @@ class StatelessSessionTests : AbstractDataJpaTest() {
         log.info { "Load finished..." }
     }
 
-    private fun createMaster(name: String, detailCount: Int = 100): StatelessMaster {
+    private fun createMaster(name: String, detailCount: Int = 10): StatelessMaster {
         val master = StatelessMaster(name = name)
-        repeat(detailCount) {
-            master.details.add(StatelessDetail(name = "details-$it").also { it.master = master })
+        repeat(detailCount) { index ->
+            val detail = StatelessDetail(name = "details-$index").also { it.master = master }
+            master.details.add(detail)
         }
         return master
     }

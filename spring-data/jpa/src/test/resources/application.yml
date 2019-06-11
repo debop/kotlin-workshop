@@ -4,17 +4,32 @@ spring:
             replace: none
     datasource:
         hikari:
-            jdbc-url: jdbc:h2:mem:jpa-test;MVCC=TRUE;
-            driver-class-name: org.h2.Driver
+            jdbc-url: jdbc:h2:mem:jpa-test;MVCC=TRUE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL;
+            #driver-class-name: org.h2.Driver
             username: sa
-            idle-timeout: 600000
+            password:
+            idle-timeout: 300000
             connection-timeout: 60000
+            max-lifetime: 600000
+            maximum-pool-size: 30
+            minimum-idle: 10
+            data-source-properties:
+                - cachePrepStmts = true
+                - prepStmtCacheSize = 250
+                - prepStmtCacheSqlLimit = 2048
+                - useServerPrepStmts = true
+                - useLocalSessionState = true
+                - rewriteBatchedStatements = true
+                - cacheResultSetMetadata = true
+                - cacheServerConfiguration = true
+                - elideSetAutoCommits = true
+                - maintainTimeStats = false
 
     jpa:
         properties:
             hibernate:
                 show_sql: true
-                format_sql: false
+                format_sql: true
                 use_sql_comments: false
 
 logging:

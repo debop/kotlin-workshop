@@ -27,6 +27,7 @@
 
     <logger name="io.github.debop.springdata" level="TRACE"/>
     <logger name="org.springframework.data" level="DEBUG"/>
+    <logger name="com.zaxxer.hikari" level="DEBUG"/>
 
     <root level="INFO">
         <appender-ref ref="console"/>

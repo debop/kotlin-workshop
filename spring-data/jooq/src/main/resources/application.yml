@@ -6,8 +6,16 @@ spring:
         sql-dialect: h2
     
     datasource:
+
         hikari:
-            jdbc-url: jdbc:h2:mem:test;MVCC=true;
+            jdbc-url: jdbc:h2:mem:jpa-test;MVCC=TRUE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL;
             driver-class-name: org.h2.Driver
             username: sa
-            password: 
+            password:
+            idle-timeout: 300000
+            connection-timeout: 60000
+            max-lifetime: 600000
+            maximum-pool-size: 30
+            minimum-idle: 10
+
+
