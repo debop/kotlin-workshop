@@ -3,6 +3,8 @@ package io.github.debop.springdata.jpa.mapping.embeddable
 import org.hibernate.annotations.DynamicInsert
 import org.hibernate.annotations.DynamicUpdate
 import java.io.Serializable
+import javax.persistence.Access
+import javax.persistence.AccessType
 import javax.persistence.AttributeOverride
 import javax.persistence.AttributeOverrides
 import javax.persistence.Column
@@ -28,6 +30,7 @@ data class EmbeddableAddress(var street: String? = null,
 ])
 @DynamicInsert
 @DynamicUpdate
+@Access(AccessType.FIELD)
 data class Employee(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,11 +38,11 @@ data class Employee(
     @Column(length = 128, nullable = false)
     val username: String = "",
     @Column(length = 64, nullable = false)
-    val password: String = ""): Serializable {
+    val password: String = ""
+): Serializable {
 
     var email: String? = null
     var active: Boolean = true
-
 
     @Embedded
     @AttributeOverrides(
@@ -56,4 +59,5 @@ data class Employee(
         AttributeOverride(name = "zipcode", column = Column(name = "office_zipcode", length = 8))
     )
     val officeAddress = EmbeddableAddress()
+
 }

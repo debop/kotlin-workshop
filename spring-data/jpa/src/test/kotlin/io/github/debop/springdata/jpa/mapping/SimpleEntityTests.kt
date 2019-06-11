@@ -43,6 +43,7 @@ class SimpleEntityTests : AbstractDataJpaTest() {
 
         // set 으로 해야 unique 를 처리할 수 있습니다.
         simpleRepo.saveAll(setOf(entity1, entity2, entity3))
+        flushAndClear()
 
         simpleRepo.findAll().size shouldEqual 2
 
@@ -76,5 +77,3 @@ class SimpleEntityTests : AbstractDataJpaTest() {
         updated.updatedAt shouldNotEqual saved.createdAt
     }
 }
-
-

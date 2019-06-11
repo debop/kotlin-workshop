@@ -5,6 +5,8 @@ import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import org.springframework.data.jpa.repository.JpaRepository
 import java.time.LocalDateTime
+import javax.persistence.Access
+import javax.persistence.AccessType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EntityListeners
@@ -15,17 +17,18 @@ import javax.persistence.Index
 import javax.persistence.Table
 
 
-interface SimpleEntityRepository : JpaRepository<SimpleEntity, Long>
+interface SimpleEntityRepository: JpaRepository<SimpleEntity, Long>
 
-interface LifecycleEntityRepository : JpaRepository<LifecycleEntity, Long>
+interface LifecycleEntityRepository: JpaRepository<LifecycleEntity, Long>
 
 @Entity(name = "simple_simple_entity")
 @Table(indexes = [Index(columnList = "name", unique = true)])
+@Access(AccessType.FIELD)
 data class SimpleEntity(
     @Id
     @Column(name = "simple_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
+    val id: Long? = null,
 
     @Column(nullable = false)
     var name: String
@@ -37,20 +40,23 @@ data class SimpleEntity(
 // entity audit을 하려면 `@EntityListener` 를 추가해주어야 한다.
 @EntityListeners(AuditingEntityListener::class)
 @Entity(name = "simple_lifecycle_entity")
+@Access(AccessType.FIELD)
 data class LifecycleEntity(
     @Id
     @Column(name = "simple_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
+    val id: Long? = null,
 
     @Column(nullable = false)
-    var name: String,
+    var name: String
+) {
 
     @Column(name = "createdAt", updatable = false)
     @CreatedDate
-    var createdAt: LocalDateTime? = null,
+    var createdAt: LocalDateTime? = null
 
     @Column(name = "updatedAt", insertable = false)
     @LastModifiedDate
     var updatedAt: LocalDateTime? = null
-)
+
+}

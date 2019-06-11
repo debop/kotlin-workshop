@@ -9,9 +9,7 @@ class CompositeIdTest: AbstractDataJpaTest() {
 
     @Test
     fun `composite id with multiple @Id`() {
-        val car = IdClassCar()
-        car.brand = "BMW"
-        car.year = 2015
+        val car = IdClassCar("BMW", 2015)
         car.serialNo = "3956"
 
         val loaded = em.persistFlushFind(car)
