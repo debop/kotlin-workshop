@@ -5,7 +5,7 @@ import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
 
-class CompositeIdTests : AbstractDataJpaTest() {
+class CompositeIdTest: AbstractDataJpaTest() {
 
     @Test
     fun `composite id with multiple @Id`() {
