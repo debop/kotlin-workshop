@@ -11,18 +11,6 @@ import org.testcontainers.containers.wait.strategy.Wait
  */
 class RedisContainer(dockerImageName: String) : GenericContainer<RedisContainer>(dockerImageName) {
 
-    companion object : KLogging() {
-        const val IMAGE_NAME: String = "redis"
-        const val DEFAULT_TAG: String = "5.0.5"
-        const val EXPOSED_PORT: Int = 6379
-
-        val instance: RedisContainer by lazy { create() }
-
-        fun create(tag: String = DEFAULT_TAG): RedisContainer {
-            return RedisContainer("$IMAGE_NAME:$tag")
-        }
-    }
-
     val host: String get() = containerIpAddress
     val port: Int get() = getMappedPort(EXPOSED_PORT)
     val url: String get() = "redis://$host:$port"
@@ -31,11 +19,6 @@ class RedisContainer(dockerImageName: String) : GenericContainer<RedisContainer>
         logger.info { "Create RedisContainer..." }
 
         withExposedPorts(EXPOSED_PORT)
-
-        // exposed port 를 binding 하는 코드 입니다.
-        //        withCreateContainerCmdModifier { cmd ->
-        //            cmd.withPortBindings(PortBinding(Binding.bindPort(EXPOSED_PORT), ExposedPort(EXPOSED_PORT)))
-        //        }
         withLogConsumer(Slf4jLogConsumer(logger))
         setWaitStrategy(Wait.forListeningPort())
 
@@ -57,6 +40,18 @@ class RedisContainer(dockerImageName: String) : GenericContainer<RedisContainer>
             |    testcontainers.redis.port=$port
             |    testcontainers.redis.url=$url
             """.trimMargin()
+        }
+    }
+
+    companion object : KLogging() {
+        const val IMAGE_NAME: String = "redis"
+        const val DEFAULT_TAG: String = "5.0.5"
+        const val EXPOSED_PORT: Int = 6379
+
+        val instance: RedisContainer by lazy { create() }
+
+        fun create(tag: String = DEFAULT_TAG): RedisContainer {
+            return RedisContainer("$IMAGE_NAME:$tag")
         }
     }
 }

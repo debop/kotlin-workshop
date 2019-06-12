@@ -20,12 +20,6 @@ class MongoDBContainer(dockerImageName: String) : GenericContainer<MongoDBContai
     init {
         logger.info { "Create MongoDBContainer ... " }
         withExposedPorts(EXPOSED_PORT)
-
-        // mongodb 의 기본 port를 mapping 하는 방식
-        // 이 것은 mongodb 를 공유할 경우 문제가 된다. start() 에 있는 것 처럼 환경설정으로 제공하는 방식이 좋다
-        //        withCreateContainerCmdModifier { cmd ->
-        //            cmd.withPortBindings(PortBinding(Ports.Binding.bindPort(EXPOSED_PORT), ExposedPort(EXPOSED_PORT)))
-        //        }
         withLogConsumer(Slf4jLogConsumer(logger))
         setWaitStrategy(Wait.forListeningPort())
 
