@@ -22,9 +22,11 @@ import java.util.concurrent.TimeUnit
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [RedissonApplication::class],
+    // application.properties 에서 읽거나, 이렇게 재정의하면 됩니다.
                 properties = [
-                    "spring.redis.redisson.config=classpath:redisson.yaml",
-                    "spring.redis.timeout=10000"
+                    "spring.redis.url=\${testcontainers.redis.url}",
+                    "spring.redis.port=\${testcontainers.redis.port}",
+                    "spring.redis.url=\${testcontainers.redis.url}"
                 ])
 class RedissonAutoConfigurationTests : AbstractRedisTests() {
 

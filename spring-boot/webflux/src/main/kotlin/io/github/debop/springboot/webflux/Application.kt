@@ -11,7 +11,9 @@ import org.springframework.context.annotation.Bean
 @SpringBootApplication
 class Application {
 
-    val mongodb = MongoDBContainer.instance
+    companion object {
+        val mongodb = MongoDBContainer.instance
+    }
 
     @Bean
     fun clientSettingsBuilderCustomizer() =

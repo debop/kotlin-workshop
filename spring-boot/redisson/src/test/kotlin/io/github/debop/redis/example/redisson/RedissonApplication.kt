@@ -12,11 +12,11 @@ import org.springframework.cache.annotation.EnableCaching
 @SpringBootApplication
 @EnableCaching
 class RedissonApplication {
-
+    companion object {
+        val redisServer = RedisContainer.instance
+    }
 }
 
 fun main() {
-    val redisServer = RedisContainer.instance
-
     runApplication<RedissonApplication>()
 }

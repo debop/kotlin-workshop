@@ -1,8 +1,5 @@
 package io.github.debop.kotlin.tests.containers
 
-import com.github.dockerjava.api.model.ExposedPort
-import com.github.dockerjava.api.model.PortBinding
-import com.github.dockerjava.api.model.Ports.Binding
 import mu.KLogging
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.output.Slf4jLogConsumer
@@ -34,14 +31,32 @@ class RedisContainer(dockerImageName: String) : GenericContainer<RedisContainer>
         logger.info { "Create RedisContainer..." }
 
         withExposedPorts(EXPOSED_PORT)
-        withCreateContainerCmdModifier { cmd ->
-            cmd.withPortBindings(PortBinding(Binding.bindPort(EXPOSED_PORT), ExposedPort(EXPOSED_PORT)))
-        }
+
+        // exposed port 를 binding 하는 코드 입니다.
+        //        withCreateContainerCmdModifier { cmd ->
+        //            cmd.withPortBindings(PortBinding(Binding.bindPort(EXPOSED_PORT), ExposedPort(EXPOSED_PORT)))
+        //        }
         withLogConsumer(Slf4jLogConsumer(logger))
         setWaitStrategy(Wait.forListeningPort())
 
         start()
 
         logger.info { "RedisContainer started!!! url=$url" }
+    }
+
+    override fun start() {
+        super.start()
+
+        System.setProperty("testcontainers.redis.host", host)
+        System.setProperty("testcontainers.redis.port", port.toString())
+        System.setProperty("testcontainers.redis.url", url)
+
+        logger.info {
+            """Start TestContainer Redis:
+            |    testcontainers.redis.host=$host
+            |    testcontainers.redis.port=$port
+            |    testcontainers.redis.url=$url
+            """.trimMargin()
+        }
     }
 }
