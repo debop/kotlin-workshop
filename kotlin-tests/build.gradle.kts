@@ -2,6 +2,7 @@ dependencies {
 
     compile("org.junit.jupiter:junit-jupiter")
     compile("org.testcontainers:testcontainers")
+    compile("io.mockk:mockk")
 
     compile("io.github.benas:random-beans:3.9.0")
     compile("com.esotericsoftware:reflectasm:1.11.9")

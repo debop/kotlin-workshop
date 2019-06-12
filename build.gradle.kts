@@ -99,6 +99,8 @@ subprojects {
             dependency("org.mockito:mockito-junit-jupiter:2.28.2")
             dependency("com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0")
 
+            dependency("io.mockk:mockk:1.9.3")
+
             dependency("org.testcontainers:testcontainers:${extra["testcontainers"]}")
         }
     }
