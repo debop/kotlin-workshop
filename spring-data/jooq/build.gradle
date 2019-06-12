@@ -29,7 +29,9 @@ jooq {
     version = "3.11.9"
     edition = JooqEdition.OSS
 
-    sample(sourceSets.main) {
+    // category 는 Configuration Name에 해당한다.
+    // 아래 `generate[Category]JooqSchemaSource`에 사용되므로 같이 변경해야 한다
+    category(sourceSets.main) {
         jdbc {
             driver = "org.h2.Driver"
             url = "jdbc:h2:~/jooq-category;MVCC=true;AUTO_SERVER=TRUE"
@@ -42,6 +44,7 @@ jooq {
                 name = 'org.jooq.codegen.DefaultGeneratorStrategy'
             }
             database {
+                // 테스트 용은 DB Script를 사용하므로, DDLDatabase를 사용한다
                 name = 'org.jooq.meta.extensions.ddl.DDLDatabase'
                 properties {
                     property {
@@ -72,5 +75,5 @@ idea {
 }
 
 // jOOQ Code Generation을 Kotlin Compile 보다 먼저 하도록 한다.
-compileKotlin.dependsOn generateSampleJooqSchemaSource
-compileTestKotlin.dependsOn generateSampleJooqSchemaSource
+compileKotlin.dependsOn generateCategoryJooqSchemaSource
+compileTestKotlin.dependsOn generateCategoryJooqSchemaSource
