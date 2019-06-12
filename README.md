@@ -55,6 +55,8 @@ spring-data-jdbc는 spring-data-jpa 만으로는 성능 상의 문제가 있는 
 spring-data-jdbc 와 jOOQ 를 혼합해서 사용하는 예제, insert/update 등은 spring-data-jdbc를 사용하고,
 복잡한 쿼리는 jOOQ를 사용하도록 합니다.
 
+jOOQ Schema generation 때문에 처음 build 는 실패합니다. `clean` 을 빼고 `build`를 재시도 하시면 성공할 것입니다.
+
 #### jpa
 
 spring-data-jpa 에 대한 예제
