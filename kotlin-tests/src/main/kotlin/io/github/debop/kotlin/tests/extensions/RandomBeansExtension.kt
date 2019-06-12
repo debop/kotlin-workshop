@@ -20,7 +20,7 @@ class RandomBeansExtension : TestInstancePostProcessor, ParameterResolver {
                 .objectPoolSize(10)
                 .randomizationDepth(5)
                 .charset(Charsets.UTF_8)
-                .stringLengthRange(5, 50)
+                .stringLengthRange(5, 255)
                 .collectionSizeRange(1, 10)
                 .scanClasspathForConcreteTypes(true)
                 .overrideDefaultInitialization(false)

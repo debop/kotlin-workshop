@@ -9,7 +9,7 @@ import org.testcontainers.containers.wait.strategy.Wait
  * MongoDBContainer
  * @author debop (Sunghyouk Bae)
  */
-class MongoDBContainer(dockerImageName: String) : GenericContainer<MongoDBContainer>(dockerImageName) {
+class MongoDBContainer(dockerImageName: String): GenericContainer<MongoDBContainer>(dockerImageName) {
 
     val host: String get() = containerIpAddress
     val port: Int get() = getMappedPort(EXPOSED_PORT)
@@ -18,14 +18,11 @@ class MongoDBContainer(dockerImageName: String) : GenericContainer<MongoDBContai
         get() = "mongodb://$host:$port"
 
     init {
-        logger.info { "Create MongoDBContainer ... " }
         withExposedPorts(EXPOSED_PORT)
         withLogConsumer(Slf4jLogConsumer(logger))
         setWaitStrategy(Wait.forListeningPort())
 
         start()
-
-        logger.info { "MongoDBContainer started!!! connectionString=$connectionString" }
     }
 
     override fun start() {
@@ -45,7 +42,7 @@ class MongoDBContainer(dockerImageName: String) : GenericContainer<MongoDBContai
         }
     }
 
-    companion object : KLogging() {
+    companion object: KLogging() {
         const val IMAGE_NAME: String = "mongo"
         const val DEFAULT_TAG: String = "4.0.10"
         const val EXPOSED_PORT: Int = 27017
