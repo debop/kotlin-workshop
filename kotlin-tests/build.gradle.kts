@@ -1,6 +1,7 @@
 dependencies {
 
     compile("org.junit.jupiter:junit-jupiter")
+    compile("org.assertj:assertj-core")
     compile("org.testcontainers:testcontainers")
     compile("io.mockk:mockk")
 

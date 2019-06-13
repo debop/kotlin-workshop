@@ -3,14 +3,12 @@ package io.github.debop.redisson.springdata.commands
 import mu.KLogging
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.redis.connection.RedisConnection
 import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.core.ScanOptions
 import org.springframework.data.redis.serializer.StringRedisSerializer
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.util.UUID
 
 /**
@@ -19,7 +17,6 @@ import java.util.UUID
  * @author debop (Sunghyouk Bae)
  * @since 19. 6. 13
  */
-@ExtendWith(SpringExtension::class)
 @SpringBootTest
 class KeyOperationsTest {
 

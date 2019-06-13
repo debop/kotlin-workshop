@@ -5,7 +5,6 @@ import org.amshove.kluent.shouldEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.geo.Distance
@@ -13,7 +12,6 @@ import org.springframework.data.geo.Point
 import org.springframework.data.redis.connection.RedisGeoCommands.DistanceUnit.KILOMETERS
 import org.springframework.data.redis.core.GeoOperations
 import org.springframework.data.redis.core.RedisOperations
-import org.springframework.test.context.junit.jupiter.SpringExtension
 
 /**
  * GeoOperationsTest
@@ -21,7 +19,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
  * @author debop (Sunghyouk Bae)
  * @since 19. 6. 13
  */
-@ExtendWith(SpringExtension::class)
 @SpringBootTest
 class GeoOperationsTest {
 

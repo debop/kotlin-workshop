@@ -41,7 +41,7 @@ class RedisContainer(dockerImageName: String) : GenericContainer<RedisContainer>
 
     companion object : KLogging() {
         const val IMAGE_NAME: String = "redis"
-        const val DEFAULT_TAG: String = "5.0.5"
+        const val DEFAULT_TAG: String = "4.0.14"
         const val EXPOSED_PORT: Int = 6379
 
         val instance: RedisContainer by lazy { create() }

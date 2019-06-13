@@ -99,6 +99,7 @@ subprojects {
             dependency("org.junit.platform:junit-platform-engine:${extra["junit.platform"]}")
 
             dependency("org.amshove.kluent:kluent:1.49")
+            dependency("org.assertj:assertj-core:3.12.2")
 
             dependency("org.mockito:mockito-core:2.28.2")
             dependency("org.mockito:mockito-junit-jupiter:2.28.2")
@@ -130,6 +131,9 @@ subprojects {
 
         testImplementation("org.junit.jupiter:junit-jupiter")
         testImplementation("org.amshove.kluent:kluent")
+        testImplementation("org.assertj:assertj-core")
+        testImplementation("org.jetbrains.kotlin:kotlin-test")
+        testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 
         testImplementation("org.testcontainers:testcontainers")
     }
