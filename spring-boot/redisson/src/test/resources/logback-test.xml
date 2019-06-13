@@ -10,7 +10,9 @@
         </encoder>
     </appender>
 
-    <logger name="io.github.debop.redis" level="TRACE"/>
+    <logger name="io.github.debop.redisson" level="TRACE"/>
+
+    <logger name="org.redisson" level="DEBUG"/>
 
     <root level="INFO">
         <appender-ref ref="console"/>

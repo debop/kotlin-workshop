@@ -1,6 +1,5 @@
-package io.github.debop.redis.example.redisson
+package io.github.debop.redisson.cache
 
-import io.github.debop.redis.example.AbstractRedisTests
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -18,7 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
                 properties = [
                     "spring.cache.type=redis"
                 ])
-class RedissonCacheManagerAutoConfigurationTests : AbstractRedisTests() {
+class RedissonCacheManagerAutoConfigurationTests {
 
     @Autowired
     private lateinit var cacheManager: CacheManager

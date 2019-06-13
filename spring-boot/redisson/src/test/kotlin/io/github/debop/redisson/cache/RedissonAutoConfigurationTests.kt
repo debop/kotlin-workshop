@@ -1,6 +1,5 @@
-package io.github.debop.redis.example.redisson
+package io.github.debop.redisson.cache
 
-import io.github.debop.redis.example.AbstractRedisTests
 import mu.KLogging
 import org.amshove.kluent.shouldBeLessThan
 import org.amshove.kluent.shouldBeNull
@@ -28,9 +27,9 @@ import java.util.concurrent.TimeUnit
                     "spring.redis.port=\${testcontainers.redis.port}",
                     "spring.redis.url=\${testcontainers.redis.url}"
                 ])
-class RedissonAutoConfigurationTests : AbstractRedisTests() {
+class RedissonAutoConfigurationTests {
 
-    companion object : KLogging()
+    companion object: KLogging()
 
     @Autowired
     private lateinit var redisson: RedissonClient
@@ -56,7 +55,7 @@ class RedissonAutoConfigurationTests : AbstractRedisTests() {
         saved shouldEqual "2"
     }
 
-    data class Item(val id: Long, val name: String) : Serializable
+    data class Item(val id: Long, val name: String): Serializable
 
     val createdListener = EntryCreatedListener<Long, Item> { evt ->
         logger.trace { "Cache item created. id=${evt.key}" }

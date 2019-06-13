@@ -9,6 +9,7 @@ dependencies {
     implementation(project(":kotlin-tests"))
 
     implementation("org.redisson:redisson-spring-boot-starter:3.11.0")
+    implementation("org.redisson:redisson-spring-data-21:3.11.0")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
