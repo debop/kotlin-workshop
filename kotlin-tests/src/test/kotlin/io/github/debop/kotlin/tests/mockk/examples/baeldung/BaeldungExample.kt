@@ -3,6 +3,7 @@ package io.github.debop.kotlin.tests.mockk.examples.baeldung
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
+import io.mockk.impl.annotations.InjectionLookupType
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.spyk
@@ -58,7 +59,7 @@ class BaeldungExample {
     @MockK
     lateinit var service2: TestableService
 
-    @InjectMockKs
+    @InjectMockKs(lookupType = InjectionLookupType.BY_TYPE)
     var objectUnderTest = InjectTestService()
 
     @BeforeEach
@@ -77,7 +78,6 @@ class BaeldungExample {
             service1.getDataFromDb(any())
         }
     }
-
 
     @Test
     fun `given service spy`() {
