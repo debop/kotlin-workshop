@@ -84,6 +84,8 @@ subprojects {
             dependency("mysql:mysql-connector-java:8.0.16")
             dependency("com.h2database:h2:1.4.199")
 
+            dependency("org.cache2k:cache2k-all:1.2.2.Final")
+            dependency("org.cache2k:cache2k-spring:1.2.2.Final")
 
             dependency("org.junit.jupiter:junit-jupiter:${extra["junit.jupiter"]}")
             dependency("org.junit.jupiter:junit-jupiter-api:${extra["junit.jupiter"]}")
