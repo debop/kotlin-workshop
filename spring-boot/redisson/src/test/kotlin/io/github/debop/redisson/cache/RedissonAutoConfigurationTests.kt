@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit
 @SpringBootTest(classes = [RedissonApplication::class],
     // application.properties 에서 읽거나, 이렇게 재정의하면 됩니다.
                 properties = [
-                    "spring.redis.url=\${testcontainers.redis.url}",
+                    "spring.redis.host=\${testcontainers.redis.host}",
                     "spring.redis.port=\${testcontainers.redis.port}",
                     "spring.redis.url=\${testcontainers.redis.url}"
                 ])

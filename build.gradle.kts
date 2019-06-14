@@ -84,11 +84,32 @@ subprojects {
             dependency("mysql:mysql-connector-java:8.0.16")
             dependency("com.h2database:h2:1.4.199")
 
+            // Cache
             dependency("javax.cache:cache-api:1.1.1")
-
             dependency("org.cache2k:cache2k-all:1.2.2.Final")
             dependency("org.cache2k:cache2k-spring:1.2.2.Final")
             dependency("org.cache2k:cache2k-jcache:1.2.2.Final")
+
+            // Metrics
+            dependency("org.latencyutils:LatencyUtils:2.0.3")
+            dependency("org.hdrhistogram:HdrHistogram:2.1.11")
+
+            // Netty
+            dependency("io.netty:netty-all:${extra["netty"]}")
+            dependency("io.netty:netty-buffer:${extra["netty"]}")
+            dependency("io.netty:netty-codec:${extra["netty"]}")
+            dependency("io.netty:netty-codec-dns:${extra["netty"]}")
+            dependency("io.netty:netty-codec-http2:${extra["netty"]}")
+            dependency("io.netty:netty-codec-http:${extra["netty"]}")
+            dependency("io.netty:netty-codec-socks:${extra["netty"]}")
+            dependency("io.netty:netty-common:${extra["netty"]}")
+            dependency("io.netty:netty-handler:${extra["netty"]}")
+            dependency("io.netty:netty-handler-proxy:${extra["netty"]}")
+            dependency("io.netty:netty-resolver:${extra["netty"]}")
+            dependency("io.netty:netty-resolver-dns:${extra["netty"]}")
+            dependency("io.netty:netty-transport:${extra["netty"]}")
+            dependency("io.netty:netty-transport-native-epoll:${extra["netty"]}")
+            dependency("io.netty:netty-transport-native-kqueue:${extra["netty"]}")
 
             dependency("org.junit.jupiter:junit-jupiter:${extra["junit.jupiter"]}")
             dependency("org.junit.jupiter:junit-jupiter-api:${extra["junit.jupiter"]}")

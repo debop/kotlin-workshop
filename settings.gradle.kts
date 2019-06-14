@@ -33,5 +33,6 @@ include("spring-data:jdbc")
 include("spring-data:jooq")
 include("spring-data:jpa")
 include("spring-data:multi-store")
+include("spring-data:redis")
 
 include("kotlin-tests")
