@@ -4,8 +4,13 @@ import io.github.debop.kotlin.tests.asserts.isEqualTo
 import io.github.debop.kotlin.tests.asserts.isFalse
 import io.github.debop.kotlin.tests.asserts.isTrue
 import mu.KLogging
+import org.amshove.kluent.should
 import org.amshove.kluent.shouldBeTrue
+import org.amshove.kluent.shouldContainAll
+import org.amshove.kluent.shouldContainSame
 import org.amshove.kluent.shouldNotBeNull
+import org.amshove.kluent.shouldNotContain
+import org.amshove.kluent.shouldNotContainAny
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -40,7 +45,7 @@ class PersonRepositoryTest {
     }
 
     @Autowired
-    private lateinit var operations: RedisOperations<String, String>
+    private lateinit var operations: RedisOperations<String, Any>
 
     @Autowired
     private lateinit var repository: PersonRepository
@@ -95,6 +100,7 @@ class PersonRepositoryTest {
         val aryaAndJon = repository.findByFirstnameOrLastname(arya.firstname!!, jon.lastname!!)
 
         assertThat(aryaAndJon).containsOnly(arya, jon)
+        aryaAndJon shouldContainSame listOf(arya, jon)
     }
 
     @Test
@@ -104,7 +110,7 @@ class PersonRepositoryTest {
         flushTestUsers()
 
         val starks = repository.findAll(example)
-        assertThat(starks).contains(arya, eddard).doesNotContain(jon)
+        starks shouldContainAll listOf(arya, eddard) shouldNotContain jon
     }
 
     @Test
@@ -132,7 +138,7 @@ class PersonRepositoryTest {
         flushTestUsers()
 
         val results = repository.findByAddress_City(winterfell.city!!)
-        assertThat(results).containsOnly(eddard)
+        results shouldContainSame listOf(eddard)
     }
 
     /**
@@ -150,11 +156,11 @@ class PersonRepositoryTest {
 
         val innerCircle = Circle(Point(51.8911912, -0.4979756), Distance(50.0, Metrics.KILOMETERS))
         val smallResults = repository.findByAddress_LocationWithin(innerCircle)
-        assertThat(smallResults).containsOnly(robb)
+        smallResults shouldContainSame listOf(robb)
 
         val biggerCircle = Circle(Point(51.8911912, -0.4979756), Distance(200.0, Metrics.KILOMETERS))
         val biggerResults = repository.findByAddress_LocationWithin(biggerCircle)
-        assertThat(biggerResults).hasSize(2).contains(robb, eddard)
+        biggerResults shouldContainSame listOf(robb, eddard)
     }
 
     @Test
@@ -165,15 +171,16 @@ class PersonRepositoryTest {
 
         repository.save(eddard)
 
-        assertThat(repository.findById(eddard.id!!)).hasValueSatisfying {
-            assertThat(it.children).contains(jon, robb, sansa, arya, bran, rickon)
+        repository.findById(eddard.id!!).should {
+            isPresent.shouldBeTrue()
+            get().children.containsAll(listOf(jon, robb, sansa, arya, bran, rickon))
         }
 
         repository.deleteAll(listOf(robb, jon))
 
         assertThat(repository.findById(eddard.id!!)).hasValueSatisfying {
-            assertThat(it.children).contains(sansa, arya, bran, rickon)
-            assertThat(it.children).doesNotContain(robb, jon)
+            it.children shouldContainSame listOf(sansa, arya, bran, rickon)
+            it.children shouldNotContainAny listOf(robb, jon)
         }
     }
 

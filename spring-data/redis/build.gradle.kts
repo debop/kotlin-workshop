@@ -5,6 +5,10 @@ plugins {
 
 dependencies {
 
+    implementation("de.ruedigermoeller:fst:2.57")
+    implementation("com.esotericsoftware:kryo:4.0.2")
+    implementation("de.javakaffee:kryo-serializers:0.45")
+
     implementation(project(":kotlin-tests"))
     api("com.fasterxml.jackson.module:jackson-module-kotlin")
 

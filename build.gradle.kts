@@ -82,6 +82,7 @@ subprojects {
 
             dependency("com.zaxxer:HikariCP:3.3.1")
             dependency("mysql:mysql-connector-java:8.0.16")
+            dependency("org.mariadb.jdbc:mariadb-java-client:2.4.1")
             dependency("com.h2database:h2:1.4.199")
 
             // Cache
@@ -122,11 +123,10 @@ subprojects {
             dependency("org.amshove.kluent:kluent:1.49")
             dependency("org.assertj:assertj-core:3.12.2")
 
+            dependency("io.mockk:mockk:1.9.3")
             dependency("org.mockito:mockito-core:2.28.2")
             dependency("org.mockito:mockito-junit-jupiter:2.28.2")
             dependency("com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0")
-
-            dependency("io.mockk:mockk:1.9.3")
 
             dependency("org.testcontainers:testcontainers:${extra["testcontainers"]}")
         }

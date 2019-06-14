@@ -44,14 +44,16 @@ class GeoOperationsTest {
 
     @Test
     fun `find member by radius`() {
-        val byDistance = geoOperations.radius("Sicily", "Palermo", Distance(100.0, DistanceUnit.KILOMETERS))
+        val byDistance =
+            geoOperations.radius("Sicily", "Palermo", Distance(100.0, DistanceUnit.KILOMETERS))
 
         byDistance.shouldNotBeNull()
         byDistance.content.size shouldEqualTo 2
 
         byDistance.map { it.content.name }.shouldContainSame(listOf("Arigento", "Palermo"))
 
-        val greaterDistance = geoOperations.radius("Sicily", "Palermo", Distance(200.0, DistanceUnit.KILOMETERS))
+        val greaterDistance =
+            geoOperations.radius("Sicily", "Palermo", Distance(200.0, DistanceUnit.KILOMETERS))
 
         greaterDistance.shouldNotBeNull()
         greaterDistance.content.size shouldEqualTo 3
