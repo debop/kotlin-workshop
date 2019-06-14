@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- help : http://logback.qos.ch/manual/appenders.html -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <withJansi>true</withJansi>
+        <immediateFlush>true</immediateFlush>
+        <encoder>
+            <pattern>%d{mm:ss.SSS} %highlight(%-5level) [%blue(%-12t)] %yellow(%logger): %msg%n%throwable</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <logger name="io.github.debop.lettuce" level="TRACE"/>
+
+    <logger name="org.springframework.data.redis" level="DEBUG"/>
+    <logger name="io.lettuce.core" level="DEBUG"/>
+
+    <root level="INFO">
+        <appender-ref ref="console"/>
+    </root>
+
+</configuration>
