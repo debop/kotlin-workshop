@@ -6,21 +6,21 @@ plugins {
 dependencies {
 
     implementation(project(":spring-data:redis"))
-    implementation(project(":kotlin-tests"))
+    testCompile(project(":kotlin-tests"))
 
     api("org.springframework.boot:spring-boot-starter-data-redis")
 
-    implementation("de.ruedigermoeller:fst:2.57")
-    implementation("com.esotericsoftware:kryo:4.0.2")
-    implementation("de.javakaffee:kryo-serializers:0.45")
+    implementation(Libraries.fst)
+    implementation(Libraries.kryo)
+    implementation(Libraries.kryo_serializers)
 
-    implementation("io.netty:netty-transport-native-epoll")
-    implementation("io.netty:netty-transport-native-kqueue")
+    implementation(Libraries.netty_transport_native_epoll)
+    implementation(Libraries.netty_transport_native_kqueue)
 
-    implementation("org.latencyutils:LatencyUtils")
-    implementation("org.hdrhistogram:HdrHistogram")
+    implementation(Libraries.latencyUtils)
+    implementation(Libraries.hdrHistogram)
 
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation(Libraries.jackson_module_kotlin)
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")

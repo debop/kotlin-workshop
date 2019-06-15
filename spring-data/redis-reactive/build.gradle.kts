@@ -12,24 +12,25 @@ dependencies {
 
     implementation(project(":kotlin-basic"))
     implementation(project(":spring-data:redis"))
-    implementation(project(":kotlin-tests"))
+    testImplementation(project(":kotlin-tests"))
 
     api("org.springframework.boot:spring-boot-starter-data-redis")
-    api("io.netty:netty-transport-native-epoll")
-    api("io.netty:netty-transport-native-kqueue")
 
-    implementation("de.ruedigermoeller:fst:2.57")
-    implementation("com.esotericsoftware:kryo:4.0.2")
-    implementation("de.javakaffee:kryo-serializers:0.45")
+    api(Libraries.netty_transport_native_epoll)
+    api(Libraries.netty_transport_native_kqueue)
 
-    implementation("org.latencyutils:LatencyUtils")
-    implementation("org.hdrhistogram:HdrHistogram")
+    implementation(Libraries.fst)
+    implementation(Libraries.kryo)
+    implementation(Libraries.kryo_serializers)
 
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation(Libraries.latencyUtils)
+    implementation(Libraries.hdrHistogram)
+
+    implementation(Libraries.jackson_module_kotlin)
+
+    testImplementation(Libraries.reactor_test)
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")
     }
-
-    testImplementation("io.projectreactor:reactor-test")
 }

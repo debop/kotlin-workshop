@@ -15,12 +15,12 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-    compile("com.querydsl:querydsl-jpa:4.2.1")
-    kapt("com.querydsl:querydsl-apt:4.2.1:jpa")
-    kaptTest("com.querydsl:querydsl-apt:4.2.1:jpa")
+    compile(Libraries.querydsl_jpa)
+    kapt(Libraries.querydsl_apt + ":jpa")
+    kaptTest(Libraries.querydsl_apt + ":jpa")
 
-    testImplementation("com.zaxxer:HikariCP")
-    testImplementation("com.h2database:h2:1.4.199")
+    testImplementation(Libraries.hikaricp)
+    testImplementation(Libraries.h2)
 
     // testImplementation("org.mongodb:mongo-java-driver:3.10.2")
 }

@@ -7,13 +7,12 @@ dependencies {
 
     implementation(project(":kotlin-tests"))
 
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
-    implementation("org.cache2k:cache2k-jcache:1.2.2.Final")
+    implementation(Libraries.jackson_module_kotlin)
+    implementation(Libraries.cache2k_jcache)
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")

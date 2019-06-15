@@ -12,7 +12,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-    testImplementation("com.zaxxer:HikariCP")
-    testImplementation("com.h2database:h2")
+    testImplementation(Libraries.hikaricp)
+    testImplementation(Libraries.h2)
 
 }

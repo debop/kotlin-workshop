@@ -2,34 +2,27 @@ import io.gitlab.arturbosch.detekt.detekt
 import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformJvmPlugin
-import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
 
-    val kotlinVersion = "1.3.31"
-
     base
-    kotlin("jvm") version kotlinVersion apply false
+    kotlin("jvm") version Versions.kotlin apply false
 
     // see: https://kotlinlang.org/docs/reference/compiler-plugins.html
-    kotlin("plugin.spring") version kotlinVersion apply false
-    kotlin("plugin.allopen") version kotlinVersion apply false
-    kotlin("plugin.noarg") version kotlinVersion apply false
-    kotlin("plugin.jpa") version kotlinVersion apply false
+    kotlin("plugin.spring") version Versions.kotlin apply false
+    kotlin("plugin.allopen") version Versions.kotlin apply false
+    kotlin("plugin.noarg") version Versions.kotlin apply false
+    kotlin("plugin.jpa") version Versions.kotlin apply false
     // Use old scripts
     // kotlin("plugin.sam-with-receiver") version kotlinVersion apply false
 
-    id("io.gitlab.arturbosch.detekt") version "1.0.0-RC12" apply false
-    id("org.jetbrains.dokka") version "0.9.17" apply false
-    id("io.spring.dependency-management") version "1.0.6.RELEASE" apply false
+    id(BuildPlugins.detekt) version BuildPlugins.Versions.detekt apply false
+    id(BuildPlugins.dokka) version BuildPlugins.Versions.dokka apply false
+    id(BuildPlugins.dependency_management) version BuildPlugins.Versions.dependencyManagement apply false
 }
 
 allprojects {
-
-    group = "io.github.debop"
-    version = "0.1.0-SNAPSHOT"
-
     repositories {
         mavenCentral()
         jcenter()
@@ -41,17 +34,13 @@ subprojects {
     apply {
         plugin<JavaLibraryPlugin>()
         plugin<KotlinPlatformJvmPlugin>()
+        plugin("jacoco")
+        plugin("maven-publish")
 
         plugin("io.gitlab.arturbosch.detekt")
         plugin("org.jetbrains.dokka")
-
-        plugin("jacoco")
-        plugin("maven-publish")
         plugin("io.spring.dependency-management")
     }
-
-    // retrive kotlin version from plugins
-    val kotlinVersion: String by extra { plugins.getPlugin(KotlinPluginWrapper::class.java).kotlinPluginVersion }
 
     tasks.withType<KotlinCompile> {
         sourceCompatibility = "1.8"
@@ -63,105 +52,184 @@ subprojects {
 
     the<DependencyManagementExtension>().apply {
         imports {
-            mavenBom("org.springframework.boot:spring-boot-dependencies:${extra["spring.boot2"]}")
+            mavenBom("org.springframework.boot:spring-boot-dependencies:${Versions.spring_boot}")
         }
         dependencies {
-            dependency("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
-            dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion")
-            dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
-            dependency("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
-            dependency("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
-            dependency("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinVersion")
+            dependency(Libraries.kotlin_stdlib)
+            dependency(Libraries.kotlin_stdlib_jdk7)
+            dependency(Libraries.kotlin_stdlib_jdk8)
+            dependency(Libraries.kotlin_reflect)
+            dependency(Libraries.kotlin_test)
+            dependency(Libraries.kotlin_test_junit5)
 
-            dependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:${extra["coroutines"]}")
-            dependency("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:${extra["coroutines"]}")
+            dependency(Libraries.kotlinx_coroutines_core)
+            dependency(Libraries.kotlinx_coroutines_jdk7)
+            dependency(Libraries.kotlinx_coroutines_jdk8)
 
-            dependency("io.github.microutils:kotlin-logging:1.6.26")
-            dependency("ch.qos.logback:logback-classic:1.2.3")
+            // Apache Commons
+            dependency(Libraries.commons_collections4)
+            dependency(Libraries.commons_lang3)
+            dependency(Libraries.commons_compress)
+            dependency(Libraries.commons_codec)
+            dependency(Libraries.commons_io)
 
-            dependency("org.mongodb:mongo-java-driver:3.10.2")
-            dependency("org.mongodb:mongodb-driver:3.10.2")
-            dependency("org.mongodb:mongodb-driver-async:3.10.2")
-            dependency("org.mongodb:mongodb-driver-core:3.10.2")
-            dependency("org.mongodb:mongodb-driver-reactivestreams:1.11.0")
+            dependency(Libraries.findbugs)
+            dependency(Libraries.guava)
+            dependency(Libraries.joda_time)
 
-            dependency("com.zaxxer:HikariCP:3.3.1")
-            dependency("mysql:mysql-connector-java:8.0.16")
-            dependency("org.mariadb.jdbc:mariadb-java-client:2.4.1")
-            dependency("com.h2database:h2:1.4.199")
+            dependency(Libraries.fst)
+            dependency(Libraries.kryo)
+            dependency(Libraries.kryo_serializers)
 
-            // Cache
-            dependency("javax.cache:cache-api:1.1.1")
-            dependency("org.cache2k:cache2k-all:1.2.2.Final")
-            dependency("org.cache2k:cache2k-spring:1.2.2.Final")
-            dependency("org.cache2k:cache2k-jcache:1.2.2.Final")
+            dependency(Libraries.kotlin_logging)
+            dependency(Libraries.slf4j_api)
+            dependency(Libraries.logback)
 
-            // Metrics
-            dependency("org.latencyutils:LatencyUtils:2.0.3")
-            dependency("org.hdrhistogram:HdrHistogram:2.1.11")
+            // Resilience4j
+            dependency(Libraries.resilience4j_annotations)
+            dependency(Libraries.resilience4j_bulkhead)
+            dependency(Libraries.resilience4j_circuitbreaker)
+            dependency(Libraries.resilience4j_core)
+            dependency(Libraries.resilience4j_framework_common)
+            dependency(Libraries.resilience4j_micrometer)
+            dependency(Libraries.resilience4j_ratelimiter)
+            dependency(Libraries.resilience4j_reactor)
+            dependency(Libraries.resilience4j_retry)
+            dependency(Libraries.resilience4j_spring)
+            dependency(Libraries.resilience4j_spring_boot2)
+            dependency(Libraries.resilience4j_spring_boot_common)
+
+            // Vavr
+            dependency(Libraries.vavr)
+            dependency(Libraries.vavr_jackson)
+            dependency(Libraries.vavr_kotlin)
+            dependency(Libraries.vavr_match)
+            dependency(Libraries.vavr_test)
 
             // Netty
-            dependency("io.netty:netty-all:${extra["netty"]}")
-            dependency("io.netty:netty-buffer:${extra["netty"]}")
-            dependency("io.netty:netty-codec:${extra["netty"]}")
-            dependency("io.netty:netty-codec-dns:${extra["netty"]}")
-            dependency("io.netty:netty-codec-http2:${extra["netty"]}")
-            dependency("io.netty:netty-codec-http:${extra["netty"]}")
-            dependency("io.netty:netty-codec-socks:${extra["netty"]}")
-            dependency("io.netty:netty-common:${extra["netty"]}")
-            dependency("io.netty:netty-handler:${extra["netty"]}")
-            dependency("io.netty:netty-handler-proxy:${extra["netty"]}")
-            dependency("io.netty:netty-resolver:${extra["netty"]}")
-            dependency("io.netty:netty-resolver-dns:${extra["netty"]}")
-            dependency("io.netty:netty-transport:${extra["netty"]}")
-            dependency("io.netty:netty-transport-native-epoll:${extra["netty"]}")
-            dependency("io.netty:netty-transport-native-kqueue:${extra["netty"]}")
+            dependency(Libraries.netty_all)
+            dependency(Libraries.netty_common)
+            dependency(Libraries.netty_buffer)
+            dependency(Libraries.netty_codec)
+            dependency(Libraries.netty_codec_dns)
+            dependency(Libraries.netty_codec_http)
+            dependency(Libraries.netty_codec_http2)
+            dependency(Libraries.netty_codec_socks)
+            dependency(Libraries.netty_handler)
+            dependency(Libraries.netty_handler_proxy)
+            dependency(Libraries.netty_resolver)
+            dependency(Libraries.netty_resolver_dns)
+            dependency(Libraries.netty_transport)
+            dependency(Libraries.netty_transport_native_epoll)
+            dependency(Libraries.netty_transport_native_kqueue)
 
-            dependency("org.junit.jupiter:junit-jupiter:${extra["junit.jupiter"]}")
-            dependency("org.junit.jupiter:junit-jupiter-api:${extra["junit.jupiter"]}")
-            dependency("org.junit.jupiter:junit-jupiter-engine:${extra["junit.jupiter"]}")
-            dependency("org.junit.jupiter:junit-jupiter-params:${extra["junit.jupiter"]}")
+            // Jackson
+            dependency(Libraries.jackson_annotations)
+            dependency(Libraries.jackson_core)
+            dependency(Libraries.jackson_databind)
+            dependency(Libraries.jackson_datatype_jsr310)
+            dependency(Libraries.jackson_datatype_jdk8)
+            dependency(Libraries.jackson_datatype_joda)
+            dependency(Libraries.jackson_datatype_guava)
 
-            dependency("org.junit.platform:junit-platform-commons:${extra["junit.platform"]}")
-            dependency("org.junit.platform:junit-platform-engine:${extra["junit.platform"]}")
+            dependency(Libraries.jackson_module_java8)
+            dependency(Libraries.jackson_module_parameter)
+            dependency(Libraries.jackson_module_parameter_names)
+            dependency(Libraries.jackson_module_kotlin)
+            dependency(Libraries.jackson_module_afterburner)
 
-            dependency("org.amshove.kluent:kluent:1.49")
-            dependency("org.assertj:assertj-core:3.12.2")
+            // Micrometer
+            dependency(Libraries.micrometer_core)
+            dependency(Libraries.micrometer_test)
+            dependency(Libraries.micrometer_registry)
+            dependency(Libraries.micrometer_registry_prometheus)
+            dependency(Libraries.micrometer_registry_graphite)
+            dependency(Libraries.micrometer_registry_jmx)
 
-            dependency("io.mockk:mockk:1.9.3")
-            dependency("org.mockito:mockito-core:2.28.2")
-            dependency("org.mockito:mockito-junit-jupiter:2.28.2")
-            dependency("com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0")
+            // Reactor
+            dependency(Libraries.reactor_core)
+            dependency(Libraries.reactor_test)
+            dependency(Libraries.reactor_netty)
 
-            dependency("org.testcontainers:testcontainers:${extra["testcontainers"]}")
+            dependency(Libraries.rxjava2)
+
+            dependency(Libraries.mongo_java_driver)
+            dependency(Libraries.mongo_driver)
+            dependency(Libraries.mongo_driver_async)
+            dependency(Libraries.mongo_driver_core)
+            dependency(Libraries.mongo_driver_reactivestreams)
+
+            dependency(Libraries.hikaricp)
+            dependency(Libraries.mysqlConnectorJava)
+            dependency(Libraries.mariadbJavaClient)
+            dependency(Libraries.h2)
+
+            // Cache
+            dependency(Libraries.cacheApi)
+            dependency(Libraries.cache2kAll)
+            dependency(Libraries.cache2k_spring)
+            dependency(Libraries.cache2k_jcache)
+
+            // Dagger
+            dependency(Libraries.dagger)
+            dependency(Libraries.dagger_compiler)
+
+            // Metrics
+            dependency(Libraries.latencyUtils)
+            dependency(Libraries.hdrHistogram)
+
+            dependency(Libraries.byte_buddy)
+            dependency(Libraries.byte_buddy_agent)
+
+            dependency(Libraries.random_beans)
+            dependency(Libraries.reflectasm)
+
+            dependency(Libraries.junit_jupiter)
+            dependency(Libraries.junit_jupiter_api)
+            dependency(Libraries.junit_jupiter_engine)
+            dependency(Libraries.junit_jupiter_params)
+
+            dependency(Libraries.junit_platform_commons)
+            dependency(Libraries.junit_platform_engine)
+
+            dependency(Libraries.kluent)
+            dependency(Libraries.assertj_core)
+
+            dependency(Libraries.mockk)
+            dependency(Libraries.mockito_core)
+            dependency(Libraries.mockito_junit_jupiter)
+            dependency(Libraries.mockito_kotlin)
+
+            dependency(Libraries.testcontainers)
         }
     }
 
     dependencies {
+        val api by configurations
         val compile by configurations
-        val testCompile by configurations
         val implementation by configurations
         val testImplementation by configurations
+        val testRuntimeOnly by configurations
 
-        implementation(kotlin("stdlib-jdk8"))
-        implementation(kotlin("reflect"))
-        testImplementation(kotlin("test"))
-        testImplementation(kotlin("test-junit5"))
+        implementation(Libraries.kotlin_stdlib_jdk8)
+        implementation(Libraries.kotlin_reflect)
+        testImplementation(Libraries.kotlin_test)
+        testImplementation(Libraries.kotlin_test_junit5)
 
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8")
+        implementation(Libraries.kotlinx_coroutines_jdk8)
 
-        compile("org.apache.commons:commons-lang3")
+        api(Libraries.commons_lang3)
 
-        compile("io.github.microutils:kotlin-logging")
-        testImplementation("ch.qos.logback:logback-classic")
+        api(Libraries.kotlin_logging)
+        testImplementation(Libraries.logback)
 
-        testImplementation("org.junit.jupiter:junit-jupiter")
-        testImplementation("org.amshove.kluent:kluent")
-        testImplementation("org.assertj:assertj-core")
-        testImplementation("org.jetbrains.kotlin:kotlin-test")
-        testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+        testImplementation(Libraries.junit_jupiter)
+        testRuntimeOnly(Libraries.junit_platform_engine)
 
-        testImplementation("org.testcontainers:testcontainers")
+        testImplementation(Libraries.kluent)
+        testImplementation(Libraries.assertj_core)
+
+        testImplementation(Libraries.testcontainers)
     }
 
     val sourceSets = project.the<SourceSetContainer>()

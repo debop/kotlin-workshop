@@ -6,9 +6,7 @@ plugins {
 dependencies {
 
     implementation(project(":kotlin-coroutines"))
-    implementation(project(":kotlin-tests"))
-
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    testImplementation(project(":kotlin-tests"))
 
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
@@ -19,4 +17,5 @@ dependencies {
 
     implementation("com.atlassian.commonmark:commonmark:0.12.1")
     implementation("com.atlassian.commonmark:commonmark-ext-autolink:0.12.1")
+    implementation(Libraries.jackson_module_kotlin)
 }

@@ -7,7 +7,7 @@ dependencies {
 
     implementation(project(":kotlin-tests"))
 
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation(Libraries.jackson_module_kotlin)
 
     implementation("org.springframework.boot:spring-boot-starter-json")
     implementation("org.springframework.boot:spring-boot-starter-cache")

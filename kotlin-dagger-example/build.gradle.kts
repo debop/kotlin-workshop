@@ -8,8 +8,8 @@ dependencies {
     compile(project(":kotlin-basic"))
     testImplementation(project(":kotlin-tests"))
 
-    compile("com.google.dagger:dagger:2.23.1")
-    kapt("com.google.dagger:dagger-compiler:2.23.1")
+    compile(Libraries.dagger)
+    kapt(Libraries.dagger_compiler)
 }
 
 idea {

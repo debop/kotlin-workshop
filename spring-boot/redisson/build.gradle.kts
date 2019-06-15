@@ -6,12 +6,12 @@ plugins {
 dependencies {
 
     implementation(project(":kotlin-coroutines"))
-    implementation(project(":kotlin-tests"))
+    testImplementation(project(":kotlin-tests"))
 
-    implementation("org.redisson:redisson-spring-boot-starter:3.11.0")
-    implementation("org.redisson:redisson-spring-data-21:3.11.0")
+    implementation(Libraries.redisson_spring_boot_starter)
+    implementation(Libraries.redisson_spring_data_21)
 
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation(Libraries.jackson_module_kotlin)
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")

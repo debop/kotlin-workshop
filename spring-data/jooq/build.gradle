@@ -9,16 +9,18 @@ plugins {
     id 'nu.studer.jooq' version '3.0.3'
 }
 
+ext.jooqVersion = "3.11.11"
+
 dependencies {
 
     api("org.springframework.boot:spring-boot-starter-jooq")
     api("org.springframework.data:spring-data-jdbc")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-    api("org.jooq:jooq:3.11.9")
+    api("org.jooq:jooq:$jooqVersion")
 
     // JOOQ schema generation
-    jooqRuntime("org.jooq:jooq-meta-extensions:3.11.9")
+    jooqRuntime("org.jooq:jooq-meta-extensions:$jooqVersion")
     jooqRuntime("com.h2database:h2:1.4.199")
 
     testImplementation("com.h2database:h2:1.4.199")
@@ -26,7 +28,7 @@ dependencies {
 
 // see : https://www.jooq.org/doc/3.11/manual/code-generation/codegen-ddl/
 jooq {
-    version = "3.11.9"
+    version = "$jooqVersion"
     edition = JooqEdition.OSS
 
     // category 는 Configuration Name에 해당한다.
