@@ -11,9 +11,14 @@ plugins {
 
     base
     kotlin("jvm") version kotlinVersion apply false
+
+    // see: https://kotlinlang.org/docs/reference/compiler-plugins.html
     kotlin("plugin.spring") version kotlinVersion apply false
+    kotlin("plugin.allopen") version kotlinVersion apply false
     kotlin("plugin.noarg") version kotlinVersion apply false
     kotlin("plugin.jpa") version kotlinVersion apply false
+    // Use old scripts
+    // kotlin("plugin.sam-with-receiver") version kotlinVersion apply false
 
     id("io.gitlab.arturbosch.detekt") version "1.0.0-RC12" apply false
     id("org.jetbrains.dokka") version "0.9.17" apply false

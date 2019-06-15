@@ -12,7 +12,7 @@ import org.springframework.boot.test.json.JacksonTester
 @JsonTest
 class JacksonTests {
 
-    companion object : KLogging()
+    companion object: KLogging()
 
     data class Book(val title: String, val isbn: String? = null)
 
@@ -34,6 +34,7 @@ class JacksonTests {
         assertThat(jsonContent).hasJsonPathStringValue("title")
         assertThat(jsonContent).extractingJsonPathStringValue("title").isEqualTo("Spring Boot")
 
+        logger.debug { "book=$book" }
         logger.debug { "json=${jsonContent.json}" }
         jsonContent.json shouldEqual expectedJson
 

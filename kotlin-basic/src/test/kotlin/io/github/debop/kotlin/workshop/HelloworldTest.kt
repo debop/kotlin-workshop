@@ -9,12 +9,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle
 
-/**
- * HelloworldTest
- *
- * @author debop
- * @since 19. 5. 22
- */
 @TestInstance(Lifecycle.PER_CLASS) // see resources/junit-platform.properties
 class HelloworldTest {
 

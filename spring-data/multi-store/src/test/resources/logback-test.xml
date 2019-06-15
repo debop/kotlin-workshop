@@ -20,7 +20,7 @@
         <withJansi>true</withJansi>
         <immediateFlush>true</immediateFlush>
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} %highlight(%-5level) [%blue(%t)] %yellow(%logger{24}): %msg%n%throwable</pattern>
+            <pattern>%d{HH:mm:ss.SSS} %5level [%24.24thread] %40.40logger{39}:%4line: %msg%n</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>

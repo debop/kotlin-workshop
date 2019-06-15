@@ -12,7 +12,6 @@ class DestructuringExample {
 
     companion object : KLogging()
 
-
     @Test
     fun `destruct variables`() {
         val (a, b) = Pair(1, "a")
