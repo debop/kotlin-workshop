@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param
  * LegoSetRepository
  * @author debop (Sunghyouk Bae)
  */
-interface LegoSetRepository : CrudRepository<LegoSet, Int> {
+interface LegoSetRepository: CrudRepository<LegoSet, Int> {
 
     @Query(
         """
@@ -17,9 +17,9 @@ interface LegoSetRepository : CrudRepository<LegoSet, Int> {
           FROM model m JOIN lego_set l ON m.lego_set = l.id
          WHERE :age BETWEEN l.min_age and l.max_age
         """)
-    fun reportModelForAge(@Param("age") age: Int): List<ModelReport>
+    fun reportModelForAge(@Param(value = "age") age: Int): List<ModelReport>
 
     @Modifying
-    @Query("UPDATE model set name = lower(name) where name <> lower(name)")
+    @Query(value = "UPDATE model set name = lower(name) where name <> lower(name)")
     fun lowerCaseMapKeys(): Int
 }

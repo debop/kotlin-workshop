@@ -5,22 +5,14 @@ import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureJdbc
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.transaction.annotation.Transactional
 
-/**
- * AggregateTests
- * @author debop (Sunghyouk Bae)
- */
-@ExtendWith(SpringExtension::class)
-@SpringBootTest(classes = [AggregateConfiguration::class])
 @AutoConfigureJdbc
 @Transactional
+@SpringBootTest(classes = [AggregateConfiguration::class])
 class AggregateTests(@Autowired val repository: LegoSetRepository) {
 
     @BeforeEach
@@ -30,10 +22,11 @@ class AggregateTests(@Autowired val repository: LegoSetRepository) {
 
     @Test
     fun `exercise somewhat complex entity`() {
-        val smallCar = createLegoSet("Small Car 01", 5, 12)
-        smallCar.manual = Manual("Just put all the pieces together in the right order", "Jens Schauder")
-        smallCar.addModel("suv", "SUV with sliding doors.")
-        smallCar.addModel("roadster", "Slick red roadster.")
+        val smallCar = createLegoSet("Small Car 01", 5, 12).apply {
+            manual = Manual("Just put all the pieces together in the right order", "Jens Schauder")
+            addModel("suv", "SUV with sliding doors.")
+            addModel("roadster", "Slick red roadster.")
+        }
 
         repository.save(smallCar)
         var legoSets = repository.findAll()
@@ -58,24 +51,24 @@ class AggregateTests(@Autowired val repository: LegoSetRepository) {
 
     @Test
     fun `custom queries`() {
-        val smallCars = createLegoSet("Small Car 01", 5, 10)
-        smallCars.manual = Manual("Just put all the pieces together in the right order", "Jens Schauder")
-        smallCars.addModel("SUV", "SUV with sliding doors.")
-        smallCars.addModel("roadster", "Slick red roadster.")
+        val smallCars = createLegoSet("Small Car 01", 5, 10).apply {
+            manual = Manual("Just put all the pieces together in the right order", "Jens Schauder")
+            addModel("SUV", "SUV with sliding doors.")
+            addModel("roadster", "Slick red roadster.")
+        }
 
         val f1Racer = createLegoSet("F1 Racer", 6, 15)
         f1Racer.manual = Manual("Build a helicopter or a plane", "M. Shoemaker")
         f1Racer.addModel("F1 Ferrari 2018", "A very fast red car.")
 
-        val constructionVehicles = createLegoSet("Construction Vehicles", 3, 6)
-        constructionVehicles.manual =
-            Manual("Build a Road Roler, a Mobile Crane, a Tracked Dumper, or a Backhoe Loader ", "Bob the Builder")
+        val constructionVehicles = createLegoSet("Construction Vehicles", 3, 6).apply {
+            manual = Manual("Build a Road Roler, a Mobile Crane, a Tracked Dumper, or a Backhoe Loader ", "Bob the Builder")
 
-        constructionVehicles.addModel("scoop", "A backhoe loader")
-        constructionVehicles.addModel("Muck", "Muck is a continuous tracked dump truck with an added bulldozer blade")
-        constructionVehicles.addModel("lofty", "A mobile crane")
-        constructionVehicles.addModel("roley",
-                                      "A road roller that loves to make up songs and frequently spins his eyes when he is excited.")
+            addModel("scoop", "A backhoe loader")
+            addModel("Muck", "Muck is a continuous tracked dump truck with an added bulldozer blade")
+            addModel("lofty", "A mobile crane")
+            addModel("roley", "A road roller that loves to make up songs and frequently spins his eyes when he is excited.")
+        }
         repository.saveAll(listOf(smallCars, f1Racer, constructionVehicles))
 
         val report = repository.reportModelForAge(6)
@@ -84,15 +77,14 @@ class AggregateTests(@Autowired val repository: LegoSetRepository) {
         report.size shouldEqualTo 7
         report.all { it.description != null && it.modelName != null && it.setName != null } shouldEqualTo true
 
-        val updated = repository.lowerCaseMapKeys()
-        updated shouldEqualTo 3
+        repository.lowerCaseMapKeys() shouldEqualTo 3
     }
 
     private fun createLegoSet(name: String, minimumAge: Int, maximumAge: Int): LegoSet {
-        return LegoSet().also {
-            it.name = name
-            it.minAge = minimumAge
-            it.maxAge = maximumAge
+        return LegoSet().apply {
+            this.name = name
+            minAge = minimumAge
+            maxAge = maximumAge
         }
     }
 

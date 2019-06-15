@@ -4,21 +4,14 @@ import io.github.debop.springdata.jdbc.basic.Output
 import io.github.debop.springdata.jdbc.basic.aggregate.AgeGroup
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureJdbc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.transaction.annotation.Transactional
 
-/**
- * SimpleEntityTests
- * @author debop (Sunghyouk Bae)
- */
-@ExtendWith(SpringExtension::class)
-@SpringBootTest(classes = [CategoryConfiguration::class])
 @AutoConfigureJdbc
 @Transactional
+@SpringBootTest(classes = [CategoryConfiguration::class])
 class SimpleEntityTests(@Autowired val repository: CategoryRepository) {
 
     @Test
