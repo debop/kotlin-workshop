@@ -6,7 +6,7 @@ plugins {
 dependencies {
 
     implementation(project(":kotlin-coroutines"))
-    testImplementation(project(":kotlin-tests"))
+    implementation(project(":kotlin-tests"))
 
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")

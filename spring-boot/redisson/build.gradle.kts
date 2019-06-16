@@ -6,7 +6,7 @@ plugins {
 dependencies {
 
     implementation(project(":kotlin-coroutines"))
-    testImplementation(project(":kotlin-tests"))
+    implementation(project(":kotlin-tests"))
 
     implementation(Libraries.redisson_spring_boot_starter)
     implementation(Libraries.redisson_spring_data_21)

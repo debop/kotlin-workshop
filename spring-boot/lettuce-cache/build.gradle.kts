@@ -6,8 +6,7 @@ plugins {
 dependencies {
 
     implementation(project(":spring-data:redis"))
-    testCompile(project(":kotlin-tests"))
-
+    api(project(":kotlin-tests"))
     api("org.springframework.boot:spring-boot-starter-data-redis")
 
     implementation(Libraries.fst)
