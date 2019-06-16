@@ -168,6 +168,7 @@ subprojects {
             dependency(Libraries.hibernate_core)
             dependency(Libraries.hibernate_validator)
             dependency(Libraries.hibernate_jpa_2_1_api)
+            dependency(Libraries.javassist)
             dependency(Libraries.querydsl_apt)
             dependency(Libraries.querydsl_jpa)
 

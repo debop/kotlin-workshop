@@ -195,6 +195,7 @@ object Libraries {
     const val hibernate_core = "org.hibernate:hibernate-core:${Versions.hibernate}"
     const val hibernate_validator = "org.hibernate:hibernate-validator:6.0.17.Final"
     const val hibernate_jpa_2_1_api = "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final"
+    const val javassist = "org.javassist:javassist:3.25.0-GA"
 
     const val querydsl_apt = "com.querydsl:querydsl-apt:${Versions.querydsl}"
     const val querydsl_jpa = "com.querydsl:querydsl-jpa:${Versions.querydsl}"
