@@ -67,11 +67,23 @@ object Libraries {
     const val kotlinx_coroutines_jdk7 = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk7:${Versions.kotlinx_coroutines}"
     const val kotlinx_coroutines_jdk8 = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:${Versions.kotlinx_coroutines}"
 
+    // javax api
+    const val activation_api = "javax.activation:javax.activation-api:1.2.0"
+    const val annotation_api = "javax.annotation:javax.annotation-api:1.3.2"
+    const val cache_api = "javax.cache:cache-api:1.1.1"
+    const val javax_inject = "javax.inject:javax.inject:1"
+    const val validation_api = "javax.validation:validation-api:2.0.1.Final"
+
     // Apache Commons
     const val commons_collections4 = "org.apache.commons:commons-collections4:4.3"
     const val commons_lang3 = "org.apache.commons:commons-lang3:3.9"
     const val commons_compress = "org.apache.commons:commons-compress:1.18"
     const val commons_codec = "commons-codec:commons-codec:1.12"
+    const val commons_csv = "org.apache.commons:commons-csv:1.7"
+    const val commons_math3 = "org.apache.commons:commons-math3:3.6.1"
+    const val commons_pool2 = "org.apache.commons:commons-pool2:2.6.2"
+    const val commons_text = "org.apache.commons:commons-text:1.6"
+    const val commons_exec = "org.apache.commons:commons-exec:1.3"
     const val commons_io = "commons-io:commons-io:2.6"
 
     const val kotlin_logging = "io.github.microutils:kotlin-logging:${Versions.kotlin_logging}"
@@ -181,7 +193,8 @@ object Libraries {
 
     // Hibernate
     const val hibernate_core = "org.hibernate:hibernate-core:${Versions.hibernate}"
-    const val hibernate_validator = "org.hibernate:hibernate_validator:6.0.16.Final"
+    const val hibernate_validator = "org.hibernate:hibernate-validator:6.0.17.Final"
+    const val hibernate_jpa_2_1_api = "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final"
 
     const val querydsl_apt = "com.querydsl:querydsl-apt:${Versions.querydsl}"
     const val querydsl_jpa = "com.querydsl:querydsl-jpa:${Versions.querydsl}"
@@ -197,7 +210,6 @@ object Libraries {
     const val jooq_meta_extensions = "org.jooq:jooq-meta-extensions:${Versions.jooq}"
     const val jooq_codegen = "org.jooq:jooq-codegen:${Versions.jooq}"
 
-    const val cacheApi = "javax.cache:cache-api:1.1.1"
     const val cache2kAll = "org.cache2k:cache2k-all:${Versions.cache2k}"
     const val cache2k_spring = "org.cache2k:cache2k-spring:${Versions.cache2k}"
     const val cache2k_jcache = "org.cache2k:cache2k-jcache:${Versions.cache2k}"
@@ -207,6 +219,8 @@ object Libraries {
 
     const val byte_buddy = "net.bytebuddy:byte-buddy:${Versions.byte_buddy}"
     const val byte_buddy_agent = "net.bytebuddy:byte-buddy-agent:${Versions.byte_buddy}"
+
+    const val objenesis = "org.objenesis:objenesis:3.0.1"
 
     // junit 5.4+ 부터는 junit-jupiter 만 있으면 됩니다.
     const val junit_jupiter = "org.junit.jupiter:junit-jupiter:${Versions.junit_jupiter}"

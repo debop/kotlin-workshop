@@ -71,7 +71,16 @@ subprojects {
             dependency(Libraries.commons_lang3)
             dependency(Libraries.commons_compress)
             dependency(Libraries.commons_codec)
+            dependency(Libraries.commons_csv)
+            dependency(Libraries.commons_math3)
+            dependency(Libraries.commons_pool2)
+            dependency(Libraries.commons_text)
+            dependency(Libraries.commons_exec)
             dependency(Libraries.commons_io)
+
+            dependency(Libraries.kotlin_logging)
+            dependency(Libraries.slf4j_api)
+            dependency(Libraries.logback)
 
             dependency(Libraries.findbugs)
             dependency(Libraries.guava)
@@ -80,10 +89,6 @@ subprojects {
             dependency(Libraries.fst)
             dependency(Libraries.kryo)
             dependency(Libraries.kryo_serializers)
-
-            dependency(Libraries.kotlin_logging)
-            dependency(Libraries.slf4j_api)
-            dependency(Libraries.logback)
 
             // Resilience4j
             dependency(Libraries.resilience4j_annotations)
@@ -159,13 +164,20 @@ subprojects {
             dependency(Libraries.mongo_driver_core)
             dependency(Libraries.mongo_driver_reactivestreams)
 
+            // Hibernate
+            dependency(Libraries.hibernate_core)
+            dependency(Libraries.hibernate_validator)
+            dependency(Libraries.hibernate_jpa_2_1_api)
+            dependency(Libraries.querydsl_apt)
+            dependency(Libraries.querydsl_jpa)
+
             dependency(Libraries.hikaricp)
             dependency(Libraries.mysqlConnectorJava)
             dependency(Libraries.mariadbJavaClient)
             dependency(Libraries.h2)
 
             // Cache
-            dependency(Libraries.cacheApi)
+            dependency(Libraries.cache_api)
             dependency(Libraries.cache2kAll)
             dependency(Libraries.cache2k_spring)
             dependency(Libraries.cache2k_jcache)
@@ -180,6 +192,8 @@ subprojects {
 
             dependency(Libraries.byte_buddy)
             dependency(Libraries.byte_buddy_agent)
+
+            dependency(Libraries.objenesis)
 
             dependency(Libraries.random_beans)
             dependency(Libraries.reflectasm)

@@ -17,7 +17,7 @@ import javax.persistence.Temporal
 import javax.persistence.TemporalType
 
 
-@Entity
+@Entity(name = "singletable_billing")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "singletable_billing",
        indexes = [Index(name = "ix_singletable_billing_owner", columnList = "owner")])

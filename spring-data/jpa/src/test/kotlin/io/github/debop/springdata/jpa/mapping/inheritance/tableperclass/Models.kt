@@ -19,7 +19,7 @@ import javax.persistence.Temporal
 import javax.persistence.TemporalType
 
 @Access(AccessType.FIELD)
-@Entity
+@Entity(name = "tableperclass_billing")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Table(name = "tableperclass_billing",
        indexes = [Index(name = "ix_tableperclass_billing_owner", columnList = "owner")])
