@@ -1,5 +1,7 @@
 dependencies {
 
-    compile(project(":kotlin-basic"))
+    api(project(":kotlin-basic"))
     testImplementation(project(":kotlin-tests"))
+
+    api(Libraries.kotlinx_coroutines_jdk8)
 }
