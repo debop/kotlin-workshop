@@ -1,11 +1,16 @@
 package io.github.debop.kotlin.workshop
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.yield
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
-import java.util.concurrent.TimeUnit
+import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -42,7 +47,7 @@ suspend fun <T: Any> Future<T>.await(): T =
  * @param T
  * @return
  */
-fun <T: Any> Future<T>.toCompletableFuture(): CompletableFuture<T> = CompletablePromise(this)
+fun <T: Any> Future<T>.asCompletableFuture(): CompletableFuture<T> = CompletablePromise(this)
 
 /**
  * Future 를 Non-Blocking이 될 수 있도록 [CompletableFuture] 로 변환한다
@@ -51,34 +56,34 @@ fun <T: Any> Future<T>.toCompletableFuture(): CompletableFuture<T> = Completable
  * @param T
  * @property future
  */
-private class CompletablePromise<T: Any>(val future: Future<T>): CompletableFuture<T>() {
+private class CompletablePromise<T: Any>(val future: Future<T>): CompletableFuture<T>(), CoroutineScope {
 
-    companion object {
-        private val SERVICE = Executors.newSingleThreadScheduledExecutor()
-        private fun schedule(block: () -> Unit) {
-            SERVICE.schedule({ block() }, 1, TimeUnit.MILLISECONDS)
-        }
-    }
+    val job = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
+
+    override val coroutineContext: CoroutineContext get() = job
 
     init {
-        schedule { tryToComplete() }
+        tryToComplete()
     }
 
     private fun tryToComplete() {
-        while(true) {
-            if(future.isDone) {
-                try {
-                    complete(future.get())
-                } catch(e: ExecutionException) {
-                    completeExceptionally(e.cause ?: e)
+        runBlocking(context = coroutineContext) {
+            while(true) {
+                if(future.isDone) {
+                    try {
+                        val result = future.get()
+                        complete(result)
+                    } catch(e: ExecutionException) {
+                        completeExceptionally(e.cause ?: e)
+                    }
+                    break
+                } else if(future.isCancelled) {
+                    cancel(true)
+                    this.cancel(null)
+                    break
                 }
-                return
-            } else if(future.isCancelled) {
-                cancel(true)
-                return
+                yield()
             }
-            Thread.sleep(1L)
         }
-        // schedule { tryToComplete() }
     }
 }
