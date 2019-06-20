@@ -166,11 +166,17 @@ subprojects {
 
             // Hibernate
             dependency(Libraries.hibernate_core)
-            dependency(Libraries.hibernate_validator)
             dependency(Libraries.hibernate_jpa_2_1_api)
             dependency(Libraries.javassist)
             dependency(Libraries.querydsl_apt)
             dependency(Libraries.querydsl_jpa)
+
+            // Validators
+            dependency(Libraries.validation_api)
+            dependency(Libraries.hibernate_validator)
+            dependency(Libraries.hibernate_validator_annotation_processor)
+            dependency(Libraries.javax_el_api)
+            dependency(Libraries.javax_el)
 
             dependency(Libraries.hikaricp)
             dependency(Libraries.mysqlConnectorJava)

@@ -22,10 +22,6 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-/**
- * ChannelExamples
- * @author debop (Sunghyouk Bae)
- */
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @DisplayName("Channel examples")
@@ -106,10 +102,9 @@ class ChannelExamples {
             val numbers = produceNumbers()
             val squares = square(numbers)
 
-            squares.take(5)
-                .consumeEach {
-                    logger.trace { "Received: $it" }
-                }
+            squares.take(5).consumeEach {
+                logger.trace { "Received: $it" }
+            }
             logger.debug { "Done!" }
 
             coroutineContext.cancelChildren() // cancel children coroutines (produceNumbers)

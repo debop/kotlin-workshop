@@ -20,7 +20,7 @@ object Versions {
     const val kotlin = kotlinVersion
     const val kotlinx_coroutines = "1.2.1"
 
-    const val spring_boot = "2.1.5.RELEASE"
+    const val spring_boot = "2.1.6.RELEASE"
     const val resilience4j = "0.16.0"
     const val vavr = "0.10.0"
     const val netty = "4.1.36.Final"
@@ -85,6 +85,7 @@ object Libraries {
     const val commons_text = "org.apache.commons:commons-text:1.6"
     const val commons_exec = "org.apache.commons:commons-exec:1.3"
     const val commons_io = "commons-io:commons-io:2.6"
+    const val commons_validator = "commons-validator:commons-validator:1.6"
 
     const val kotlin_logging = "io.github.microutils:kotlin-logging:${Versions.kotlin_logging}"
     const val slf4j_api = "org.slf4j:slf4j-api:${Versions.slf4j}"
@@ -193,9 +194,16 @@ object Libraries {
 
     // Hibernate
     const val hibernate_core = "org.hibernate:hibernate-core:${Versions.hibernate}"
-    const val hibernate_validator = "org.hibernate:hibernate-validator:6.0.17.Final"
     const val hibernate_jpa_2_1_api = "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final"
     const val javassist = "org.javassist:javassist:3.25.0-GA"
+
+    // Validators
+    const val hibernate_validator = "org.hibernate:hibernate-validator:6.0.17.Final"
+    const val hibernate_validator_annotation_processor = "org.hibernate:hibernate-validator-annotation-processor:6.0.17.Final"
+
+    // Expression
+    const val javax_el_api = "javax.el:javax.el-api:3.0.0"
+    const val javax_el = "org.glassfish:javax.el:3.0.1-b11"
 
     const val querydsl_apt = "com.querydsl:querydsl-apt:${Versions.querydsl}"
     const val querydsl_jpa = "com.querydsl:querydsl-jpa:${Versions.querydsl}"
