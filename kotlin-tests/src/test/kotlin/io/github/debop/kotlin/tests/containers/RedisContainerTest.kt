@@ -15,23 +15,20 @@ import java.time.Duration
 
 class RedisContainerTest {
 
-    lateinit var redisServer: RedisContainer
+    val redisServer: RedisContainer = RedisContainer.instance
     lateinit var redisClient: RedisClient
 
     @BeforeAll
     fun `setup all`() {
-        redisServer = RedisContainer.instance
         redisClient = RedisClient.create(redisServer.url)
     }
 
     @AfterAll
     fun `cleanup all`() {
-        if (this::redisClient.isInitialized) {
+        if(this::redisClient.isInitialized) {
             redisClient.shutdown()
         }
-        if (this::redisServer.isInitialized) {
-            redisServer.close()
-        }
+        redisServer.close()
     }
 
     private fun withCommands(block: RedisCommands<String, String>.() -> Unit) {

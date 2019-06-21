@@ -246,6 +246,11 @@ object Libraries {
     const val mockito_core = "org.mockito:mockito-core:${Versions.mockito}"
     const val mockito_junit_jupiter = "org.mockito:mockito-junit-jupiter:${Versions.mockito}"
     const val mockito_kotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
+
     const val testcontainers: String = "org.testcontainers:testcontainers:${Versions.testcontainers}"
+    const val testcontainers_junit_jupiter: String = "org.testcontainers:junit-jupiter:${Versions.testcontainers}"
+    const val testcontainers_mariadb: String = "org.testcontainers:mysql:${Versions.testcontainers}"
+    const val testcontainers_mysql: String = "org.testcontainers:mysql:${Versions.testcontainers}"
+    const val testcontainers_postgresql: String = "org.testcontainers:postgresql:${Versions.testcontainers}"
 
 }
