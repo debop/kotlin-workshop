@@ -159,6 +159,7 @@ subprojects {
             dependency(Libraries.rxjava2)
 
             dependency(Libraries.mongo_java_driver)
+            dependency(Libraries.mongo_bson)
             dependency(Libraries.mongo_driver)
             dependency(Libraries.mongo_driver_async)
             dependency(Libraries.mongo_driver_core)
@@ -201,6 +202,7 @@ subprojects {
             dependency(Libraries.byte_buddy_agent)
 
             dependency(Libraries.objenesis)
+            dependency(Libraries.ow2_asm)
 
             dependency(Libraries.random_beans)
             dependency(Libraries.reflectasm)

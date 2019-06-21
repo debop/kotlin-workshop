@@ -181,6 +181,7 @@ object Libraries {
 
     // MongoDB
     const val mongo_java_driver = "org.mongodb:mongo-java-driver:${Versions.mongo_driver}"
+    const val mongo_bson = "org.mongodb:bson:${Versions.mongo_driver}"
     const val mongo_driver = "org.mongodb:mongodb-driver:${Versions.mongo_driver}"
     const val mongo_driver_async = "org.mongodb:mongodb-driver-async:${Versions.mongo_driver}"
     const val mongo_driver_core = "org.mongodb:mongodb-driver-core:${Versions.mongo_driver}"
@@ -230,6 +231,7 @@ object Libraries {
     const val byte_buddy_agent = "net.bytebuddy:byte-buddy-agent:${Versions.byte_buddy}"
 
     const val objenesis = "org.objenesis:objenesis:3.0.1"
+    const val ow2_asm = "org.ow2.asm:asm:7.1"
 
     // junit 5.4+ 부터는 junit-jupiter 만 있으면 됩니다.
     const val junit_jupiter = "org.junit.jupiter:junit-jupiter:${Versions.junit_jupiter}"
