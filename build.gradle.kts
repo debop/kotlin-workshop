@@ -1,5 +1,4 @@
 import io.gitlab.arturbosch.detekt.detekt
-import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformJvmPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -19,7 +18,8 @@ plugins {
 
     id(BuildPlugins.detekt) version BuildPlugins.Versions.detekt apply false
     id(BuildPlugins.dokka) version BuildPlugins.Versions.dokka apply false
-    id(BuildPlugins.dependency_management) version BuildPlugins.Versions.dependencyManagement apply false
+    id(BuildPlugins.dependency_management) version BuildPlugins.Versions.dependencyManagement
+    `maven-publish`
 }
 
 allprojects {
@@ -40,6 +40,7 @@ subprojects {
         plugin("io.gitlab.arturbosch.detekt")
         plugin("org.jetbrains.dokka")
         plugin("io.spring.dependency-management")
+        plugin("maven-publish")
     }
 
     tasks.withType<KotlinCompile> {
@@ -50,7 +51,7 @@ subprojects {
         }
     }
 
-    the<DependencyManagementExtension>().apply {
+    dependencyManagement {
         imports {
             mavenBom("org.springframework.boot:spring-boot-dependencies:${Versions.spring_boot}")
         }
