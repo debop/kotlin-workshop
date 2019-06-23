@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger
 @Configuration
 @EnableJdbcRepositories
 @EnableTransactionManagement
-class AggregateConfiguration : JdbcConfiguration() {
+class AggregateConfiguration: JdbcConfiguration() {
 
     private val log: Logger = LoggerFactory.getLogger(AggregateConfiguration::class.java)
 
@@ -31,14 +31,15 @@ class AggregateConfiguration : JdbcConfiguration() {
     @Bean
     fun idSetting(): ApplicationListener<BeforeSaveEvent> {
         return ApplicationListener { event ->
-            if (event.entity is LegoSet) {
-                setIds(event.entity as LegoSet)
+            val entity = event.entity
+            if(entity is LegoSet) {
+                setIds(entity)
             }
         }
     }
 
     private fun setIds(legoSet: LegoSet) {
-        if (legoSet.id == 0) {
+        if(legoSet.id == 0) {
             legoSet.id = idGenerator.incrementAndGet()
             log.info("Set lego set id... id=${legoSet.id}")
         }
@@ -50,9 +51,9 @@ class AggregateConfiguration : JdbcConfiguration() {
             try {
                 when {
                     Math.toIntExact(clob.length()) == 0 -> ""
-                    else -> clob.getSubString(1, Math.toIntExact(clob.length()))
+                    else                                -> clob.getSubString(1, Math.toIntExact(clob.length()))
                 }
-            } catch (e: SQLException) {
+            } catch(e: SQLException) {
                 throw IllegalStateException("Fail to convert CLOB to String", e)
             }
         }

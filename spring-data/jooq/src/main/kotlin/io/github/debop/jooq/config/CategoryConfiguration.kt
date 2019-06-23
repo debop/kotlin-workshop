@@ -7,6 +7,7 @@ import org.jooq.impl.DataSourceConnectionProvider
 import org.jooq.impl.DefaultConfiguration
 import org.jooq.impl.DefaultDSLContext
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
@@ -32,18 +33,22 @@ class CategoryConfiguration {
     private lateinit var dataSource: DataSource
 
     @Bean
+    @ConditionalOnMissingBean
     fun transactionManager(): PlatformTransactionManager =
         DataSourceTransactionManager(dataSource)
 
     @Bean
+    @ConditionalOnMissingBean
     fun connectionProvider() =
         DataSourceConnectionProvider(TransactionAwareDataSourceProxy(dataSource))
 
     @Bean
+    @ConditionalOnMissingBean
     fun transactionProvider() =
         SpringTransactionProvider(transactionManager())
 
     @Bean
+    @ConditionalOnMissingBean
     fun dsl() =
         DefaultDSLContext(configuration())
 

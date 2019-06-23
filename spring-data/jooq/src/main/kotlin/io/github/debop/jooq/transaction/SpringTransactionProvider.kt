@@ -3,7 +3,6 @@ package io.github.debop.jooq.transaction
 import mu.KLogging
 import org.jooq.TransactionContext
 import org.jooq.TransactionProvider
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.TransactionDefinition
 import org.springframework.transaction.support.DefaultTransactionDefinition
@@ -13,9 +12,9 @@ import org.springframework.transaction.support.DefaultTransactionDefinition
  *
  * @author debop (Sunghyouk Bae)
  */
-class SpringTransactionProvider @Autowired constructor(val transactionManager: PlatformTransactionManager) : TransactionProvider {
+class SpringTransactionProvider(val transactionManager: PlatformTransactionManager): TransactionProvider {
 
-    companion object : KLogging()
+    companion object: KLogging()
 
     override fun begin(ctx: TransactionContext) {
         logger.info { "Begin transaction" }

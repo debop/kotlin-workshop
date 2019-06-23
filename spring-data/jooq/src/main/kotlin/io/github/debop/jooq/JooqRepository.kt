@@ -7,4 +7,5 @@ package io.github.debop.jooq
 interface JooqRepository {
 
     fun getCategoriesWithAgeGroup(ageGroup: AgeGroup): List<Category>
+
 }
