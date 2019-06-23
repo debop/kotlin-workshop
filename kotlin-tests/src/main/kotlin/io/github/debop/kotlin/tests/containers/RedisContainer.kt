@@ -31,7 +31,8 @@ class RedisContainer(dockerImageName: String) : GenericContainer<RedisContainer>
         System.setProperty("testcontainers.redis.url", url)
 
         logger.info {
-            """Start TestContainer Redis:
+            """
+            |Start TestContainer Redis:
             |    testcontainers.redis.host=$host
             |    testcontainers.redis.port=$port
             |    testcontainers.redis.url=$url

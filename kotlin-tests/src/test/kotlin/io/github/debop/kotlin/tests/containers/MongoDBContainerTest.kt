@@ -5,27 +5,15 @@ import mu.KLogging
 import org.amshove.kluent.shouldEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.bson.Document
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
 class MongoDBContainerTest {
 
-    companion object : KLogging()
-
-    lateinit var mongodb: MongoDBContainer
-
-    @BeforeAll
-    fun `setup all`() {
-        mongodb = MongoDBContainer.instance
+    companion object: KLogging() {
+        val mongodb: MongoDBContainer = MongoDBContainer.instance
     }
 
-    @AfterAll
-    fun `cleanup all`() {
-        if (this::mongodb.isInitialized) {
-            mongodb.close()
-        }
-    }
+    val client = MongoClient(mongodb.host, mongodb.port)
 
     @Test
     fun `create mongodb testcontainer instance`() {
@@ -35,22 +23,18 @@ class MongoDBContainerTest {
 
     @Test
     fun `connect to mongodb`() {
-        val client = MongoClient(mongodb.host, mongodb.port)
+        client.listDatabaseNames().forEach { database ->
+            logger.debug { "Database name=$database" }
 
-        client.listDatabaseNames().forEach {
-            logger.debug { "Database name=$it" }
-        }
-
-        val db = client.getDatabase("local")
-        db.listCollectionNames().forEach {
-            logger.debug { "  Collection=$it" }
+            val db = client.getDatabase(database)
+            db.listCollectionNames().forEach { collection ->
+                logger.debug { "  Collection=$collection" }
+            }
         }
     }
 
     @Test
     fun `save and read with customer collection`() {
-        val client = MongoClient(mongodb.host, mongodb.port)
-
         val db = client.getDatabase("local")
 
         db.createCollection("customers")

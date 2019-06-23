@@ -34,7 +34,8 @@ class MongoDBContainer(dockerImageName: String): GenericContainer<MongoDBContain
         System.setProperty("testcontainers.mongodb.connectionString", connectionString)
 
         logger.info {
-            """Start TestContainer MongoDB:
+            """
+            |Start TestContainer MongoDB:
             |    testcontainers.monogodb.host=$host
             |    testcontainers.mongodb.port=$port
             |    testcontainers.mongodb.connectionString=$connectionString

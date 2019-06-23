@@ -66,6 +66,8 @@ subprojects {
             dependency(Libraries.kotlinx_coroutines_core)
             dependency(Libraries.kotlinx_coroutines_jdk7)
             dependency(Libraries.kotlinx_coroutines_jdk8)
+            dependency(Libraries.kotlinx_coroutines_reactor)
+            dependency(Libraries.kotlinx_coroutines_rx2)
 
             // Apache Commons
             dependency(Libraries.commons_collections4)
