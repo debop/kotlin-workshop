@@ -3,6 +3,7 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         jcenter()
+        mavenCentral()
     }
 }
 
@@ -11,6 +12,7 @@ rootProject.name = "kotlin-workshop"
 include("kotlin-basic")
 include("kotlin-coroutines")
 include("kotlin-dagger-example")
+include("kotlin-koin-example")
 
 include("spring-boot:basic")
 include("spring-boot:cache2k")

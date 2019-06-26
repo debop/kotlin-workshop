@@ -1,6 +1,7 @@
 package io.github.kotlin.dagger.example
 
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.RepeatedTest
+import kotlin.system.measureTimeMillis
 
 /**
  * DaggerCoffeeShopTests
@@ -10,9 +11,12 @@ import org.junit.jupiter.api.Test
  */
 class DaggerCoffeeShopTests {
 
-    @Test
+    @RepeatedTest(3)
     fun `coffeeShop singleton by dagger`() {
-        val coffeeShop = DaggerCoffeeShop.builder().build()
-        coffeeShop.maker().brew()
+        val elapsedTime = measureTimeMillis {
+            val coffeeShop = DaggerCoffeeShop.builder().build()
+            coffeeShop.maker().brew()
+        }
+        println("executed in $elapsedTime ms")
     }
 }

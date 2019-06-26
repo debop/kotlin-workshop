@@ -51,6 +51,67 @@ subprojects {
         }
     }
 
+    val sourceSets = project.the<SourceSetContainer>()
+
+    val sourcesJar by tasks.creating(Jar::class) {
+        from(sourceSets["main"].allSource)
+        archiveClassifier.set("sources")
+    }
+
+    // Configure existing Dokka task to output HTML to typical Javadoc directory
+    val dokka by tasks.getting(DokkaTask::class) {
+        outputFormat = "html"
+        outputDirectory = "$buildDir/javadoc"
+    }
+
+    // Create dokka Jar task from dokka task output
+    val dokkaJar by tasks.creating(Jar::class) {
+        group = JavaBasePlugin.DOCUMENTATION_GROUP
+        description = "Assembles Kotlin docs with Dokka"
+        archiveClassifier.set("javadoc")
+        // dependsOn(tasks.dokka) not needed; dependency automatically inferred by from(tasks.dokka)
+        from(dokka)
+    }
+
+    tasks.withType<Test> {
+        useJUnitPlatform()
+
+        testLogging {
+            events("FAILED")
+        }
+    }
+
+    detekt {
+        description = "Runs a failfast detekt build."
+
+        input = files("src/main/kotlin")
+        config = files("${project.rootProject.rootDir}/detekt.yml")
+        filters = ".*/build/.*"
+
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
+    }
+
+    // jacoco
+    configure<JacocoPluginExtension> {
+    }
+
+    tasks.withType<JacocoReport> {
+        reports {
+            html.isEnabled = true
+            xml.isEnabled = true
+            csv.isEnabled = false
+        }
+    }
+
+    tasks["clean"].doLast {
+        delete("./.project")
+        delete("./out")
+        delete("./bin")
+    }
+
     dependencyManagement {
         imports {
             mavenBom("org.springframework.boot:spring-boot-dependencies:${Versions.spring_boot}")
@@ -197,6 +258,11 @@ subprojects {
             dependency(Libraries.dagger)
             dependency(Libraries.dagger_compiler)
 
+            // Koin
+            dependency(Libraries.koin_core)
+            dependency(Libraries.koin_core_ext)
+            dependency(Libraries.koin_test)
+
             // Metrics
             dependency(Libraries.latencyUtils)
             dependency(Libraries.hdrHistogram)
@@ -256,67 +322,6 @@ subprojects {
         testImplementation(Libraries.assertj_core)
 
         testImplementation(Libraries.testcontainers)
-    }
-
-    val sourceSets = project.the<SourceSetContainer>()
-
-    val sourcesJar by tasks.creating(Jar::class) {
-        from(sourceSets["main"].allSource)
-        archiveClassifier.set("sources")
-    }
-
-    // Configure existing Dokka task to output HTML to typical Javadoc directory
-    val dokka by tasks.getting(DokkaTask::class) {
-        outputFormat = "html"
-        outputDirectory = "$buildDir/javadoc"
-    }
-
-    // Create dokka Jar task from dokka task output
-    val dokkaJar by tasks.creating(Jar::class) {
-        group = JavaBasePlugin.DOCUMENTATION_GROUP
-        description = "Assembles Kotlin docs with Dokka"
-        archiveClassifier.set("javadoc")
-        // dependsOn(tasks.dokka) not needed; dependency automatically inferred by from(tasks.dokka)
-        from(dokka)
-    }
-
-    tasks.withType<Test> {
-        useJUnitPlatform()
-
-        testLogging {
-            events("FAILED")
-        }
-    }
-
-    detekt {
-        description = "Runs a failfast detekt build."
-
-        input = files("src/main/kotlin")
-        config = files("${project.rootProject.rootDir}/detekt.yml")
-        filters = ".*/build/.*"
-
-        reports {
-            xml.enabled = false
-            html.enabled = true
-        }
-    }
-
-    // jacoco
-    configure<JacocoPluginExtension> {
-    }
-
-    tasks.withType<JacocoReport> {
-        reports {
-            html.isEnabled = true
-            xml.isEnabled = true
-            csv.isEnabled = false
-        }
-    }
-
-    tasks["clean"].doLast {
-        delete("./.project")
-        delete("./out")
-        delete("./bin")
     }
 }
 

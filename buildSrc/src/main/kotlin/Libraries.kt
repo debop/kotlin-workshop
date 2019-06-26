@@ -7,12 +7,16 @@ object BuildPlugins {
         const val dokka = "0.9.18"
         const val dependencyManagement = "1.0.8.RELEASE"
         const val jooq = "3.0.3"
+        const val protobuf = "0.8.9"
     }
 
     const val detekt = "io.gitlab.arturbosch.detekt"
     const val dokka = "org.jetbrains.dokka"
     const val dependency_management = "io.spring.dependency-management"
+
     const val jooq = "nu.studer.jooq"
+    // https://github.com/google/protobuf-gradle-plugin
+    const val protobuf = "com.google.protobuf"
 }
 
 object Versions {
@@ -24,6 +28,11 @@ object Versions {
     const val resilience4j = "0.16.0"
     const val vavr = "0.10.0"
     const val netty = "4.1.36.Final"
+
+    const val grpc = "1.21.0"
+    const val protobuf = "3.8.0"
+    const val krotoplus = "0.4.0"
+
     const val reactor = "3.2.9.RELEASE"
     const val jackson = "2.9.9"
 
@@ -43,6 +52,8 @@ object Versions {
 
     const val micrometer = "1.1.4"
     const val cache2k = "1.2.2.Final"
+
+    const val koin = "2.0.1"
 
     const val byte_buddy = "1.9.13"
 
@@ -144,6 +155,24 @@ object Libraries {
     const val netty_transport_native_epoll = "io.netty:netty-transport-native-epoll:${Versions.netty}"
     const val netty_transport_native_kqueue = "io.netty:netty-transport-native-kqueue:${Versions.netty}"
 
+    // gRPC
+    const val grpc_protobuf = "io.grpc:grpc-protobuf:${Versions.grpc}"
+    const val grpc_stub = "io.grpc:grpc-stub:${Versions.grpc}"
+    const val grpc_netty = "io.grpc:grpc-netty:${Versions.grpc}"
+    const val grpc_netty_shaded = "io.grpc:grpc-netty-shaded:${Versions.grpc}"
+    const val grpc_protoc_gen_grpc_java = "io.grpc:protoc-gen-grpc-java:${Versions.grpc}"
+    const val grpc_testing = "io.grpc:grpc-testing:${Versions.grpc}"
+
+    const val protobuf_protoc = "com.google.protobuf:protoc:${Versions.protobuf}"
+    const val protobuf_java = "com.google.protobuf:protobuf-java:${Versions.protobuf}"
+    const val protobuf_java_util = "com.google.protobuf:protobuf-java-util:${Versions.protobuf}"
+
+    // kroto-plus
+    const val kroto_plus_coroutines = "com.github.marcoferrer.krotoplus:kroto-plus-coroutines:${Versions.krotoplus}"
+    const val kroto_plus_message = "com.github.marcoferrer.krotoplus:kroto-plus-message:${Versions.krotoplus}"
+    const val kroto_plus_protoc_gen = "com.github.marcoferrer.krotoplus:protoc-gen-kroto-plus:${Versions.krotoplus}"
+    const val kroto_plus_test = "com.github.marcoferrer.krotoplus:kroto-plus-test:${Versions.krotoplus}"
+
     // Jackson
     const val jackson_annotations = "com.fasterxml.jackson.core:jackson-annotations:${Versions.jackson}"
     const val jackson_core = "com.fasterxml.jackson.core:jackson-core:${Versions.jackson}"
@@ -154,18 +183,28 @@ object Libraries {
     const val jackson_datatype_joda = "com.fasterxml.jackson.datatype:jackson-datatype-joda:${Versions.jackson}"
     const val jackson_datatype_guava = "com.fasterxml.jackson.datatype:jackson-datatype-guava:${Versions.jackson}"
 
+    const val jackson_dataformat_avro = "com.fasterxml.jackson.dataformat:jackson-dataformat-avro:${Versions.jackson}"
+    const val jackson_dataformat_csv = "com.fasterxml.jackson.dataformat:jackson-dataformat-csv:${Versions.jackson}"
+    const val jackson_dataformat_properties = "com.fasterxml.jackson.dataformat:jackson-dataformat-properties:${Versions.jackson}"
+    const val jackson_dataformat_protobuf = "com.fasterxml.jackson.dataformat:jackson-dataformat-protobuf:${Versions.jackson}"
+    const val jackson_dataformat_yaml = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${Versions.jackson}"
+
+    const val jackson_module_afterburner = "com.fasterxml.jackson.module:jackson-module-afterburner:${Versions.jackson}"
+    const val jackson_module_kotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.jackson}"
     const val jackson_module_java8 = "com.fasterxml.jackson.module:jackson-module-java8:${Versions.jackson}"
     const val jackson_module_parameter = "com.fasterxml.jackson.module:jackson-module-parameter:${Versions.jackson}"
     const val jackson_module_parameter_names = "com.fasterxml.jackson.module:jackson-module-parameter-names:${Versions.jackson}"
-    const val jackson_module_kotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:${Versions.jackson}"
-    const val jackson_module_afterburner = "com.fasterxml.jackson.module:jackson-module-afterburner:${Versions.jackson}"
+    const val jackson_module_scala = "com.fasterxml.jackson.module:jackson-module-scala:${Versions.jackson}"
+
 
     // Reactor
     const val reactor_core = "io.projectreactor:reactor-core:${Versions.reactor}"
     const val reactor_test = "io.projectreactor:reactor-test:${Versions.reactor}"
     const val reactor_netty = "io.projectreactor.netty:reactor-netty:0.8.9.RELEASE"
 
-    const val rxjava2 = "io.reactive.rxjava2:rxjava:2.2.9"
+    // RxJava2
+    const val rxjava2 = "io.reactive.rxjava2:rxjava:2.2.10"
+    const val rxkotlin = "io.reactive.rxjava2:rxkotlin:2.3.0"
 
     // Metrics
     const val micrometer_core = "io.micrometer:micrometer-core:${Versions.micrometer}"
@@ -228,6 +267,10 @@ object Libraries {
 
     const val dagger = "com.google.dagger:dagger:2.23.1"
     const val dagger_compiler = "com.google.dagger:dagger-compiler:2.23.1"
+
+    const val koin_core = "org.koin:koin-core:${Versions.koin}"
+    const val koin_core_ext = "org.koin:koin-core-ext:${Versions.koin}"
+    const val koin_test = "org.koin:koin-test:${Versions.koin}"
 
     const val byte_buddy = "net.bytebuddy:byte-buddy:${Versions.byte_buddy}"
     const val byte_buddy_agent = "net.bytebuddy:byte-buddy-agent:${Versions.byte_buddy}"
