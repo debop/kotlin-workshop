@@ -172,6 +172,7 @@ object Libraries {
     const val kroto_plus_message = "com.github.marcoferrer.krotoplus:kroto-plus-message:${Versions.krotoplus}"
     const val kroto_plus_protoc_gen = "com.github.marcoferrer.krotoplus:protoc-gen-kroto-plus:${Versions.krotoplus}"
     const val kroto_plus_test = "com.github.marcoferrer.krotoplus:kroto-plus-test:${Versions.krotoplus}"
+    const val kroto_plus_protoc_gen_grpc_coroutines = "com.github.marcoferrer.krotoplus:protoc-gen-grpc-coroutines:${Versions.krotoplus}"
 
     // Jackson
     const val jackson_annotations = "com.fasterxml.jackson.core:jackson-annotations:${Versions.jackson}"

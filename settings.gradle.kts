@@ -14,6 +14,8 @@ include("kotlin-coroutines")
 include("kotlin-dagger-example")
 include("kotlin-koin-example")
 
+include("grpc:kroto-plus-example")
+
 include("spring-boot:basic")
 include("spring-boot:cache2k")
 include("spring-boot:cache2k-jcache")
