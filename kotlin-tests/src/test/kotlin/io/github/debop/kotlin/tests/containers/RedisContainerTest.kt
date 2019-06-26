@@ -9,15 +9,17 @@ import io.lettuce.core.api.sync.RedisCommands
 import mu.KLogging
 import org.amshove.kluent.shouldBeNull
 import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.time.Duration
 
 class RedisContainerTest {
 
-    companion object: KLogging() {
-        val redisServer: RedisContainer = RedisContainer.instance
+    companion object : KLogging() {
+        val redisServer: RedisContainer = RedisContainer.create(useDefaultPort = true)
 
         private fun RedisClient.withCommands(block: RedisCommands<String, String>.() -> Unit) {
             connect().use {
@@ -58,19 +60,22 @@ class RedisContainerTest {
 
     lateinit var redisClient: RedisClient
 
-    @BeforeAll
-    fun `setup all`() {
+    @BeforeEach
+    fun setup() {
         redisClient = RedisClient.create(redisServer.url)
+    }
+
+    @AfterEach
+    fun cleanup() {
+        if (this::redisClient.isInitialized) {
+            redisClient.shutdown()
+        }
     }
 
     @AfterAll
     fun `cleanup all`() {
-        if(this::redisClient.isInitialized) {
-            redisClient.shutdown()
-        }
         redisServer.close()
     }
-
 
     @Test
     fun `connect to redis server`() {
@@ -120,5 +125,27 @@ class RedisContainerTest {
         }
 
         results.size shouldEqual batchSize
+    }
+
+    @Test
+    fun `when restart server, server url not changed`() {
+        val startTime = System.currentTimeMillis()
+        redisClient.withCommands {
+            set("before-restart", startTime.toString())
+        }
+
+        val oldUrl = redisServer.url
+
+        redisServer.stop()
+        Thread.sleep(1000L)
+        redisServer.start()
+
+        val newUrl = redisServer.url
+        newUrl shouldEqual oldUrl
+
+        redisClient.withCommands {
+            // not exists 
+            exists("before-restart") shouldEqualTo 0
+        }
     }
 }

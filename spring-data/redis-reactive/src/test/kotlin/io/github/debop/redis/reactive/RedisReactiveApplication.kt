@@ -24,7 +24,7 @@ class RedisReactiveApplication {
 
     companion object: KLogging() {
         // 테스트용 Redis Server by Docker
-        val redisServer = RedisContainer.instance
+        val redisServer = RedisContainer.Instance
     }
 
     @Value("\${spring.redis.host}")

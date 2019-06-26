@@ -17,8 +17,8 @@ import org.springframework.cache.annotation.EnableCaching
 class RedisCacheApplication {
 
     companion object {
-        // TestContainers를 이용한 Docker instance
-        val redisServer = RedisContainer.instance
+        // TestContainers를 이용한 Docker Instance
+        val redisServer = RedisContainer.Instance
     }
 }
 

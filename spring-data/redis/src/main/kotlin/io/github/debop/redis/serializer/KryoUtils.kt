@@ -26,7 +26,7 @@ object KryoUtils : KLogging() {
     fun createKryoReflectionFactorySupport(): Kryo = KryoReflectionFactorySupport()
 
     fun createKryo(): Kryo = Kryo().apply {
-        logger.info { "Create new Kryo instance..." }
+        logger.info { "Create new Kryo Instance..." }
 
         // no-arg constructor 가 없더라도 deserialize 가 가능하도록
         instantiatorStrategy = Kryo.DefaultInstantiatorStrategy(StdInstantiatorStrategy())

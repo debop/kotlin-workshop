@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean
 class Application {
 
     companion object {
-        val mongodb = MongoDBContainer.instance
+        val mongodb = MongoDBContainer.Instance
     }
 
     @Bean

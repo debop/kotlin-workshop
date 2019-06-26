@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 class MongoDBContainerTest {
 
     companion object: KLogging() {
-        val mongodb: MongoDBContainer = MongoDBContainer.instance
+        val mongodb: MongoDBContainer = MongoDBContainer.Instance
     }
 
     val client = MongoClient(mongodb.host, mongodb.port)

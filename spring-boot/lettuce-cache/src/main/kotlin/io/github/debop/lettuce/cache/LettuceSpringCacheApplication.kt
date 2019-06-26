@@ -17,7 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling
 class LettuceSpringCacheApplication {
 
     companion object: KLogging() {
-        val redisServer = RedisContainer.instance
+        val redisServer = RedisContainer.Instance
     }
 }
 
