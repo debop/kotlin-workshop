@@ -197,6 +197,7 @@ object Libraries {
     const val jackson_module_parameter_names = "com.fasterxml.jackson.module:jackson-module-parameter-names:${Versions.jackson}"
     const val jackson_module_scala = "com.fasterxml.jackson.module:jackson-module-scala:${Versions.jackson}"
 
+    const val gson = "com.google.code.gson:gson:2.8.5"
 
     // Reactor
     const val reactor_core = "io.projectreactor:reactor-core:${Versions.reactor}"
