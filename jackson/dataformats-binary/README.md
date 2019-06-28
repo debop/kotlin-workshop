@@ -1,6 +1,6 @@
 # dataformats-binary examples
 
-[jackson-dataformats-binary](hhttps://github.com/FasterXML/jackson-dataformats-binary) 에서 제공하는
+[jackson-dataformats-binary](https://github.com/FasterXML/jackson-dataformats-binary) 에서 제공하는
 
 * Avro (com.fasterxml.jackson.dataformat:jackson-dataformat-avro)
 * CBOR

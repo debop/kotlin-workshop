@@ -1,11 +1,3 @@
-plugins {
-    kotlin("plugin.noarg")
-}
-
-noArg {
-    annotation("io.github.debop.kotlin.workshop.annotation.KotlinNoArgs")
-}
-
 
 dependencies {
 

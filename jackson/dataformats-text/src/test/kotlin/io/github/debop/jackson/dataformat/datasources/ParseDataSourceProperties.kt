@@ -3,6 +3,7 @@ package io.github.debop.jackson.dataformat.datasources
 import com.fasterxml.jackson.dataformat.javaprop.JavaPropsMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import mu.KLogging
 import org.amshove.kluent.shouldContainAll
 import org.amshove.kluent.shouldEqualTo
@@ -19,8 +20,8 @@ class ParseDataSourceProperties {
 
     companion object: KLogging()
 
-    val yamlMapper = YAMLMapper()
-    val propsMapper = JavaPropsMapper()
+    val yamlMapper = YAMLMapper().apply { registerKotlinModule() }
+    val propsMapper = JavaPropsMapper().apply { registerKotlinModule() }
 
     @Test
     fun `parse single datasource from yaml format`() {

@@ -5,10 +5,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonTypeName
 import io.github.debop.kotlin.workshop.annotation.KotlinNoArgs
 
-@KotlinNoArgs
 data class RootProperty(val coupang: CoupangProperty)
 
-@KotlinNoArgs
 data class CoupangProperty(val datasources: List<DataSourceProperty> = emptyList())
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "connectionPool")
@@ -21,7 +19,6 @@ interface DataSourceProperty {
     val password: String?
 }
 
-@KotlinNoArgs
 @JsonTypeName(value = "dbcp2")
 data class Dbcp2DataSourceProperty(
     override val driverClassName: String,
@@ -40,7 +37,6 @@ data class Dbcp2DataSourceProperty(
 
 ): DataSourceProperty
 
-@KotlinNoArgs
 @JsonTypeName("hikaricp")
 data class HikariDataSourceProperty(
 
