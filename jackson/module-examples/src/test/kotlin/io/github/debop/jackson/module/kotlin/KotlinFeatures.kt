@@ -1,12 +1,15 @@
 package io.github.debop.jackson.module.kotlin
 
 import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.fasterxml.jackson.module.kotlin.readValue
 import mu.KLogging
 import org.amshove.kluent.shouldContainAll
 import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
 
 /**
@@ -120,5 +123,40 @@ class KotlinFeatures {
 
         val actual = mapper.readValue<GenericParameterConsumer>(json)
         actual shouldEqual expected
+    }
+
+    data class TinyPerson(val name: String, val age: Int)
+    class KotlinPersonIterator(val people: List<TinyPerson>): Iterator<TinyPerson> by people.iterator()
+
+    @Test
+    fun `generate iterator to json`() {
+        val expected = KotlinPersonIterator(listOf(TinyPerson("Fred", 10), TinyPerson("Max", 11)))
+        val typeRef = jacksonTypeRef<Iterator<TinyPerson>>()
+        val json = mapper.writerFor(typeRef).writeValueAsString(expected)
+
+        logger.trace { "json=$json" }
+        json shouldEqual """[{"name":"Fred","age":10},{"name":"Max","age":11}]"""
+
+        val actual = mapper.readValue<List<TinyPerson>>(json)
+        actual.shouldNotBeNull()
+        actual shouldContainAll expected.people
+    }
+
+    class Company(val name: String,
+                  @JsonSerialize(`as` = java.util.Iterator::class)
+                  val people: KotlinPersonIterator)
+
+    @Test
+    fun `generate iterator as field`() {
+        val people = KotlinPersonIterator(listOf(TinyPerson("Fred", 10), TinyPerson("Max", 11)))
+        val company = Company("KidVille", people)
+
+        val json = mapper.writeValueAsString(company)
+        logger.trace { "json=$json" }
+        json shouldEqual """{"name":"KidVille","people":[{"name":"Fred","age":10},{"name":"Max","age":11}]}"""
+
+        // NOTE: Iterator를 읽어드릴 수는 없네 ...
+        //        val actual = mapper.readValue<Company>(json)
+        //        actual shouldEqual company
     }
 }

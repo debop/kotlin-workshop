@@ -32,6 +32,7 @@ object Versions {
     const val grpc = "1.21.0"
     const val protobuf = "3.8.0"
     const val krotoplus = "0.4.0"
+    const val avro = "1.8.2"
 
     const val reactor = "3.2.9.RELEASE"
     const val jackson = "2.9.9"
@@ -166,6 +167,12 @@ object Libraries {
     const val protobuf_protoc = "com.google.protobuf:protoc:${Versions.protobuf}"
     const val protobuf_java = "com.google.protobuf:protobuf-java:${Versions.protobuf}"
     const val protobuf_java_util = "com.google.protobuf:protobuf-java-util:${Versions.protobuf}"
+
+    const val avro = "org.apache.avro:avro:${Versions.avro}"
+    const val avro_ipc = "org.apache.avro:avro-ipc:${Versions.avro}"
+    const val avro_ipc_netty = "org.apache.avro:avro-ipc-netty:${Versions.avro}"
+    const val avro_compiler = "org.apache.avro:avro-compiler:${Versions.avro}"
+    const val avro_protobuf = "org.apache.avro:avro-protobuf:${Versions.avro}"
 
     // kroto-plus
     const val kroto_plus_coroutines = "com.github.marcoferrer.krotoplus:kroto-plus-coroutines:${Versions.krotoplus}"
