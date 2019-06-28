@@ -1,26 +1,26 @@
 package io.github.debop.jackson.dataformat
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
-import io.github.debop.kotlin.workshop.annotation.KotlinValueClass
+import io.github.debop.kotlin.workshop.annotation.KotlinNoArgs
 import org.testcontainers.shaded.org.bouncycastle.util.Arrays
 import java.util.Objects
 
-@KotlinValueClass
+@KotlinNoArgs
 data class Box(val x: Int, val y: Int)
 
-@KotlinValueClass
+@KotlinNoArgs
 data class Container(val boxes: List<Box>)
 
-@KotlinValueClass
+@KotlinNoArgs
 @JsonPropertyOrder(value = ["x", "y"])
 data class Point(val x: Int, val y: Int)
 
-@KotlinValueClass
+@KotlinNoArgs
 data class Points(val p: List<Point>) {
     constructor(vararg points: Point): this(points.toList())
 }
 
-@KotlinValueClass
+@KotlinNoArgs
 @JsonPropertyOrder(value = ["topLeft", "bottomRight"])
 data class Rectangle(val topLeft: Point, val bottomRight: Point)
 
@@ -28,7 +28,7 @@ enum class Gender {
     MALE, FEMALE;
 }
 
-@KotlinValueClass
+@KotlinNoArgs
 data class FiveMinuteUser(val firstName: String,
                           val lastName: String,
                           var verified: Boolean,
@@ -55,20 +55,20 @@ data class FiveMinuteUser(val firstName: String,
     override fun hashCode(): Int = Objects.hashCode(firstName)
 }
 
-@KotlinValueClass
+@KotlinNoArgs
 @JsonPropertyOrder(value = ["id", "desc"])
 data class IdDesc(var id: String, val desc: String)
 
-@KotlinValueClass
+@KotlinNoArgs
 data class Outer(val name: Name, val age: Int)
 
-@KotlinValueClass
+@KotlinNoArgs
 data class Name(val first: String, val last: String)
 
 
-@KotlinValueClass
+@KotlinNoArgs
 data class Database(val dataSource: DataSource)
 
-@KotlinValueClass
+@KotlinNoArgs
 data class DataSource(val driverClass: String, val url: String, val username: String, val password: String, val properties: Set<String>)
 

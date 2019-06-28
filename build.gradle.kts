@@ -34,6 +34,7 @@ subprojects {
     apply {
         plugin<JavaLibraryPlugin>()
         plugin<KotlinPlatformJvmPlugin>()
+
         plugin("jacoco")
         plugin("maven-publish")
 
@@ -201,8 +202,7 @@ subprojects {
             dependency(Libraries.jackson_datatype_joda)
             dependency(Libraries.jackson_datatype_guava)
 
-            dependency(Libraries.jackson_module_java8)
-            dependency(Libraries.jackson_module_parameter)
+            dependency(Libraries.jackson_module_paranamer)
             dependency(Libraries.jackson_module_parameter_names)
             dependency(Libraries.jackson_module_kotlin)
             dependency(Libraries.jackson_module_afterburner)

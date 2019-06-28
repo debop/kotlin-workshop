@@ -16,7 +16,9 @@ include("kotlin-koin-example")
 
 include("grpc:kroto-plus-example")
 
-include("jackson:dataformats-example")
+include("jackson:dataformats-binary")
+include("jackson:dataformats-text")
+include("jackson:module-examples")
 
 include("spring-boot:basic")
 include("spring-boot:cache2k")

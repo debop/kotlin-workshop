@@ -1,17 +1,11 @@
-import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
-
 plugins {
     kotlin("plugin.noarg")
 }
 
 noArg {
-    annotation("io.github.debop.kotlin.workshop.annotation.KotlinValueClass")
+    annotation("io.github.debop.kotlin.workshop.annotation.KotlinNoArgs")
 }
 
-
-kotlin {
-    KotlinPlatformType.jvm
-}
 
 dependencies {
 
@@ -23,8 +17,5 @@ dependencies {
     api(Libraries.jackson_dataformat_csv)
     api(Libraries.jackson_dataformat_properties)
     api(Libraries.jackson_dataformat_yaml)
-
-    api(Libraries.jackson_dataformat_avro)
-    api(Libraries.jackson_dataformat_protobuf)
 
 }

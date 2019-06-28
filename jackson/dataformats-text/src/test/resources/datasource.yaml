@@ -1,0 +1,31 @@
+coupang:
+    datasources:
+        -   connectionPool: hikaricp
+
+            driverClassName: org.h2.Driver
+            url: jdbc:h2:mem:test
+            username: sa
+            password:
+
+            connectionTimeout: 30000
+            idleTimeout: 600000
+            maxLifetime: 1800000
+
+            properties:
+                - cachePropStmts=true
+                - prepStmtCacheSize=250
+                - propStmtCacheSqlLimit=2048
+
+        -   connectionPool: dbcp2
+
+            driverClassName: org.h2.Driver
+            url: jdbc:h2:mem:test
+            username: sa
+            password:
+            connectionProperties:
+
+            maxTotal: 8
+            maxIdle: 8
+            minIdle: 0
+            maxWaitMillis: 100000
+            lifo: true

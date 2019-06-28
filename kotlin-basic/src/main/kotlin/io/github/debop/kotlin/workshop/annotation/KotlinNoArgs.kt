@@ -9,4 +9,4 @@ package io.github.debop.kotlin.workshop.annotation
  */
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.CLASS)
-annotation class KotlinValueClass
+annotation class KotlinNoArgs

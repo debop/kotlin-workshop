@@ -31,8 +31,6 @@ class YamlGenerationExample: AbstractYamlExample() {
         yaml shouldEqual expected
 
         writer.close()
-
-
     }
 
     private fun YAMLGenerator.writeBradDoc() {

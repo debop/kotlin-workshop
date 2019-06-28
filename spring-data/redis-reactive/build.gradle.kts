@@ -5,7 +5,7 @@ plugins {
 }
 
 noArg {
-    annotation("io.github.debop.kotlin.workshop.annotation.KotlinValueClass")
+    annotation("io.github.debop.kotlin.workshop.annotation.KotlinNoArgs")
 }
 
 dependencies {
