@@ -32,7 +32,7 @@ object Versions {
     const val grpc = "1.21.0"
     const val protobuf = "3.8.0"
     const val krotoplus = "0.4.0"
-    const val avro = "1.9.0"
+    const val avro = "1.8.2"   // 1.9.0 은 jackson-dataformat-avro 에서 아직 지원하지 않습니다.
 
     const val reactor = "3.2.9.RELEASE"
     const val jackson = "2.9.9"
@@ -205,6 +205,10 @@ object Libraries {
     const val jackson_module_afterburner = "com.fasterxml.jackson.module:jackson-module-afterburner:${Versions.jackson}"
 
     const val gson = "com.google.code.gson:gson:2.8.5"
+
+    // Compression
+    const val snappy_java = "org.xerial.snappy:snappy-java:1.1.7.3"
+    const val lz4_java = "org.lz4:lz4-java:1.3.0"
 
     // Reactor
     const val reactor_core = "io.projectreactor:reactor-core:${Versions.reactor}"

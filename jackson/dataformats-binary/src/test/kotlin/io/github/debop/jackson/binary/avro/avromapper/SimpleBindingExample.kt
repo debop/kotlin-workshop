@@ -1,4 +1,4 @@
-package io.github.debop.jackson.binary.avro
+package io.github.debop.jackson.binary.avro.avromapper
 
 import com.fasterxml.jackson.dataformat.avro.AvroMapper
 import com.fasterxml.jackson.dataformat.avro.AvroSchema

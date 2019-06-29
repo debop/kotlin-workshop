@@ -1,5 +1,7 @@
 package io.github.debop.jackson.binary.avro
 
+import org.apache.avro.specific.SpecificRecord
+
 /**
  * AvroSerializer
  *
@@ -8,7 +10,15 @@ package io.github.debop.jackson.binary.avro
  */
 interface AvroSerializer {
 
-    fun <T: Any> serialize(graph: T?): ByteArray
+    companion object {
+        val emptyByteArray = ByteArray(0)
+    }
 
-    fun <T: Any> deserialize(bytes: ByteArray?, clazz: Class<T>): T?
+    fun <T: SpecificRecord> serialize(graph: T?): ByteArray
+
+    fun <T: SpecificRecord> serializeList(collection: Collection<T>?): ByteArray
+
+    fun <T: SpecificRecord> deserialize(bytes: ByteArray?, clazz: Class<T>): T?
+
+    fun <T: SpecificRecord> deserializeList(bytes: ByteArray?, clazz: Class<T>): List<T>
 }

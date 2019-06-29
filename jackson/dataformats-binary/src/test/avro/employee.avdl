@@ -7,10 +7,13 @@ protocol EmployeProtocol {
         int age;
         long salary;
         string address;
-        date hireAt;
-        long lastUpdatedAt;
+        long hireAt;
+        long lastUpdatedAt = 0;
     }
 
+// Avro 의 Encoder/Decoder를 사용하려면 avro record만 가능하므로,
+// List<Employee>를 변환하려면 이렇게 root record를 추가로 만들어야 한다
+// 이를 해결하기 위해 DefaultAvroSerializer 를 제공한다
     record EmployeeList {
         array<Employee> emps;
     }

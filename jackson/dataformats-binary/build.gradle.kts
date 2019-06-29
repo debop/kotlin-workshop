@@ -18,14 +18,14 @@ plugins {
      */
     // jackson-dataformat-avro 2.9.9 는 avro 1.8.2 를 사용하고 있어, avro plugin 을 0.17.0 이 아닌 0.16.0 을 사용한다
     // avro 1.9.0 을 사용하게 되면 avro plugin 0.17.0을 사용할 수 있습니다.
-    id("com.commercehub.gradle.plugin.avro") version "0.17.0"
+    id("com.commercehub.gradle.plugin.avro") version "0.16.0"
 }
 
 avro {
     fieldVisibility = SpecificCompiler.FieldVisibility.PRIVATE.name
     isCreateSetters = true
     // support dateTimeLogicalType since 0.17.0+ with avro 1.9.0+
-    dateTimeLogicalType = "JSR310"  // "JODA"
+    // dateTimeLogicalType = "JSR310"  // "JODA"
 }
 
 // Build script 에 아래와 같이 compile 전에 avro 를 generate 하도록 해주면 Kotlin 에서도 사용이 가능합니다.
@@ -35,11 +35,13 @@ tasks["compileTestKotlin"].dependsOn(tasks["generateTestAvroJava"])
 dependencies {
 
     api(project(":kotlin-basic"))
+    testApi(project(":kotlin-tests"))
 
     api(Libraries.jackson_databind)
     api(Libraries.jackson_module_kotlin)
 
     api(Libraries.avro)
+    api(Libraries.snappy_java)
     api(Libraries.jackson_dataformat_avro)
 
     api(Libraries.jackson_dataformat_protobuf)
