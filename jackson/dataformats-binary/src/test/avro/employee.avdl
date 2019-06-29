@@ -1,17 +1,17 @@
 @namespace("io.github.debop.avro.examples")
 protocol EmployeProtocol {
 
-  record Employee {
-    int id;
-    string name;
-    int age;
-    long salary;
-    string address;
-    date hireAt;
-    long lastUpdatedAt;
-  }
+    record Employee {
+        int id;
+        string name;
+        int age;
+        long salary;
+        string address;
+        date hireAt;
+        long lastUpdatedAt;
+    }
 
-  record EmployeeList {
-    array<Employee> emps;
-  }
+    record EmployeeList {
+        array<Employee> emps;
+    }
 }

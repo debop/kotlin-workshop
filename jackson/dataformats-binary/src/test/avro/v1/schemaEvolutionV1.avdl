@@ -1,8 +1,8 @@
 @namespace("io.github.debop.avro.examples.v1")
 protocol SchemaEvolutionProtocol {
 
-  record VersionedItem {
-    long id;
-    string key;
-  }
+    record VersionedItem {
+        long id;
+        string key;
+    }
 }

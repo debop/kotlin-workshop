@@ -1,25 +1,25 @@
 @namespace("io.github.debop.avro.examples")
 protocol ProductProtocol {
 
-  enum Suit {
-    SPADES, DIAMONDS, CLUBS, HEARTS
-  }
+    enum Suit {
+        SPADES, DIAMONDS, CLUBS, HEARTS
+    }
 
-  record ProductProperty {
-    long id;
-    string key;
-    map<string> values;
-    boolean valid;
-    long createdAt;
-    long modifiedAt;
-  }
+    record ProductProperty {
+        long id;
+        string key;
+        map<string> values;
+        boolean valid;
+        long createdAt;
+        long modifiedAt;
+    }
 
-  record ProductRoot {
-    long id;
-    long categoryId;
-    array<ProductProperty> productProperties;
+    record ProductRoot {
+        long id;
+        long categoryId;
+        array<ProductProperty> productProperties;
 
-  // deafult Suit
-    Suit suit = "HEARTS";
-  }
+    // deafult Suit
+        Suit suit = "HEARTS";
+    }
 }
