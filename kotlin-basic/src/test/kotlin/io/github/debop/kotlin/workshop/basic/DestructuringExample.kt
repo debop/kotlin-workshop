@@ -51,5 +51,9 @@ class DestructuringExample {
         map.forEach { (id, name) ->
             println("id=$id, name=$name")
         }
+
+        map.entries.forEach { entry ->
+            println("key=${entry.key}, value=${entry.value}")
+        }
     }
 }

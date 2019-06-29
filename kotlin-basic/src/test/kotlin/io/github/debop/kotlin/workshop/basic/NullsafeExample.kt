@@ -4,6 +4,7 @@ import mu.KLogging
 import org.amshove.kluent.shouldBeNull
 import org.amshove.kluent.shouldContainAll
 import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldNotBeBlank
 import org.amshove.kluent.shouldNotBeNullOrEmpty
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -54,6 +55,8 @@ class NullsafeExample {
         assertThrows<NullPointerException> {
             str!!.length
         }
+        str = "not-null"
+        str.shouldNotBeBlank()
     }
 
     @Test
