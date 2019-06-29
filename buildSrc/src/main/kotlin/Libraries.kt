@@ -32,7 +32,7 @@ object Versions {
     const val grpc = "1.21.0"
     const val protobuf = "3.8.0"
     const val krotoplus = "0.4.0"
-    const val avro = "1.8.2"
+    const val avro = "1.9.0"
 
     const val reactor = "3.2.9.RELEASE"
     const val jackson = "2.9.9"

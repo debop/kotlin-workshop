@@ -7,7 +7,7 @@ import java.io.Serializable
  *
  * @author debop (Sunghyouk Bae)
  */
-class LazyValue<out T : Any>(private val initializer: () -> T) : Serializable {
+class LazyValue<out T: Any>(private inline val initializer: () -> T): Serializable {
 
     private var initialized: Boolean = false
 

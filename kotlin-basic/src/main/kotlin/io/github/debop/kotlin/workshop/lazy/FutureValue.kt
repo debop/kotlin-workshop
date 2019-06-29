@@ -6,9 +6,9 @@ import java.util.concurrent.CompletableFuture
  * FutureValue
  * @author debop (Sunghyouk Bae)
  */
-class FutureValue<T : Any>(supplier: () -> T) {
+class FutureValue<T: Any>(private inline val supplier: () -> T) {
 
-    private val future = CompletableFuture.supplyAsync(supplier)
+    private val future = CompletableFuture.supplyAsync { supplier.invoke() }
 
     val value: T by lazy { future.get() }
 
