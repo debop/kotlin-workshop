@@ -5,7 +5,7 @@ protocol SchemaEvolutionProtocol {
         long id;
         string key;
 
-    // added properties
+    // new properties in version2 should have default values for backward compatibility
         union { null, string } description = null;
 
         string action = "action";
