@@ -1,5 +1,8 @@
 package io.github.debop.jackson.dataformat.datasources
 
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonTypeInfo
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.dataformat.javaprop.JavaPropsMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -11,12 +14,12 @@ import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
 
 /**
- * ParseDataSourceProperties
+ * ParseArrayDataSourcePropertiesTest
  *
  * @author debop
  * @since 19. 6. 28
  */
-class ParseDataSourceProperties {
+class ParseArrayDataSourcePropertiesTest {
 
     companion object: KLogging()
 
@@ -58,15 +61,6 @@ class ParseDataSourceProperties {
 
         hikariProperty.properties.size shouldEqualTo 3
         hikariProperty.properties shouldContainAll setOf("cachePropStmts=true", "prepStmtCacheSize=250", "propStmtCacheSqlLimit=2048")
-    }
-
-    @Test
-    fun `parse single datsource from properties format`() {
-
-    }
-
-    private fun verifySingleDataSources(root: RootProperty) {
-
     }
 
     @Test
@@ -114,5 +108,59 @@ class ParseDataSourceProperties {
         dbcp2.minIdle!! shouldEqualTo 0
         dbcp2.maxWaitMillis!! shouldEqualTo 100000
         dbcp2.lifo!! shouldEqualTo true
+    }
+
+    data class RootProperty(val coupang: CoupangProperty)
+
+    data class CoupangProperty(val datasources: List<DataSourceProperty> = emptyList())
+
+    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "connectionPool")
+    @JsonSubTypes(JsonSubTypes.Type(value = Dbcp2DataSourceProperty::class),
+                  JsonSubTypes.Type(value = HikariDataSourceProperty::class))
+    interface DataSourceProperty {
+        val driverClassName: String
+        val url: String
+        val username: String?
+        val password: String?
+    }
+
+    @JsonTypeName(value = "dbcp2")
+    data class Dbcp2DataSourceProperty(
+        override val driverClassName: String,
+        override val url: String,
+        override val username: String?,
+        override val password: String?,
+
+        val maxTotal: Int?,
+        val maxIdle: Int?,
+        val minIdle: Int?,
+        val maxWaitMillis: Int?,
+
+        val lifo: Boolean?,
+
+        val connectionProperties: String?
+
+    ): DataSourceProperty
+
+    @JsonTypeName("hikaricp")
+    data class HikariDataSourceProperty(
+
+        override val driverClassName: String,
+        override val url: String,
+        override val username: String?,
+        override val password: String?,
+
+        val connectionTimeout: Int?,
+        val idleTimeout: Long?,
+        val maxLifetime: Long?,
+
+        val properties: Set<String> = emptySet()
+    ): DataSourceProperty
+
+    enum class ConnectionPoolType {
+        DBPC2,
+        HIKARICP,
+        MARIADB,
+        TOMCAT
     }
 }
