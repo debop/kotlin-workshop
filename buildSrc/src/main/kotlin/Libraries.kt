@@ -40,10 +40,11 @@ object Versions {
     const val random_beans = "3.9.0"
     const val reflectasm = "1.11.9"
     const val mongo_driver = "3.10.2"
-    const val lettuce = "5.1.6.RELEASE"
+    const val lettuce = "5.1.7.RELEASE"
     const val redisson = "3.11.0"
 
     const val hibernate = "5.4.3.Final"
+    const val hibernate_validator = "6.0.17.Final"
     const val querydsl = "4.2.1"
     const val jooq = "3.11.11"
 
@@ -216,8 +217,8 @@ object Libraries {
     const val reactor_netty = "io.projectreactor.netty:reactor-netty:0.8.9.RELEASE"
 
     // RxJava2
-    const val rxjava2 = "io.reactive.rxjava2:rxjava:2.2.10"
-    const val rxkotlin = "io.reactive.rxjava2:rxkotlin:2.3.0"
+    const val rxjava2 = "io.reactivex.rxjava2:rxjava:2.2.10"
+    const val rxkotlin = "io.reactivex.rxjava2:rxkotlin:2.3.0"
 
     // Metrics
     const val micrometer_core = "io.micrometer:micrometer-core:${Versions.micrometer}"
@@ -253,8 +254,8 @@ object Libraries {
     const val javassist = "org.javassist:javassist:3.25.0-GA"
 
     // Validators
-    const val hibernate_validator = "org.hibernate:hibernate-validator:6.0.17.Final"
-    const val hibernate_validator_annotation_processor = "org.hibernate:hibernate-validator-annotation-processor:6.0.17.Final"
+    const val hibernate_validator = "org.hibernate:hibernate-validator:${Versions.hibernate_validator}"
+    const val hibernate_validator_annotation_processor = "org.hibernate:hibernate-validator-annotation-processor:${Versions.hibernate_validator}"
 
     // Expression
     const val javax_el_api = "javax.el:javax.el-api:3.0.0"

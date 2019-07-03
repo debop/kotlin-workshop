@@ -221,6 +221,7 @@ subprojects {
             dependency(Libraries.reactor_netty)
 
             dependency(Libraries.rxjava2)
+            dependency(Libraries.rxkotlin)
 
             dependency(Libraries.mongo_java_driver)
             dependency(Libraries.mongo_bson)
