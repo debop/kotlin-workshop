@@ -1,7 +1,5 @@
 import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.id
-import com.google.protobuf.gradle.ofSourceSet
-import com.google.protobuf.gradle.ofTest
 import com.google.protobuf.gradle.plugins
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
@@ -25,6 +23,8 @@ dependencies {
 
     api(project(":kotlin-basic"))
     testImplementation(project(":kotlin-tests"))
+
+    api(Libraries.kotlinx_coroutines_jdk8)
 
     // NOTE: linux-x86_64 를 따로 추가해줘야 제대로 classifier가 지정된다. 이유는 모르겠지만, 이렇게 해야 제대로 된 jar를 참조한다
     implementation(Libraries.netty_transport_native_epoll + ":linux-x86_64")
@@ -60,17 +60,23 @@ protobuf {
         }
     }
     generateProtoTasks {
-        ofSourceSet("main").forEach { task ->
+        all().forEach { task ->
             task.plugins {
                 id("grpc")
                 id("coroutines")
             }
         }
-        ofTest().forEach { task ->
-            task.plugins {
-                id("grpc")
-                id("coroutines")
-            }
-        }
+        //        ofSourceSet("main").forEach { task ->
+        //            task.plugins {
+        //                id("grpc")
+        //                id("coroutines")
+        //            }
+        //        }
+        //        ofTest().forEach { task ->
+        //            task.plugins {
+        //                id("grpc")
+        //                id("coroutines")
+        //            }
+        //        }
     }
 }

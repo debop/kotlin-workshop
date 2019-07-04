@@ -6,6 +6,11 @@ import io.grpc.examples.helloword.HelloReply
 import io.grpc.examples.helloword.HelloRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asContextElement
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.channels.SendChannel
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.channels.toList
+import kotlinx.coroutines.delay
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -20,7 +25,7 @@ class GreeterService: GreeterCoroutineGrpc.GreeterImplBase() {
     private val validNameRegex = Regex("[^0-9]*")
 
     override val initialContext: CoroutineContext
-        get() = Dispatchers.Default + myThreadLocal
+        get() = Dispatchers.IO + myThreadLocal
 
     override suspend fun sayHello(request: HelloRequest): HelloReply {
         if(request.name.matches(validNameRegex)) {
@@ -29,6 +34,29 @@ class GreeterService: GreeterCoroutineGrpc.GreeterImplBase() {
                 .build()
         } else {
             throw Status.INVALID_ARGUMENT.asRuntimeException()
+        }
+    }
+
+    override suspend fun sayHelloClientStreaming(requestChannel: ReceiveChannel<HelloRequest>): HelloReply {
+        val requestString = requestChannel.toList().joinToString()
+        return HelloReply.newBuilder()
+            .setMessage(requestString)
+            .build()
+    }
+
+    override suspend fun sayHelloServerStreaming(request: HelloRequest, responseChannel: SendChannel<HelloReply>) {
+        request.name.forEach { char ->
+            responseChannel.send { message = "Hello $char!" }
+        }
+    }
+
+    override suspend fun sayHelloStreaming(
+        requestChannel: ReceiveChannel<HelloRequest>,
+        responseChannel: SendChannel<HelloReply>) {
+
+        requestChannel.consumeEach { request ->
+            delay(5)
+            responseChannel.send { message = "Hello there, ${request.name}!" }
         }
     }
 }
