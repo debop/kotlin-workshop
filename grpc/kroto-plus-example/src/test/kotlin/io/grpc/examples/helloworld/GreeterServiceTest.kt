@@ -104,10 +104,11 @@ class GreeterServiceTest {
             repeat(requestCount) {
                 send { name = "person #$it " }
                 logger.trace { "-> Client Sent $it" }
-                yield()
+                if(it % 10 == 0) {
+                    yield()
+                }
             }
         }
-        yield()
 
         val responseJob = launch(Dispatchers.IO) {
             var responseCount = 0
