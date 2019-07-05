@@ -10,10 +10,10 @@ dependencies {
     api(Libraries.testcontainers_mysql)
     api(Libraries.testcontainers_postgresql)
 
-    implementation(Libraries.hikaricp)
-    testImplementation(Libraries.mysql_connector_java)
-    testImplementation(Libraries.mariadb_java_client)
-    testImplementation(Libraries.postgresql_driver)
+    api(Libraries.hikaricp)
+    api(Libraries.mysql_connector_java)
+    api(Libraries.mariadb_java_client)
+    api(Libraries.postgresql_driver)
 
     api(Libraries.random_beans)
     api(Libraries.reflectasm)
