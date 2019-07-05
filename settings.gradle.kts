@@ -18,6 +18,8 @@ include("kotlin-koin-example")
 
 include("grpc:kroto-plus-example")
 
+include("jasync:jasync-mysql-example")
+
 include("jackson:dataformats-binary")
 include("jackson:dataformats-text")
 include("jackson:module-examples")

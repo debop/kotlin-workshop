@@ -34,6 +34,8 @@ object Versions {
     const val krotoplus = "0.4.0"
     const val avro = "1.8.2"   // 1.9.0 은 jackson-dataformat-avro 에서 아직 지원하지 않습니다.
 
+    const val jasync_sql = "1.0.2"
+
     const val reactor = "3.2.9.RELEASE"
     const val jackson = "2.9.9"
 
@@ -207,6 +209,12 @@ object Libraries {
 
     const val gson = "com.google.code.gson:gson:2.8.5"
 
+    // jasync-sql
+    const val jasync_common = "com.github.jasync-sql:jasync-common:${Versions.jasync_sql}"
+    const val jasync_mysql = "com.github.jasync-sql:jasync-mysql:${Versions.jasync_sql}"
+    const val jasync_r2dbc_mysql = "com.github.jasync-sql:jasync-r2dbc-mysql:${Versions.jasync_sql}"
+    const val jasync_postgresql = "com.github.jasync-sql:jasync-postgresql:${Versions.jasync_sql}"
+
     // Compression
     const val snappy_java = "org.xerial.snappy:snappy-java:1.1.7.3"
     const val lz4_java = "org.lz4:lz4-java:1.3.0"
@@ -265,8 +273,10 @@ object Libraries {
     const val querydsl_jpa = "com.querydsl:querydsl-jpa:${Versions.querydsl}"
 
     const val hikaricp = "com.zaxxer:HikariCP:3.3.1"
-    const val mysqlConnectorJava = "mysql:mysql-connector-java:8.0.16"
-    const val mariadbJavaClient = "org.mariadb.jdbc:mariadb-java-client:2.4.1"
+    const val mysql_connector_java = "mysql:mysql-connector-java:8.0.16"
+    const val mariadb_java_client = "org.mariadb.jdbc:mariadb-java-client:2.4.2"
+    const val postgresql_driver = "org.postgresql:postgresql:42.2.5"
+
     const val h2 = "com.h2database:h2:1.4.199"
 
     const val jooq = "org.jooq:jooq:${Versions.jooq}"
@@ -310,7 +320,7 @@ object Libraries {
 
     const val testcontainers: String = "org.testcontainers:testcontainers:${Versions.testcontainers}"
     const val testcontainers_junit_jupiter: String = "org.testcontainers:junit-jupiter:${Versions.testcontainers}"
-    const val testcontainers_mariadb: String = "org.testcontainers:mysql:${Versions.testcontainers}"
+    const val testcontainers_mariadb: String = "org.testcontainers:mariadb:${Versions.testcontainers}"
     const val testcontainers_mysql: String = "org.testcontainers:mysql:${Versions.testcontainers}"
     const val testcontainers_postgresql: String = "org.testcontainers:postgresql:${Versions.testcontainers}"
 

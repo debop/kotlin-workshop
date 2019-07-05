@@ -245,8 +245,8 @@ subprojects {
             dependency(Libraries.javax_el)
 
             dependency(Libraries.hikaricp)
-            dependency(Libraries.mysqlConnectorJava)
-            dependency(Libraries.mariadbJavaClient)
+            dependency(Libraries.mysql_connector_java)
+            dependency(Libraries.mariadb_java_client)
             dependency(Libraries.h2)
 
             // Cache
