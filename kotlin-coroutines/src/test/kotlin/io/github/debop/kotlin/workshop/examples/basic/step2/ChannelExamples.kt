@@ -1,6 +1,7 @@
 package io.github.debop.kotlin.workshop.examples.basic.step2
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.cancelChildren
@@ -206,7 +207,7 @@ class ChannelExamples {
         fun `specify capacity with channel`() = runBlocking {
             val channel = Channel<Int>(4)
             val sender = launch {
-                repeat(10) {
+                repeat(100) {
                     log.trace { "Sending $it" }
                     channel.send(it)
                 }
@@ -231,7 +232,7 @@ class ChannelExamples {
             for (ball in table) {
                 ball.hits++
                 log.trace { "$name $ball" }
-                delay(100)
+                //delay(100)
                 table.send(ball)
             }
         }
@@ -239,8 +240,8 @@ class ChannelExamples {
         @Test
         fun `two job share channel`() = runBlocking {
             val table = Channel<Ball>()
-            launch { player("ping", table) }
-            launch { player("pong", table) }
+            launch(Dispatchers.IO) { player("ping", table) }
+            launch(Dispatchers.IO) { player("pong", table) }
 
             table.send(Ball(0))
 

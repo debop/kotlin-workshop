@@ -22,7 +22,7 @@ object BuildPlugins {
 object Versions {
 
     const val kotlin = kotlinVersion
-    const val kotlinx_coroutines = "1.2.1"
+    const val kotlinx_coroutines = "1.2.2"
 
     const val spring_boot = "2.1.6.RELEASE"
     const val resilience4j = "0.16.0"
@@ -59,8 +59,8 @@ object Versions {
 
     const val byte_buddy = "1.9.13"
 
-    const val junit_jupiter = "5.4.2"
-    const val junit_platform = "1.4.2"
+    const val junit_jupiter = "5.5.0"
+    const val junit_platform = "1.5.0"
     const val assertj_core = "3.12.2"
     const val mockk = "1.9.3"
     const val mockito = "2.28.2"
@@ -178,7 +178,7 @@ object Libraries {
     // kroto-plus
     const val kroto_plus_coroutines = "com.github.marcoferrer.krotoplus:kroto-plus-coroutines:${Versions.krotoplus}"
     const val kroto_plus_message = "com.github.marcoferrer.krotoplus:kroto-plus-message:${Versions.krotoplus}"
-    const val kroto_plus_protoc_gen = "com.github.marcoferrer.krotoplus:protoc-gen-kroto-plus:${Versions.krotoplus}"
+    const val kroto_plus_protoc_gen_kroto_plus = "com.github.marcoferrer.krotoplus:protoc-gen-kroto-plus:${Versions.krotoplus}"
     const val kroto_plus_test = "com.github.marcoferrer.krotoplus:kroto-plus-test:${Versions.krotoplus}"
     const val kroto_plus_protoc_gen_grpc_coroutines = "com.github.marcoferrer.krotoplus:protoc-gen-grpc-coroutines:${Versions.krotoplus}"
 

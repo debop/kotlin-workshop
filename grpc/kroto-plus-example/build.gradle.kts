@@ -55,28 +55,20 @@ protobuf {
         id("grpc") {
             artifact = Libraries.grpc_protoc_gen_grpc_java
         }
-        id("coroutines") {
+        //        id("kroto") {
+        //            artifact = Libraries.kroto_plus_protoc_gen_kroto_plus + ":jvm8@jar"
+        //        }
+        id("kroto") {
             artifact = Libraries.kroto_plus_protoc_gen_grpc_coroutines + ":jvm8@jar"
         }
+
     }
     generateProtoTasks {
         all().forEach { task ->
             task.plugins {
                 id("grpc")
-                id("coroutines")
+                id("kroto")
             }
         }
-        //        ofSourceSet("main").forEach { task ->
-        //            task.plugins {
-        //                id("grpc")
-        //                id("coroutines")
-        //            }
-        //        }
-        //        ofTest().forEach { task ->
-        //            task.plugins {
-        //                id("grpc")
-        //                id("coroutines")
-        //            }
-        //        }
     }
 }

@@ -10,7 +10,7 @@ import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.channels.toList
-import kotlinx.coroutines.delay
+import mu.KLogging
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -20,6 +20,8 @@ import kotlin.coroutines.CoroutineContext
  * @since 19. 6. 27
  */
 class GreeterService: GreeterCoroutineGrpc.GreeterImplBase() {
+
+    companion object: KLogging()
 
     val myThreadLocal = ThreadLocal.withInitial { "value" }.asContextElement()
     private val validNameRegex = Regex("[^0-9]*")
@@ -50,12 +52,10 @@ class GreeterService: GreeterCoroutineGrpc.GreeterImplBase() {
         }
     }
 
-    override suspend fun sayHelloStreaming(
-        requestChannel: ReceiveChannel<HelloRequest>,
-        responseChannel: SendChannel<HelloReply>) {
-
+    @Suppress("EXPERIMENTAL_API_USAGE")
+    override suspend fun sayHelloStreaming(requestChannel: ReceiveChannel<HelloRequest>,
+                                           responseChannel: SendChannel<HelloReply>) {
         requestChannel.consumeEach { request ->
-            delay(5)
             responseChannel.send { message = "Hello there, ${request.name}!" }
         }
     }
