@@ -21,4 +21,5 @@ interface AvroSerializer {
     fun <T: SpecificRecord> deserialize(bytes: ByteArray?, clazz: Class<T>): T?
 
     fun <T: SpecificRecord> deserializeList(bytes: ByteArray?, clazz: Class<T>): List<T>
+
 }
