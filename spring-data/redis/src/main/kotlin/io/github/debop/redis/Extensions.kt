@@ -7,4 +7,4 @@ fun ByteBuffer.toUtf8String(): String =
     ByteUtils.getBytes(this).toString(Charsets.UTF_8)
 
 fun String.toByteBuffer(): ByteBuffer =
-    ByteBuffer.wrap(this.toByteArray())
+    ByteBuffer.wrap(this.toByteArray(Charsets.UTF_8))

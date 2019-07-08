@@ -4,7 +4,7 @@ import mu.KLogging
 import org.jooq.TransactionContext
 import org.jooq.TransactionProvider
 import org.springframework.transaction.PlatformTransactionManager
-import org.springframework.transaction.TransactionDefinition
+import org.springframework.transaction.TransactionDefinition.PROPAGATION_NESTED
 import org.springframework.transaction.support.DefaultTransactionDefinition
 
 /**
@@ -19,7 +19,7 @@ class SpringTransactionProvider(val transactionManager: PlatformTransactionManag
     override fun begin(ctx: TransactionContext) {
         logger.info { "Begin transaction" }
 
-        val status = transactionManager.getTransaction(DefaultTransactionDefinition(TransactionDefinition.PROPAGATION_NESTED))
+        val status = transactionManager.getTransaction(DefaultTransactionDefinition(PROPAGATION_NESTED))
         ctx.transaction(SpringTransaction(status))
     }
 
