@@ -2,6 +2,6 @@
  * package-info
  *
  * @author debop (Sunghyouk Bae)
- * @since 19. 6. 26
+ * @since 19. 7. 10
  */
-package io.github.debop.koin.example;
+package io.github.debop.javers;

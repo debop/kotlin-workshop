@@ -8,7 +8,6 @@ package io.github.debop.koin.example.coffeemaker
  */
 class CoffeeMaker(private val pump: Pump,
                   private val heater: Heater) {
-
     fun brew() {
         heater.on()
         while(!heater.isHot) {

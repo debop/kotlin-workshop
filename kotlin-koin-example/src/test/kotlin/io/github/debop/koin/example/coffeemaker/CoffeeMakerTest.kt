@@ -11,15 +11,9 @@ import org.koin.test.AutoCloseKoinTest
 import org.koin.test.inject
 import org.koin.test.mock.declareMock
 
-/**
- * CoffeeMakerTest
- *
- * @author debop (Sunghyouk Bae)
- * @since 19. 6. 26
- */
 class CoffeeMakerTest: AutoCloseKoinTest() {
 
-    private val coffeeMaker: CoffeeMaker by inject()
+    private val coffeeMaker: CoffeeMaker by lazy { getKoin().get<CoffeeMaker>() }  //inject()
     private val heater: Heater by inject()
 
     @BeforeEach

@@ -35,7 +35,7 @@ class PostgreSQLServer(tag: String = DEFAULT_TAG,
         // PostgreSQL은 Wait 관련은 할 필요가 없다
         // setWaitStrategy(Wait.forListeningPort())
 
-        if(useDefaultPort) {
+        if (useDefaultPort) {
             withCreateContainerCmdModifier {
                 it.withPortBindings(PortBinding(Ports.Binding.bindPort(POSTGRESQL_PORT), ExposedPort(POSTGRESQL_PORT)))
             }

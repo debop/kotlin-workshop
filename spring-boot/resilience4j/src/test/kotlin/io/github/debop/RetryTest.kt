@@ -20,5 +20,4 @@ class RetryTest : AbstractResilience4jTest() {
 
         checkRetryStatus("successful_without_retry", BACKEND_A, "1.0")
     }
-
 }

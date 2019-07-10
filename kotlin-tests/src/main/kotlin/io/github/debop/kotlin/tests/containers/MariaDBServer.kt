@@ -28,7 +28,7 @@ class MariaDBServer(tag: String = DEFAULT_TAG,
     val port: Int by lazy { getMappedPort(MARIADB_PORT) }
 
     init {
-        if(configuration.isNotBlank()) {
+        if (configuration.isNotBlank()) {
             withConfigurationOverride(configuration)
         }
         withUsername(username)
@@ -37,7 +37,7 @@ class MariaDBServer(tag: String = DEFAULT_TAG,
         setWaitStrategy(Wait.forListeningPort())
         withLogConsumer(Slf4jLogConsumer(logger))
 
-        if(useDefaultPort) {
+        if (useDefaultPort) {
             withCreateContainerCmdModifier {
                 it.withPortBindings(PortBinding(Ports.Binding.bindPort(MARIADB_PORT), ExposedPort(MARIADB_PORT)))
             }

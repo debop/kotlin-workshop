@@ -30,7 +30,7 @@ class MySQLServer(tag: String = DEFAULT_TAG,
     val port: Int by lazy { getMappedPort(MYSQL_PORT) }
 
     init {
-        if(configuration.isNotBlank()) {
+        if (configuration.isNotBlank()) {
             withConfigurationOverride(configuration)
         }
         withUsername(username)
@@ -39,7 +39,7 @@ class MySQLServer(tag: String = DEFAULT_TAG,
         setWaitStrategy(Wait.forListeningPort())
         withLogConsumer(Slf4jLogConsumer(logger))
 
-        if(useDefaultPort) {
+        if (useDefaultPort) {
             withCreateContainerCmdModifier {
                 it.withPortBindings(PortBinding(Ports.Binding.bindPort(MYSQL_PORT), ExposedPort(MYSQL_PORT)))
             }
