@@ -45,6 +45,7 @@ object Versions {
 
     const val hibernate = "5.4.3.Final"
     const val hibernate_validator = "6.0.17.Final"
+    const val javers = "5.6.2"
     const val querydsl = "4.2.1"
     const val jooq = "3.11.11"
 
@@ -256,12 +257,22 @@ object Libraries {
 
     // Hibernate
     const val hibernate_core = "org.hibernate:hibernate-core:${Versions.hibernate}"
+    const val hibernate_envers = "org.hibernate:hibernate-envers:${Versions.hibernate}"
     const val hibernate_jpa_2_1_api = "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final"
     const val javassist = "org.javassist:javassist:3.25.0-GA"
 
     // Validators
     const val hibernate_validator = "org.hibernate:hibernate-validator:${Versions.hibernate_validator}"
     const val hibernate_validator_annotation_processor = "org.hibernate:hibernate-validator-annotation-processor:${Versions.hibernate_validator}"
+
+    // Javers (https://javers.org - Java Audit library)
+    const val javers_core = "org.javers:javers-core:${Versions.javers}"
+    const val javers_spring = "org.javers:javers-spring:${Versions.javers}"
+    const val javers_spring_jpa = "org.javers:javers-spring-jpa:${Versions.javers}"
+    const val javers_spring_mongo = "org.javers:javers-spring-mongo:${Versions.javers}"
+    const val javers_persistence_mongo = "org.javers:javers-persistence-mongo:${Versions.javers}"
+    const val javers_persistence_sql = "org.javers:javers-persistence-sql:${Versions.javers}"
+    const val javers_spring_boot_starter_sql = "org.javers:javers-spring-boot-starter-sql:${Versions.javers}"
 
     // Expression
     const val javax_el_api = "javax.el:javax.el-api:3.0.0"
