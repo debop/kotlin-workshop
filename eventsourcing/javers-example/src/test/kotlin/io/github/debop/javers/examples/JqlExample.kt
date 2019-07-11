@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test
  */
 class JqlExample {
 
-    companion object: KLogging()
+    companion object : KLogging()
 
     class Entity(@Id val id: Int, var ref: Entity? = null)
 
@@ -118,8 +118,7 @@ class JqlExample {
     inner class EmployeeTest {
 
         @Test
-        fun `should query for Changes made on any object`() {
-
+        fun `query for changes by any domain object`() {
             val javers = JaversBuilder.javers().build()
 
             val bob = Employee(name = "bob", salary = 1000).apply {
@@ -147,8 +146,7 @@ class JqlExample {
         }
 
         @Test
-        fun `query by instance for Shadow`() {
-
+        fun `query for shadows by instance`() {
             val javers = JaversBuilder.javers().build()
 
             val bob = Employee(name = "bob", salary = 1000).apply {
@@ -173,6 +171,58 @@ class JqlExample {
 
             shadows[0].commitMetadata.id.majorId shouldEqualTo 2
             shadows[1].commitMetadata.id.majorId shouldEqualTo 1
+        }
+
+        @Test
+        fun `query for shadows with different scopes`() {
+            val javers = JaversBuilder.javers().build()
+
+            //    /-> John -> Steve
+            // Bob
+            //    \-> #address
+            val steve = Employee(name = "steve")
+            val john = Employee(name = "john").apply { boss = steve }
+            val bob = Employee(name = "bob").apply {
+                boss = john;
+                primaryAddress = Address("London")
+            }
+
+            javers.commit("author", steve)  // commit 1.0 with snapshot of Steve
+            javers.commit("author", bob)    // commit 2.0 with snapshot of Bob, Bob#address and John
+
+            bob.salary = 1200                       // the change
+            javers.commit("author", bob)     // commit 3.0 with snapshot of Bob
+
+            // WHEN `Shallow scope query`
+            var shadows = javers.findShadows<Employee>(QueryBuilder.byInstance(bob).build())
+            println(shadows.joinToString { it.get().toString() })
+            var bobShadow = shadows[0].get()    // Bob의 최신 버전을 가진다
+
+            // THEN
+            shadows.size shouldEqualTo 2
+            bobShadow.name shouldEqual "bob"
+            // 참조객체는 쿼리 범위에서 벗어났으므로 null을 가진다
+            bobShadow.boss.shouldBeNull()
+            // 자식으로 있는 `Value Object`는 항상 scope에 포함된다 
+            bobShadow.primaryAddress?.city shouldEqual "London"
+
+            // WHEN `commit-deep scope query`
+            shadows = javers.findShadows<Employee>(QueryBuilder.byInstance(bob).withScopeCommitDeep().build())
+            bobShadow = shadows[0].get()
+
+            // THEN
+            bobShadow.boss?.name shouldEqual "john"  // John is inside the query scope, so his shadow is loaded and linked to Bob
+            bobShadow.boss?.boss.shouldBeNull() // Steve is still outside the scope
+            bobShadow.primaryAddress?.city shouldEqual "London"
+
+            // WHEN `deep+2 scope query`
+            shadows = javers.findShadows<Employee>(QueryBuilder.byInstance(bob).withScopeDeepPlus(2).build())
+            bobShadow = shadows[0].get()
+
+            // THEN
+            bobShadow.boss?.name shouldEqual "john"
+            bobShadow.boss?.boss?.name shouldEqual "steve"  // Steve is loaded thanks to deep+2 scope
+            bobShadow.primaryAddress?.city shouldEqual "London"
         }
     }
 }
