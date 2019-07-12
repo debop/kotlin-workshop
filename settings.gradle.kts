@@ -42,6 +42,7 @@ include("spring-data:multi-store")
 include("spring-data:redis")
 include("spring-data:redis-reactive")
 
+include("eventsourcing:javers-kotlin")
 include("eventsourcing:javers-example")
 
 include("kotlin-tests")

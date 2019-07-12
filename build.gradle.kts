@@ -251,7 +251,7 @@ subprojects {
 
             // Cache
             dependency(Libraries.cache_api)
-            dependency(Libraries.cache2kAll)
+            dependency(Libraries.cache2k_all)
             dependency(Libraries.cache2k_spring)
             dependency(Libraries.cache2k_jcache)
 

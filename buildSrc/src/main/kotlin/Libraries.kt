@@ -294,7 +294,8 @@ object Libraries {
     const val jooq_meta_extensions = "org.jooq:jooq-meta-extensions:${Versions.jooq}"
     const val jooq_codegen = "org.jooq:jooq-codegen:${Versions.jooq}"
 
-    const val cache2kAll = "org.cache2k:cache2k-all:${Versions.cache2k}"
+    const val cache2k_all = "org.cache2k:cache2k-all:${Versions.cache2k}"
+    const val cache2k_core = "org.cache2k:cache2k-core:${Versions.cache2k}"
     const val cache2k_spring = "org.cache2k:cache2k-spring:${Versions.cache2k}"
     const val cache2k_jcache = "org.cache2k:cache2k-jcache:${Versions.cache2k}"
 
