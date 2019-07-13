@@ -44,5 +44,6 @@ include("spring-data:redis-reactive")
 
 include("eventsourcing:javers-kotlin")
 include("eventsourcing:javers-example")
+include("eventsourcing:javers-mongodb-example")
 
 include("kotlin-tests")

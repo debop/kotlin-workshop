@@ -1,6 +1,6 @@
 package io.github.debop.redisson.springdata
 
-import io.github.debop.kotlin.tests.containers.RedisContainer
+import io.github.debop.kotlin.tests.containers.RedisServer
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -12,7 +12,7 @@ import javax.annotation.PreDestroy
 @SpringBootApplication
 class RedissonSpringDataApplication {
     companion object {
-        val redisServer = RedisContainer.Instance
+        val redisServer = RedisServer.Instance
     }
 
     @Autowired

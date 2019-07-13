@@ -1,6 +1,6 @@
 package io.github.debop.redis.examples.springdata
 
-import io.github.debop.kotlin.tests.containers.RedisContainer
+import io.github.debop.kotlin.tests.containers.RedisServer
 import io.github.debop.redis.serializer.FstRedisSerializer
 import mu.KLogging
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,7 +24,7 @@ import javax.annotation.PreDestroy
 class SpringDataRedisApplication {
 
     companion object : KLogging() {
-        val redisServer = RedisContainer.Instance
+        val redisServer = RedisServer.Instance
     }
 
     @Autowired

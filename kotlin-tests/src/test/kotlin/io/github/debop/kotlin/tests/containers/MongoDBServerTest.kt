@@ -7,10 +7,10 @@ import org.amshove.kluent.shouldNotBeNull
 import org.bson.Document
 import org.junit.jupiter.api.Test
 
-class MongoDBContainerTest {
+class MongoDBServerTest {
 
     companion object: KLogging() {
-        val mongodb: MongoDBContainer = MongoDBContainer.Instance
+        val mongodb: MongoDBServer = MongoDBServer()
     }
 
     val client = MongoClient(mongodb.host, mongodb.port)

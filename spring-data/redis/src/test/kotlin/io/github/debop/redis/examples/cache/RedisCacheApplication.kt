@@ -1,6 +1,6 @@
 package io.github.debop.redis.examples.cache
 
-import io.github.debop.kotlin.tests.containers.RedisContainer
+import io.github.debop.kotlin.tests.containers.RedisServer
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.cache.annotation.EnableCaching
@@ -18,7 +18,7 @@ class RedisCacheApplication {
 
     companion object {
         // TestContainers를 이용한 Docker Instance
-        val redisServer = RedisContainer.Instance
+        val redisServer = RedisServer.Instance
     }
 }
 

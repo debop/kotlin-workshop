@@ -14,4 +14,4 @@ inline fun <reified T> Javers.getValueObjectTypeMapping(): ValueObjectType =
 
 
 inline fun <reified T> Javers.createEntityInstanceId(entity: T): InstanceId =
-    getEntityTypeMapping<T>().createIdFromInstance(this)
+    getEntityTypeMapping<T>().createIdFromInstance(entity)

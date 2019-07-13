@@ -1,6 +1,6 @@
 package io.github.debop.lettuce.cache
 
-import io.github.debop.kotlin.tests.containers.RedisContainer
+import io.github.debop.kotlin.tests.containers.RedisServer
 import mu.KLogging
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
@@ -17,7 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling
 class LettuceSpringCacheApplication {
 
     companion object: KLogging() {
-        val redisServer = RedisContainer.Instance
+        val redisServer = RedisServer()
     }
 }
 

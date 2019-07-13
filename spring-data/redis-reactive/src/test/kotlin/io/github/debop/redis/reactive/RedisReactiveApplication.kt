@@ -1,6 +1,6 @@
 package io.github.debop.redis.reactive
 
-import io.github.debop.kotlin.tests.containers.RedisContainer
+import io.github.debop.kotlin.tests.containers.RedisServer
 import io.github.debop.redis.reactive.domain.Person
 import mu.KLogging
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,7 +24,7 @@ class RedisReactiveApplication {
 
     companion object: KLogging() {
         // 테스트용 Redis Server by Docker
-        val redisServer = RedisContainer.Instance
+        val redisServer = RedisServer.Instance
     }
 
     @Value("\${spring.redis.host}")

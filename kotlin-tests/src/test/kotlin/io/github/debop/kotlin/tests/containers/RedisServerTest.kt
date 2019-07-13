@@ -16,10 +16,10 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.time.Duration
 
-class RedisContainerTest {
+class RedisServerTest {
 
-    companion object : KLogging() {
-        val redisServer: RedisContainer = RedisContainer.create(useDefaultPort = true)
+    companion object: KLogging() {
+        val redisServer: RedisServer = RedisServer(useDefaultPort = true)
 
         private fun RedisClient.withCommands(block: RedisCommands<String, String>.() -> Unit) {
             connect().use {

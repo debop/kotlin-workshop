@@ -12,22 +12,16 @@ import org.testcontainers.containers.wait.strategy.Wait
  * TestContainers 를 이용하여 필요 시에만 MongoDB를 docker로 실행할 수 있도록 해 줍니다.
  * @author debop (Sunghyouk Bae)
  *
- * @param dockerImageName MongoDB docker image name
- * @param useDefaultPort mongodb 기본 port 를 이용할 것인가 여부. 기본적으로는 docker의 dynamic port를 이용한다
+ * @param tag            MongoDB docker tag
+ * @param useDefaultPort MongoDB 기본 port 를 이용할 것인가 여부. 기본적으로는 docker의 dynamic port를 이용한다
  */
-class MongoDBContainer(dockerImageName: String,
-                       useDefaultPort: Boolean = false): GenericContainer<MongoDBContainer>(dockerImageName) {
+class MongoDBServer(tag: String = MONGODB_TAG,
+                    useDefaultPort: Boolean = false): GenericContainer<MongoDBServer>("$MONGODB_IMAGE_NAME:$tag") {
 
     companion object: KLogging() {
-        const val IMAGE_NAME: String = "mongo"
-        const val DEFAULT_TAG: String = "4.0.10"
+        const val MONGODB_IMAGE_NAME: String = "mongo"
+        const val MONGODB_TAG: String = "4.0.10"
         const val MONGODB_PORT: Int = 27017
-
-        val Instance: MongoDBContainer by lazy { createMongoDBContainer() }
-
-        fun createMongoDBContainer(tag: String = DEFAULT_TAG, useDefaultPort: Boolean = false): MongoDBContainer {
-            return MongoDBContainer("$IMAGE_NAME:$tag", useDefaultPort)
-        }
     }
 
     val host: String get() = containerIpAddress

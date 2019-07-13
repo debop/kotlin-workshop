@@ -15,20 +15,13 @@ import org.testcontainers.containers.wait.strategy.Wait
  * @param dockerImageName Redis docker image name
  * @param useDefaultPort Redis 기본 port 를 이용할 것인가 여부. 기본적으로는 docker의 dynamic port를 이용한다
  */
-class RedisContainer @JvmOverloads constructor(
-    dockerImageName: String,
-    useDefaultPort: Boolean = false): GenericContainer<RedisContainer>(dockerImageName) {
+class RedisServer(tag: String = REDIS_TAG,
+                  useDefaultPort: Boolean = false): GenericContainer<RedisServer>("$REDIS_IMAGE_NAME:$tag") {
 
     companion object: KLogging() {
-        const val IMAGE_NAME: String = "redis"
-        const val DEFAULT_TAG: String = "5.0.5"
+        const val REDIS_IMAGE_NAME: String = "redis"
+        const val REDIS_TAG: String = "5.0.5"
         const val REDIS_PORT: Int = 6379
-
-        val Instance: RedisContainer by lazy { create() }
-
-        fun create(tag: String = DEFAULT_TAG, useDefaultPort: Boolean = false): RedisContainer {
-            return RedisContainer("$IMAGE_NAME:$tag", useDefaultPort)
-        }
     }
 
     val host: String get() = containerIpAddress

@@ -1,6 +1,6 @@
 package io.github.debop.multistore
 
-import io.github.debop.kotlin.tests.containers.MongoDBContainer
+import io.github.debop.kotlin.tests.containers.MongoDBServer
 import mu.KLogging
 
 /**
@@ -10,6 +10,6 @@ import mu.KLogging
 abstract class AbstractMultistoreTests {
 
     companion object : KLogging() {
-        private val mongoDB = MongoDBContainer.Instance
+        private val mongoDB = MongoDBServer.Instance
     }
 }

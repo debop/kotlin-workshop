@@ -2,7 +2,7 @@ package io.github.debop.springboot.webflux
 
 import com.mongodb.ConnectionString
 import com.mongodb.connection.netty.NettyStreamFactoryFactory
-import io.github.debop.kotlin.tests.containers.MongoDBContainer
+import io.github.debop.kotlin.tests.containers.MongoDBServer
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer
 import org.springframework.boot.runApplication
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean
 class Application {
 
     companion object {
-        val mongodb = MongoDBContainer.Instance
+        val mongodb = MongoDBServer()
     }
 
     @Bean
