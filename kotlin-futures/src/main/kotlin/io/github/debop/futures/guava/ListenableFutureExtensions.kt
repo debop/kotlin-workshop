@@ -9,7 +9,6 @@ import java.util.concurrent.Callable
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.concurrent.ExecutorService
-
 import com.google.common.base.Function as GuavaFunc
 
 inline fun <V> listenableFuture(executor: ExecutorService = ForkJoinExecutor, crossinline block: () -> V): ListenableFuture<V> {
@@ -135,7 +134,6 @@ inline fun <T> ListenableFuture<T>.onComplete(executor: Executor = ForkJoinExecu
     return this
 }
 
-
 fun <T> ListenableFuture<T>.asCompletableFuture(executor: Executor = DirectExecutor): CompletableFuture<T> {
     val future = CompletableFuture<T>()
 
@@ -147,3 +145,33 @@ fun <T> ListenableFuture<T>.asCompletableFuture(executor: Executor = DirectExecu
 
     return future
 }
+
+fun <T, R> Iterable<ListenableFuture<T>>.futureFold(initial: R,
+                                                    executor: Executor = ForkJoinExecutor,
+                                                    operation: (R, T) -> R): ListenableFuture<R> =
+    this.iterator().futureFold(initial, executor, operation)
+
+fun <T, R> Iterator<ListenableFuture<T>>.futureFold(initial: R,
+                                                    executor: Executor = ForkJoinExecutor,
+                                                    operation: (R, T) -> R): ListenableFuture<R> =
+    if (!hasNext()) initial.asListenableFuture()
+    else next().flatMap(executor) { futureFold(operation(initial, it), executor, operation) }
+
+fun <T> Iterable<ListenableFuture<T>>.futureReduce(executor: Executor = ForkJoinExecutor,
+                                                   reducer: (T, T) -> T): ListenableFuture<T> {
+    val iter = iterator()
+    return if (!iter.hasNext()) throw UnsupportedOperationException("Empty collection can't be reduced")
+    else iter.next().flatMap(executor) { futureFold(it, executor, reducer) }
+}
+
+fun <T, R> Iterable<ListenableFuture<T>>.futureMap(executor: Executor = ForkJoinExecutor,
+                                                   mapper: (T) -> R): ListenableFuture<List<R>> {
+    val initial = mutableListOf<R>().asListenableFuture()
+
+    return fold(initial) { flr, ft ->
+        flr.zip(ft, executor) { r, t -> r.add(mapper(t)); r }
+    }.map(executor) { it.toList() }
+}
+
+fun <T> Iterable<ListenableFuture<T>>.futureIdentity(executor: Executor = ForkJoinExecutor): ListenableFuture<List<T>> =
+    futureMap(executor) { it }

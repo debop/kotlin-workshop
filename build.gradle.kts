@@ -78,7 +78,7 @@ subprojects {
         useJUnitPlatform()
 
         testLogging {
-            events("passed", "failed")
+            events("failed")
         }
     }
 

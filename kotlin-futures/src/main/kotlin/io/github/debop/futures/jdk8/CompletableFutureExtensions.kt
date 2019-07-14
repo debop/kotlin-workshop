@@ -1,5 +1,6 @@
 package io.github.debop.futures.jdk8
 
+import java.util.Optional
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.BiConsumer
@@ -10,6 +11,9 @@ import java.util.function.Supplier
 
 inline fun <T> futureOf(executor: Executor = ForkJoinExecutor, crossinline block: () -> T): CompletableFuture<T> =
     CompletableFuture.supplyAsync(Supplier { block.invoke() }, executor)
+
+inline fun <T> immediateFuture(crossinline block: () -> T): CompletableFuture<T> =
+    futureOf(DirectExecutor, block)
 
 fun <T> T.asCompletableFuture(): CompletableFuture<T> = CompletableFuture.completedFuture(this)
 
@@ -113,8 +117,36 @@ fun <T> Iterable<CompletableFuture<T>>.futureFirst(executor: Executor = ForkJoin
     return future
 }
 
-fun <T> Iterable<CompletableFuture<T>>.futureIdentity(executor: Executor = ForkJoinExecutor): CompletableFuture<List<T>> {
+fun <T> Iterable<CompletableFuture<T>>.futureFlatten(executor: Executor = ForkJoinExecutor): CompletableFuture<List<T>> {
     return futureMap(executor) { it }
+}
+
+fun <T, R> Iterable<CompletableFuture<T>>.futureMap(executor: Executor = ForkJoinExecutor,
+                                                    mapper: (T) -> R): CompletableFuture<List<R>> {
+    val initial = mutableListOf<R>().asCompletableFuture()
+
+    return fold(initial) { flr, ft ->
+        flr.zip(ft, executor) { r, t -> r.add(mapper(t)); r }
+    }
+        .map(executor) { it.toList() }
+}
+
+fun <T> Iterable<CompletableFuture<T>>.futureSuccessful(executor: Executor = ForkJoinExecutor): CompletableFuture<List<T>> {
+    val initial = mutableListOf<T>().asCompletableFuture()
+
+    return fold(initial) { flr, ft ->
+        flr.flatMap(executor) { r ->
+            ft
+                .map(executor) { Optional.of(it) }
+                .recover { Optional.empty() }
+                .map(executor) {
+                    if (it.isPresent) {
+                        r.add(it.get())
+                    }
+                    r
+                }
+        }
+    }.map(executor) { it.toList() }
 }
 
 fun <T, R> Iterable<CompletableFuture<T>>.futureFold(initial: R,
@@ -132,20 +164,7 @@ fun <T> Iterable<CompletableFuture<T>>.futureReduce(executor: Executor = ForkJoi
                                                     reducer: (T, T) -> T): CompletableFuture<T> {
     val iter = iterator()
 
-    return if (!iter.hasNext()) throw UnsupportedOperationException("Empty collection can't be reduced.")
-    else iter.next().flatMap(executor) { futureFold(it, executor, reducer) }
+    return if (!iter.hasNext()) throw NoSuchElementException("Empty collection can't be reduced.")
+    else iter.next().flatMap(executor) { iter.futureFold(it, executor, reducer) }
 }
-
-fun <T, R> Iterable<CompletableFuture<T>>.futureMap(executor: Executor = ForkJoinExecutor,
-                                                    mapper: (T) -> R): CompletableFuture<List<R>> {
-    val initial = mutableListOf<R>().asCompletableFuture()
-
-    return fold(initial) { flr, ft ->
-        flr.zip(ft, executor) { r, t -> r.add(mapper(t)); r }
-    }
-        .map(executor) { it.toList() }
-}
-
-
-
 
