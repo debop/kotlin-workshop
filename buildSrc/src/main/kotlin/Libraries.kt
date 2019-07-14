@@ -32,7 +32,7 @@ object Versions {
     const val krotoplus = "0.4.0"
     const val avro = "1.8.2"   // 1.9.0 은 jackson-dataformat-avro 에서 아직 지원하지 않습니다.
 
-    const val jasync_sql = "1.0.2"
+    const val jasync_sql = "1.0.5"
 
     const val reactor = "3.2.9.RELEASE"
     const val jackson = "2.9.9"
@@ -53,7 +53,7 @@ object Versions {
     const val slf4j = "1.7.26"
     const val logback = "1.2.3"
 
-    const val micrometer = "1.1.4"
+    const val micrometer = "1.2.0"
     const val cache2k = "1.2.2.Final"
 
     const val koin = "2.0.1"
@@ -65,7 +65,7 @@ object Versions {
     const val assertj_core = "3.12.2"
     const val mockk = "1.9.3"
     const val mockito = "2.28.2"
-    const val testcontainers = "1.11.3"
+    const val testcontainers = "1.11.4"
 }
 
 object Libraries {

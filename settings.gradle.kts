@@ -13,6 +13,8 @@ rootProject.name = "kotlin-workshop"
 
 include("kotlin-basic")
 include("kotlin-coroutines")
+include("kotlin-futures")
+
 include("kotlin-dagger-example")
 include("kotlin-koin-example")
 
