@@ -62,9 +62,9 @@ data class SnapshotEntity(@Id var id: Int,
     val mapOfGenericValues: MutableMap<String, EnumSet<DummyEnum>> = mutableMapOf()
 
     var shallowPhone: ShallowPhone? = null
-    val shallowPhones: MutableSet<ShallowPhone> = mutableSetOf()
-    val shallowPhoneList: MutableList<ShallowPhone> = mutableListOf()
-    val shallowPhonesMap: MutableMap<String, ShallowPhone> = mutableMapOf()
+    var shallowPhones: MutableSet<ShallowPhone> = mutableSetOf()
+    var shallowPhoneList: MutableList<ShallowPhone> = mutableListOf()
+    var shallowPhonesMap: MutableMap<String, ShallowPhone> = mutableMapOf()
 
     val mapVoToPrimitive: MutableMap<DummyAddress, String> = mutableMapOf()  // not supported
     var nonParameterizedMap: Map<*, *>? = null                                       // not supported
