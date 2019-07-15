@@ -6,7 +6,6 @@ import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
 import java.util.concurrent.Callable
-import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.concurrent.ExecutorService
 import com.google.common.base.Function as GuavaFunc
@@ -68,8 +67,8 @@ inline fun <T, reified E: Throwable> ListenableFuture<T>.mapError(executor: Exec
     Futures.catching(this, E::class.java, GuavaFunc { throw func(it!!) }, executor)
 
 fun <T> ListenableFuture<T>.fallback(executor: Executor = ForkJoinExecutor,
-                                     fallbackValue: T): ListenableFuture<T> =
-    recover(executor) { fallbackValue }
+                                     func: () -> T): ListenableFuture<T> =
+    recover(executor) { func() }
 
 inline fun <T> ListenableFuture<T>.fallbackTo(executor: Executor = ForkJoinExecutor,
                                               crossinline func: () -> ListenableFuture<T>): ListenableFuture<T> =
@@ -109,42 +108,37 @@ inline fun <T> completeCallback(crossinline failureHandler: (Throwable) -> Unit 
         }
     }
 
-inline fun <T> ListenableFuture<T>.onFailure(executor: Executor = ForkJoinExecutor,
-                                             crossinline func: (Throwable) -> Unit): ListenableFuture<T> {
+/**
+ * NOTE: Callback 시에는 [ForkJoinExecutor] 를 쓰면 안되고, [DirectExecutor]를 사용해야만 제대로 작동됩니다.
+ */
+inline fun <T> ListenableFuture<T>.onFailure(executor: Executor = DirectExecutor,
+                                             crossinline func: (Throwable) -> Unit): ListenableFuture<T> = apply {
     Futures.addCallback(this,
                         failureCallback { func(it) },
                         executor)
-    return this
 }
 
-inline fun <T> ListenableFuture<T>.onSuccess(executor: Executor = ForkJoinExecutor,
-                                             crossinline func: (T) -> Unit): ListenableFuture<T> {
+/**
+ * NOTE: Callback 시에는 [ForkJoinExecutor] 를 쓰면 안되고, [DirectExecutor]를 사용해야만 제대로 작동됩니다.
+ */
+inline fun <T> ListenableFuture<T>.onSuccess(executor: Executor = DirectExecutor,
+                                             crossinline func: (T) -> Unit): ListenableFuture<T> = apply {
     Futures.addCallback(this,
                         successCallback { func(it) },
                         executor)
-    return this
 }
 
-inline fun <T> ListenableFuture<T>.onComplete(executor: Executor = ForkJoinExecutor,
+/**
+ * NOTE: Callback 시에는 [ForkJoinExecutor] 를 쓰면 안되고, [DirectExecutor]를 사용해야만 제대로 작동됩니다.
+ */
+inline fun <T> ListenableFuture<T>.onComplete(executor: Executor = DirectExecutor,
                                               crossinline onFailure: (Throwable) -> Unit = {},
-                                              crossinline onSuccess: (T) -> Unit = {}): ListenableFuture<T> {
+                                              crossinline onSuccess: (T) -> Unit = {}): ListenableFuture<T> = apply {
     Futures.addCallback(this,
                         completeCallback(onFailure, onSuccess),
                         executor)
-    return this
 }
 
-fun <T> ListenableFuture<T>.asCompletableFuture(executor: Executor = DirectExecutor): CompletableFuture<T> {
-    val future = CompletableFuture<T>()
-
-    this.onComplete(
-        executor = executor,
-        onFailure = { future.completeExceptionally(it) },
-        onSuccess = { future.complete(it) }
-    )
-
-    return future
-}
 
 fun <T, R> Iterable<ListenableFuture<T>>.futureFold(initial: R,
                                                     executor: Executor = ForkJoinExecutor,
@@ -160,8 +154,8 @@ fun <T, R> Iterator<ListenableFuture<T>>.futureFold(initial: R,
 fun <T> Iterable<ListenableFuture<T>>.futureReduce(executor: Executor = ForkJoinExecutor,
                                                    reducer: (T, T) -> T): ListenableFuture<T> {
     val iter = iterator()
-    return if (!iter.hasNext()) throw UnsupportedOperationException("Empty collection can't be reduced")
-    else iter.next().flatMap(executor) { futureFold(it, executor, reducer) }
+    return if (!iter.hasNext()) throw NoSuchElementException("Empty collection can't be reduced")
+    else iter.next().flatMap(executor) { iter.futureFold(it, executor, reducer) }
 }
 
 fun <T, R> Iterable<ListenableFuture<T>>.futureMap(executor: Executor = ForkJoinExecutor,

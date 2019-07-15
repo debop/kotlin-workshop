@@ -48,16 +48,16 @@ fun <T, U> CompletableFuture<T>.zip(other: CompletableFuture<U>,
     zip(other, executor) { t, u -> t to u }
 
 
-inline fun <T> CompletableFuture<T>.recover(crossinline recoverFunc: (Throwable) -> T): CompletableFuture<T> =
-    exceptionally { recoverFunc(it.cause ?: it) }
+inline fun <T> CompletableFuture<T>.recover(crossinline func: (Throwable) -> T): CompletableFuture<T> =
+    exceptionally { func(it.cause ?: it) }
 
 inline fun <T> CompletableFuture<T>.recoverWith(executor: Executor = ForkJoinExecutor,
-                                                crossinline recoverFunc: (Throwable) -> CompletableFuture<T>): CompletableFuture<T> {
+                                                crossinline func: (Throwable) -> CompletableFuture<T>): CompletableFuture<T> {
     val future = CompletableFuture<T>()
     onComplete(
         executor,
         {
-            recoverFunc(it)
+            func(it)
                 .onComplete(executor,
                             { error -> future.completeExceptionally(error) },
                             { result -> future.complete(result) })
@@ -77,9 +77,12 @@ inline fun <T, reified E: Throwable> CompletableFuture<T>.mapError(crossinline m
         }
     }
 
+inline fun <T> CompletableFuture<T>.fallback(crossinline func: () -> T): CompletableFuture<T> =
+    recover { func() }
+
 inline fun <T> CompletableFuture<T>.fallbackTo(executor: Executor = ForkJoinExecutor,
-                                               crossinline fallback: () -> CompletableFuture<T>): CompletableFuture<T> =
-    recoverWith(executor) { fallback() }
+                                               crossinline func: () -> CompletableFuture<T>): CompletableFuture<T> =
+    recoverWith(executor) { func() }
 
 
 inline fun <T> CompletableFuture<T>.onFailure(executor: Executor = ForkJoinExecutor,

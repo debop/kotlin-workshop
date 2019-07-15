@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.fail
+import java.io.IOException
 import java.util.concurrent.CompletableFuture
 
 class CompletableFutureTest {
@@ -20,15 +21,16 @@ class CompletableFutureTest {
     inner class MapTest {
 
         @Test
-        fun `successful future should transform it`() {
+        fun `성공한 Future는 map을 수행합니다`() {
             success.map { it + 1 }.get() shouldEqualTo 2
         }
 
         @Test
-        fun `failed future should throw exception`() {
-            assertThrows<Exception> {
+        fun `실패한 Future는 map을 수행할 때 예외를 발생시킨다`() {
+            val error = assertThrows<Exception> {
                 failed.map { it + 1 }.get()
             }
+            error.cause shouldBeInstanceOf IllegalArgumentException::class
         }
     }
 
@@ -36,52 +38,57 @@ class CompletableFutureTest {
     inner class FlatMapTest {
 
         @Test
-        fun `successful future should transform it`() {
+        fun `성공한 Future는 flatMap을 수행합니다`() {
+            success.flatMap { it.asCompletableFuture() }.get() shouldEqualTo success.get()
             success.flatMap { immediateFuture { it + 1 } }.get() shouldEqualTo 2
         }
 
         @Test
-        fun `failed future should throw exception`() {
+        fun `실패한 Future는 flatMap을 수행할 때 예외를 발생시킨다`() {
             assertThrows<Exception> {
                 failed.flatMap { immediateFuture { it + 1 } }.get()
             }
+                .cause shouldBeInstanceOf IllegalArgumentException::class
         }
     }
 
     @Nested
     inner class FlattenTest {
         @Test
-        fun `successful future should flatten it`() {
+        fun `성공한 Future는 flatten을 수행합니다`() {
             futureOf { futureOf { 1 } }.flatten().get() shouldEqualTo 1
         }
 
         @Test
-        fun `failed future should throw exception`() {
+        fun `실패한 Future는 flatten 수행 시 예외를 발생시킵니다`() {
             assertThrows<Exception> {
                 futureOf { futureOf { throw RuntimeException() } }.flatten().get()
             }
+                .cause shouldBeInstanceOf RuntimeException::class
         }
     }
 
     @Nested
     inner class FilterTest {
         @Test
-        fun `successful future should filter it`() {
+        fun `성공한 Future 이고 filter를 만족하면 결과를 반환한다`() {
             success.filter { it == 1 }.get() shouldEqualTo 1
         }
 
         @Test
-        fun `successful future does not matches`() {
+        fun `성공한 Future 지만 filter 를 만족하지 못하면 NoSuchElementException 예외를 발생시킨다`() {
             assertThrows<Exception> {
                 success.filter { it == 2 }.get()
             }
+                .cause shouldBeInstanceOf NoSuchElementException::class
+
         }
 
         @Test
-        fun `failed future should throw exception`() {
+        fun `실패한 Future는 filter 시 자신의 예외를 발생시킨다`() {
             assertThrows<Exception> {
                 failed.filter { it == 1 }.get()
-            }
+            }.cause shouldBeInstanceOf IllegalArgumentException::class
         }
     }
 
@@ -90,6 +97,8 @@ class CompletableFutureTest {
         @Test
         fun `성공한 Future는 recover를 수행하지 않는다`() {
             success.recover { 42 }.get() shouldEqualTo 1
+
+            success.recover { throw RuntimeException() }.get() shouldEqualTo 1
         }
 
         @Test
@@ -101,7 +110,7 @@ class CompletableFutureTest {
         fun `실패한 Future에 recover 내부에서도 예외가 발생하면 recover는 실패한다`() {
             assertThrows<Exception> {
                 failed.recover { throw RuntimeException() }.get()
-            }
+            }.cause shouldBeInstanceOf RuntimeException::class
         }
     }
 
@@ -110,11 +119,21 @@ class CompletableFutureTest {
         @Test
         fun `성공한 Future는 recoverWith를 실행할 필요가 없습니다`() {
             success.recoverWith { 42.asCompletableFuture() }.get() shouldEqualTo 1
+
+            success.recoverWith { throw RuntimeException() }.get() shouldEqualTo 1
+            success
+                .recoverWith { 42.asCompletableFuture() }
+                .recoverWith { throw RuntimeException() }.get() shouldEqualTo 1
         }
 
         @Test
         fun `실패한 Future는 recoverWith를 샐행합니다`() {
             failed.recoverWith { 42.asCompletableFuture() }.get() shouldEqualTo 42
+
+            failed
+                .recoverWith { RuntimeException().asCompletableFuture() }
+                .recoverWith { 42.asCompletableFuture() }
+                .get() shouldEqualTo 42
         }
 
         @Test
@@ -122,6 +141,28 @@ class CompletableFutureTest {
             assertThrows<Exception> {
                 failed.recoverWith { RuntimeException().asCompletableFuture() }.get()
             }
+        }
+    }
+
+    @Nested
+    inner class FallbackTest {
+
+        @Test
+        fun `성공한 Future는 fallback를 실행할 필요가 없다`() {
+            success.fallback { 42 }.get() shouldEqualTo 1
+        }
+
+        @Test
+        fun `예외가 발생한 경우 fallback를 실행한다`() {
+            failed.fallback { 42 }.get() shouldEqualTo 42
+        }
+
+        @Test
+        fun `예외가 발생한 경우 fallback에서도 예외가 발생하면 예외로 처리된다`() {
+            val error = assertThrows<Exception> {
+                failed.fallback { throw RuntimeException() }.get()
+            }
+            error.cause shouldBeInstanceOf RuntimeException::class
         }
     }
 
@@ -152,11 +193,11 @@ class CompletableFutureTest {
 
         @Test
         fun `성공한 Future는 mapError를 실행할 필요가 없습니다`() {
-            success.mapError { _: java.lang.IllegalArgumentException -> IllegalStateException() }.get() shouldEqualTo 1
+            success.mapError { _: IllegalArgumentException -> IllegalStateException() }.get() shouldEqualTo 1
         }
 
         @Test
-        fun `예외 타입이 처리가 가능한 경우 mapError가 실행된다`() {
+        fun `예외 처리가 가능한 경우 mapError를 실행한다`() {
             val error = assertThrows<Exception> {
                 failed.mapError { _: IllegalArgumentException -> UnsupportedOperationException() }.get()
             }
@@ -166,13 +207,13 @@ class CompletableFutureTest {
         @Test
         fun `예외 타입이 처리가 불가한 경우 mapError는 실행되지 않는다`() {
             val error = assertThrows<Exception> {
-                failed.mapError { _: IllegalStateException -> UnsupportedOperationException() }.get()
+                failed.mapError { _: IOException -> UnsupportedOperationException() }.get()
             }
             error.cause shouldBeInstanceOf IllegalArgumentException::class
         }
 
         @Test
-        fun `예외 타입이 Super time인 경우 mapError가 실행된다`() {
+        fun `예외 타입이 Super type인 경우 mapError가 실행된다`() {
             val error = assertThrows<Exception> {
                 failed.mapError { _: Throwable -> UnsupportedOperationException() }.get()
             }
@@ -185,7 +226,7 @@ class CompletableFutureTest {
 
         @Test
         fun `성공한 Future는 onFailure를 호출하지 않습니다`() {
-            success.onFailure { fail("성공한 Future는 onFailure가 발생하지 않습니다.") }.get()
+            success.onFailure { fail("성공한 Future는 onFailure가 발생하지 않습니다.") }.get() shouldEqualTo 1
         }
 
         @Test
@@ -251,6 +292,7 @@ class CompletableFutureTest {
         @Test
         fun `성공한 future에 대한 zip 과 lambda`() {
             success.zip(success) { a, b -> a + b }.get() shouldEqualTo 2
+            success.zip(futureOf { "Hello" }) { a, b -> a.toString() + b }.get() shouldEqual "1Hello"
             success.zip(immediateFuture { "Hello" }) { a, b -> a.toString() + b }.get() shouldEqual "1Hello"
         }
 
@@ -258,13 +300,15 @@ class CompletableFutureTest {
         fun `실패한 future에 대한 zip과 lambda`() {
             assertThrows<Exception> {
                 failed.zip(failed) { a, b -> a + b }.get()
-            }
+            }.cause shouldBeInstanceOf IllegalArgumentException::class
+
             assertThrows<Exception> {
                 failed.zip(success) { a, b -> a + b }.get()
-            }
+            }.cause shouldBeInstanceOf IllegalArgumentException::class
+
             assertThrows<Exception> {
                 success.zip(failed) { a, b -> a + b }.get()
-            }
+            }.cause shouldBeInstanceOf IllegalArgumentException::class
         }
     }
 
@@ -388,7 +432,12 @@ class CompletableFutureTest {
 
             assertThrows<Exception> {
                 list.futureFold(0) { acc, it -> acc + it }.get()
-            }
+            }.cause shouldBeInstanceOf IllegalArgumentException::class
+        }
+
+        @Test
+        fun `빈 Future List를 fold 하기`() {
+            emptyList<CompletableFuture<Int>>().futureFold(0) { acc, i -> acc + i }.get() shouldEqualTo 0
         }
     }
 
@@ -397,24 +446,24 @@ class CompletableFutureTest {
 
         @Test
         fun `성공한 Future List를 reduce 하기`() {
-            val list = listOf(
+            val futures = listOf(
                 1.asCompletableFuture(),
                 2.asCompletableFuture(),
                 futureOf { Thread.sleep(100); 3 })
 
-            list.futureReduce { acc, it -> acc + it }.get() shouldEqualTo 6
+            futures.futureReduce { acc, it -> acc + it }.get() shouldEqualTo 6
         }
 
         @Test
         fun `실패한 Future가 있는 List에 reduce 하기`() {
-            val list = listOf(
+            val futures = listOf(
                 1.asCompletableFuture(),
                 2.asCompletableFuture(),
                 IllegalArgumentException().asCompletableFuture())
 
             assertThrows<Exception> {
-                list.futureReduce { acc, it -> acc + it }.get()
-            }
+                futures.futureReduce { acc, it -> acc + it }.get()
+            }.cause shouldBeInstanceOf IllegalArgumentException::class
         }
 
         @Test
@@ -430,30 +479,29 @@ class CompletableFutureTest {
 
         @Test
         fun `성공한 Future List를 map 하기`() {
-            val list = listOf(
+            val futures = listOf(
                 1.asCompletableFuture(),
                 2.asCompletableFuture(),
                 futureOf { Thread.sleep(100); 3 })
 
-            list.futureMap { it * it }.get() shouldContainSame listOf(1, 4, 9)
+            futures.futureMap { it * it }.get() shouldContainSame listOf(1, 4, 9)
         }
 
         @Test
         fun `실패한 Future가 있는 List에 map 하기`() {
-            val list = listOf(
+            val futures = listOf(
                 1.asCompletableFuture(),
                 2.asCompletableFuture(),
                 IllegalArgumentException().asCompletableFuture())
 
             assertThrows<Exception> {
-                list.futureMap { it * it }.get()
+                futures.futureMap { it * it }.get()
             }
         }
 
         @Test
         fun `빈 List map 하기`() {
-            val result = emptyList<CompletableFuture<Int>>().futureMap { it * it }.get()
-            result.shouldBeEmpty()
+            emptyList<CompletableFuture<Int>>().futureMap { it * it }.get().shouldBeEmpty()
         }
     }
 }
