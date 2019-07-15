@@ -193,13 +193,13 @@ class CompletableFutureTest {
 
         @Test
         fun `성공한 Future는 mapError를 실행할 필요가 없습니다`() {
-            success.mapError { _: IllegalArgumentException -> IllegalStateException() }.get() shouldEqualTo 1
+            success.mapError<Int, IllegalArgumentException> { IllegalStateException() }.get() shouldEqualTo 1
         }
 
         @Test
         fun `예외 처리가 가능한 경우 mapError를 실행한다`() {
             val error = assertThrows<Exception> {
-                failed.mapError { _: IllegalArgumentException -> UnsupportedOperationException() }.get()
+                failed.mapError<Int, IllegalArgumentException> { UnsupportedOperationException() }.get()
             }
             error.cause shouldBeInstanceOf UnsupportedOperationException::class
         }
@@ -207,7 +207,7 @@ class CompletableFutureTest {
         @Test
         fun `예외 타입이 처리가 불가한 경우 mapError는 실행되지 않는다`() {
             val error = assertThrows<Exception> {
-                failed.mapError { _: IOException -> UnsupportedOperationException() }.get()
+                failed.mapError<Int, IOException> { UnsupportedOperationException() }.get()
             }
             error.cause shouldBeInstanceOf IllegalArgumentException::class
         }
@@ -215,7 +215,7 @@ class CompletableFutureTest {
         @Test
         fun `예외 타입이 Super type인 경우 mapError가 실행된다`() {
             val error = assertThrows<Exception> {
-                failed.mapError { _: Throwable -> UnsupportedOperationException() }.get()
+                failed.mapError<Int, Throwable> { UnsupportedOperationException() }.get()
             }
             error.cause shouldBeInstanceOf UnsupportedOperationException::class
         }
@@ -250,7 +250,7 @@ class CompletableFutureTest {
 
         @Test
         fun `성공한 Future에 대한 onComplete 호출`() {
-            var capturedResult: Int = 0
+            var capturedResult = 0
             success.onComplete(
                 onFailure = { fail("호출되면 안됩니다") },
                 onSuccess = { capturedResult = it }
@@ -263,7 +263,7 @@ class CompletableFutureTest {
         fun `실패한 Future에 대한 onComplete 호출`() {
             var capturedError: Throwable? = null
 
-            val result = failed.onComplete(
+            val result: Int = failed.onComplete(
                 onFailure = { capturedError = it },
                 onSuccess = { fail("호출되면 안됩니다") }
             ).recover { 42 }.get()
@@ -479,7 +479,7 @@ class CompletableFutureTest {
 
         @Test
         fun `성공한 Future List를 map 하기`() {
-            val futures = listOf(
+            val futures: List<CompletableFuture<Int>> = listOf(
                 1.asCompletableFuture(),
                 2.asCompletableFuture(),
                 futureOf { Thread.sleep(100); 3 })
