@@ -2,11 +2,14 @@ package org.javers.core
 
 import org.amshove.kluent.shouldBeLessOrEqualTo
 import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldEqualTo
 import org.javers.common.date.DateProvider
 import org.javers.core.commit.CommitMetadata
+import org.javers.core.model.PrimitiveEntity
 import org.javers.core.model.SnapshotEntity
 import org.javers.repository.api.JaversRepository
 import org.javers.repository.inmemory.InMemoryRepository
+import org.javers.repository.jql.QueryBuilder
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import java.time.ZonedDateTime
@@ -91,5 +94,36 @@ class JaversRepositoryE2ETest {
         abs(ChronoUnit.MILLIS.between(snapshot.commitMetadata.commitDate, now.toLocalDateTime())) shouldBeLessOrEqualTo 1
         snapshot.commitMetadata.commitDateInstant shouldEqual now.toInstant()
         snapshot.commitMetadata.author shouldEqual "author"
+    }
+
+    @Test
+    fun `다양한 primitive 수형을 저장합니다`() {
+        // GIVEN
+        val s = PrimitiveEntity("1")
+
+        // WHEN
+        javers.commit("author", s)
+
+        s.intField = 10
+        s.longField = 10L
+        s.doubleField = 1.1
+        s.floatField = 1.1F
+        s.charField = 'c'
+        s.byteField = 10.toByte()
+        s.shortField = 10.toShort()
+        s.booleanField = true
+        s.IntegerField = 10
+        s.LongField = 10
+        s.DoubleField = 1.1
+        s.FloatField = 1.1F
+        s.CharField = 'c'
+        s.ByteField = 10.toByte()
+        s.ShortField = 10.toShort()
+        s.BooleanField = true
+
+        javers.commit("author", s)
+
+        // THEN
+        javers.findChanges(QueryBuilder.anyDomainObject().build()).size shouldEqualTo 16
     }
 }
