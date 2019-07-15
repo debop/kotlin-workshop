@@ -1,3 +1,7 @@
+plugins {
+    id("com.github.hauner.jarTest") version "1.0.1"
+}
+
 dependencies {
     api(Libraries.javers_core)
     api(Libraries.javers_spring)

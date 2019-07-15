@@ -11,4 +11,7 @@ dependencies {
 
     api(Libraries.jackson_module_kotlin)
     api(Libraries.cache2k_core)
+
+    api(project(":eventsourcing:javers-kotlin"))
+    testCompile(project(path = ":eventsourcing:javers-kotlin", configuration = "testArchives"))
 }

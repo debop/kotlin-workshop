@@ -7,22 +7,31 @@ import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoCursor
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.model.Filters
+import io.github.debop.javers.mongodb.MongoDBSchemaManager.Companion.CHANGED_PROPERTIES
+import io.github.debop.javers.mongodb.MongoDBSchemaManager.Companion.COMMIT_AUTHOR
+import io.github.debop.javers.mongodb.MongoDBSchemaManager.Companion.COMMIT_DATE
+import io.github.debop.javers.mongodb.MongoDBSchemaManager.Companion.COMMIT_DATE_INSTANT
+import io.github.debop.javers.mongodb.MongoDBSchemaManager.Companion.COMMIT_ID
+import io.github.debop.javers.mongodb.MongoDBSchemaManager.Companion.COMMIT_PROPERTIES
 import io.github.debop.javers.mongodb.MongoDBSchemaManager.Companion.GLOBAL_ID_ENTITY
 import io.github.debop.javers.mongodb.MongoDBSchemaManager.Companion.GLOBAL_ID_FRAGMENT
 import io.github.debop.javers.mongodb.MongoDBSchemaManager.Companion.GLOBAL_ID_KEY
 import io.github.debop.javers.mongodb.MongoDBSchemaManager.Companion.GLOBAL_ID_OWNER_ID_ENTITY
 import io.github.debop.javers.mongodb.MongoDBSchemaManager.Companion.GLOBAL_ID_VALUE_OBJECT
 import io.github.debop.javers.mongodb.MongoDBSchemaManager.Companion.OBJECT_ID
+import io.github.debop.javers.mongodb.MongoDBSchemaManager.Companion.SNAPSHOT_TYPE
 import io.github.debop.javers.mongodb.MongoDBSchemaManager.Companion.SNAPSHOT_VERSION
 import io.github.debop.javers.mongodb.model.MongoDBHeadId
 import mu.KLogging
 import org.bson.Document
 import org.bson.conversions.Bson
 import org.javers.common.string.RegexEscape
+import org.javers.core.CommitIdGenerator
 import org.javers.core.JaversCoreConfiguration
 import org.javers.core.commit.Commit
 import org.javers.core.commit.CommitId
 import org.javers.core.json.JsonConverter
+import org.javers.core.json.typeadapter.util.UtilTypeCoreAdapters
 import org.javers.core.metamodel.`object`.CdoSnapshot
 import org.javers.core.metamodel.`object`.GlobalId
 import org.javers.core.metamodel.type.EntityType
@@ -33,10 +42,11 @@ import org.javers.repository.api.JaversRepository
 import org.javers.repository.api.QueryParams
 import org.javers.repository.api.QueryParamsBuilder
 import org.javers.repository.api.SnapshotIdentifier
+import org.javers.repository.mongo.model.MongoHeadId
 import java.util.Optional
 
 /**
- * MongoDBRepository
+ * Entity Audit 정보를 MongoDB에 저장하도록 하는 [JaversRepository] 입니다
  *
  * @author debop (Sunghyouk Bae)
  * @since 19. 7. 12
@@ -199,11 +209,25 @@ class MongoDBRepository(mongo: MongoDatabase,
     }
 
     private fun persistSnapshots(commit: Commit) {
-        TODO("구현 중")
+        val collection = snapshotsCollection()
+        commit.snapshots.forEach { snapshot ->
+            logger.trace { "Persist snapshot. snapshot=$snapshot" }
+            collection.insertOne(writeToDBObject(snapshot))
+            cache.put(snapshot)
+        }
     }
 
     private fun persistHeadId(commit: Commit) {
-        TODO("구현 중")
+        val headIdCollection = headCollection()
+
+        val oldHead = headIdCollection.find().first()
+        val newHeadId = MongoHeadId(commit.id)
+
+        if (oldHead == null) {
+            headIdCollection.insertOne(newHeadId.toDocument())
+        } else {
+            headIdCollection.updateOne(objectIdFilter(oldHead), newHeadId.toDocument())
+        }
     }
 
     private fun objectIdFilter(document: Document): Bson {
@@ -211,20 +235,68 @@ class MongoDBRepository(mongo: MongoDatabase,
     }
 
     private fun getMongoSnapshotsCursor(query: Bson, queryParams: Optional<QueryParams>): MongoCursor<Document> {
-        TODO("구현 중")
+        val findIterable = snapshotsCollection().find(applyQueryParams(query, queryParams))
+
+        if (coreConfiguration!!.commitIdGenerator == CommitIdGenerator.SYNCHRONIZED_SEQUENCE) {
+            findIterable.sort(Document(COMMIT_ID, DESC))
+        } else {
+            findIterable.sort(Document(COMMIT_DATE_INSTANT, DESC))
+        }
+        return applyQueryParams(findIterable, queryParams).iterator()
     }
 
     private fun applyQueryParams(query: Bson, queryParams: Optional<QueryParams>): Bson {
-        TODO("구현 중")
+        if (!queryParams.isPresent) {
+            return query
+        }
+
+        var result: Bson = query
+        val params = queryParams.get()
+        if (params.from().isPresent) {
+            result = Filters.and(result, Filters.gte(COMMIT_DATE, UtilTypeCoreAdapters.serialize(params.from().get())))
+        }
+        if (params.to().isPresent) {
+            result = Filters.and(result, Filters.lte(COMMIT_DATE, UtilTypeCoreAdapters.serialize(params.to().get())))
+        }
+        if (params.commitIds().isNotEmpty()) {
+            result = Filters.and(result, Filters.`in`(COMMIT_ID, params.commitIds().map { it.valueAsNumber() }))
+        }
+        if (params.version().isPresent) {
+            result = Filters.and(result, createVersionQuery(params.version().get()))
+        }
+        if (params.author().isPresent) {
+            result = Filters.and(result, BasicDBObject(COMMIT_AUTHOR, params.author().get()))
+        }
+        if (params.commitProperties().isNotEmpty()) {
+            result = addCommitPropertiesFilter(result, params.commitProperties())
+        }
+        if (params.changedProperty().isPresent) {
+            result = Filters.and(result, BasicDBObject(CHANGED_PROPERTIES, params.changedProperty().get()))
+        }
+        if (params.snapshotType().isPresent) {
+            result = Filters.and(result, BasicDBObject(SNAPSHOT_TYPE, params.snapshotType().get()))
+        }
+
+        return result
     }
 
     private fun applyQueryParams(findIterable: FindIterable<Document>,
                                  queryParams: Optional<QueryParams>): FindIterable<Document> {
-        TODO("구현 중")
+        if (!queryParams.isPresent) {
+            return findIterable
+        }
+        val params = queryParams.get()
+        return findIterable.limit(params.limit()).skip(params.skip())
     }
 
     private fun addCommitPropertiesFilter(query: Bson, commitProperties: Map<String, String>): Bson {
-        TODO("구현 중")
+        val propertyFilters = commitProperties.map {
+            BasicDBObject(
+                COMMIT_PROPERTIES,
+                BasicDBObject("\$elemMatch", BasicDBObject("key", it.key).append("value", it.value))
+            )
+        }
+        return Filters.and(query, Filters.and(*propertyFilters.toTypedArray()))
     }
 
     private fun getLatest(idQuery: Bson): Optional<CdoSnapshot> {
@@ -235,6 +307,13 @@ class MongoDBRepository(mongo: MongoDatabase,
     }
 
     private fun queryForSnapshots(query: Bson, queryParams: Optional<QueryParams>): MutableList<CdoSnapshot> {
-        TODO("구현 중")
+        val snapshots = mutableListOf<CdoSnapshot>()
+
+        getMongoSnapshotsCursor(query, queryParams).use { cursor ->
+            while (cursor.hasNext()) {
+                snapshots.add(readFromDBObject(cursor.next()))
+            }
+        }
+        return snapshots
     }
 }
