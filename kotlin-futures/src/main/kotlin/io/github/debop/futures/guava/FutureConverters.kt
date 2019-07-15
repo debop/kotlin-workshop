@@ -5,6 +5,9 @@ import com.google.common.util.concurrent.ListenableFuture
 import java.util.concurrent.CompletableFuture
 import java.util.function.BiConsumer
 
+/**
+ * [ListenableFuture]를 [CompletableFuture]로 변환합니다.
+ */
 fun <T> ListenableFuture<T>.toCompletableFuture(): CompletableFuture<T> {
     val future = CompletableFuture<T>()
 
@@ -17,6 +20,9 @@ fun <T> ListenableFuture<T>.toCompletableFuture(): CompletableFuture<T> {
     return future
 }
 
+/**
+ * [CompletableFuture]를 [ListenableFuture]로 변환합니다
+ */
 fun <T> CompletableFuture<T>.toListenableFuture(): ListenableFuture<T> =
     CompletableToListenableFutureWrapper<T>(this)
 
