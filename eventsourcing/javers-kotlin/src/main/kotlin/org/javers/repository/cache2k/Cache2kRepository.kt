@@ -38,12 +38,17 @@ class Cache2kRepository : JaversRepository {
 
     companion object : KLogging()
 
-    private val snapshots: Cache<String, LinkedList<String>> by lazy {
+    /**
+     * Snapshot을 저장하는 Cache (key=globalId, value=snapshot list)
+     */
+    private val snapshotCache: Cache<String, LinkedList<String>> by lazy {
         @Suppress("UNCHECKED_CAST")
         Cache2kBuilder.of(String::class.java, LinkedList::class.java).build() as Cache<String, LinkedList<String>>
     }
-
-    private val commits: Cache<CommitId, Int> by lazy {
+    /**
+     * [CommitId] - Sequence Number 를 캐시합니다.
+     */
+    private val commitCache: Cache<CommitId, Int> by lazy {
         Cache2kBuilder.of(CommitId::class.java, Int::class.java).build()
     }
 
@@ -112,11 +117,6 @@ class Cache2kRepository : JaversRepository {
         }
 
         return childCandidate.ownerId == parentCandidate
-
-        //        val parent = parentCandidate as EntityType
-        //        val child = childCandidate as ValueObjectId
-        //
-        //        return child.ownerId.typeName == parent.name
     }
 
     private fun applyQueryParams(snapshots: List<CdoSnapshot>, queryParams: QueryParams): MutableList<CdoSnapshot> {
@@ -150,11 +150,11 @@ class Cache2kRepository : JaversRepository {
     private fun getAll(): List<CdoSnapshot> {
         val all = mutableListOf<CdoSnapshot>()
 
-        snapshots.keys().forEach { all.addAll(readSnapshots(it)) }
+        snapshotCache.keys().forEach { all.addAll(readSnapshots(it)) }
         return all.sortedByDescending { getSeq(it.commitMetadata.id) }
     }
 
-    private fun getSeq(commitId: CommitId): Int = commits[commitId]
+    private fun getSeq(commitId: CommitId): Int = commitCache[commitId]
 
 
     override fun getLatest(globalId: GlobalId): Optional<CdoSnapshot> {
@@ -193,18 +193,22 @@ class Cache2kRepository : JaversRepository {
 
         logger.debug { "${commit.snapshots.size} snapshot(s) persisted" }
         head = commit.id
-        commits.put(headId, counter.incrementAndGet())
+        commitCache.put(headId, counter.incrementAndGet())
     }
 
     private fun persist(snapshot: CdoSnapshot) {
         check(jsonConverter != null) { "jsonConverter is null" }
 
         logger.debug { "Persist snapshot. $snapshot" }
+
+        // NOTE: snapshot 저장은 Json Format으로 하는 것이 기본이다.
+        // TODO: Local 에서는 Binary Serialization과 압축을 이용하면 좋을 듯
+        // TODO: Kafka 전송 시에는 그냥 Json Format을 보내던가 Avro 포맷으로 변경하던가 해야겠다 (Kafka Key에 CommitId 를 넣도록 하자))
         val snapshotJson = jsonConverter!!.toJson(snapshot)
 
         synchronized(this) {
             val globalIdValue = snapshot.globalId.value()
-            val snapshotsList = snapshots.computeIfAbsent(globalIdValue) { LinkedList<String>() }
+            val snapshotsList = snapshotCache.computeIfAbsent(globalIdValue) { LinkedList<String>() }
             snapshotsList.push(snapshotJson)
         }
 
@@ -223,14 +227,14 @@ class Cache2kRepository : JaversRepository {
 
     private fun contains(globalId: GlobalId): Boolean = contains(globalId.value())
 
-    private fun contains(globalIdValue: String): Boolean = snapshots.containsKey(globalIdValue)
+    private fun contains(globalIdValue: String): Boolean = snapshotCache.containsKey(globalIdValue)
 
     private fun readSnapshots(globalIdValue: String): MutableList<CdoSnapshot> {
         logger.trace { "Read from repository. globalIdValue=$globalIdValue" }
-        return snapshots[globalIdValue]
+        return snapshotCache[globalIdValue]
                    ?.map { jsonConverter!!.fromJson(it, CdoSnapshot::class.java) }
                    ?.toMutableList()
-               ?: mutableListOf<CdoSnapshot>()
+               ?: mutableListOf()
     }
 
     private fun readSnapshots(globalId: GlobalId): MutableList<CdoSnapshot> {

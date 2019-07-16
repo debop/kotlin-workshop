@@ -5,14 +5,12 @@
 		<withJansi>true</withJansi>
 		<immediateFlush>true</immediateFlush>
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} %5level [%42.42thread] %40.40logger{39}:%4line: %msg%n</pattern>
+			<pattern>%d{HH:mm:ss.SSS} %5level [%16.16thread] %32.32logger{31}:%4line: %msg%n</pattern>
 			<charset>UTF-8</charset>
 		</encoder>
 	</appender>
 
-	<logger name="org.javers" level="TRACE"/>
-
-	<logger name="io.grpc" level="TRACE"/>
+	<logger name="org.javers" level="DEBUG"/>
 
 	<root level="INFO">
 		<appender-ref ref="console"/>
