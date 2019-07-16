@@ -15,7 +15,8 @@ import java.util.Optional
  * @since 19. 7. 15
  */
 data class SnapshotEntity(@Id var id: Int,
-                          var entityRef: SnapshotEntity? = null) {
+                          var entityRef: SnapshotEntity? = null,
+                          var valueObjectRef: DummyAddress? = null) {
 
 
     enum class DummyEnum { val1, val2, val3 }
@@ -29,15 +30,15 @@ data class SnapshotEntity(@Id var id: Int,
     var arrayOfEntities: Array<SnapshotEntity>? = null
     var arrayOfValueObjects: Array<DummyAddress>? = null
 
-    val listOfIntegers: List<Int> = emptyList()
-    val listOfDates: List<LocalDate> = emptyList()
-    val listOfValueObjects: List<DummyAddress> = emptyList()
-    val polymorficList: List<Any?> = emptyList()
+    var listOfIntegers: MutableList<Int> = mutableListOf()
+    var listOfDates: MutableList<LocalDate> = mutableListOf()
+    var listOfValueObjects: MutableList<DummyAddress> = mutableListOf()
+    var polymorficList: MutableList<Any?> = mutableListOf()
 
-    val setOfIntegers: Set<Int> = emptySet()
-    val setOfDates: Set<LocalDate> = emptySet()
-    val setOfValueObjects: Set<DummyAddress> = emptySet()
-    val polymorficset: Set<Any?> = emptySet()
+    var setOfIntegers: MutableSet<Int> = mutableSetOf()
+    var setOfDates: MutableSet<LocalDate> = mutableSetOf()
+    var setOfValueObjects: MutableSet<DummyAddress> = mutableSetOf()
+    var polymorficset: MutableSet<Any?> = mutableSetOf()
 
     var optionalInt: Optional<Int> = Optional.empty()
     var optionalDate: Optional<LocalDate> = Optional.empty()
@@ -52,7 +53,7 @@ data class SnapshotEntity(@Id var id: Int,
     var multiMapPrimitiveToValueObject: Multimap<String, DummyAddress>? = null
     var multiMapPrimitiveToEntity: Multimap<String, SnapshotEntity>? = null
     var multiMapEntityToEntity: Multimap<SnapshotEntity, SnapshotEntity>? = null
-    var multiMapValueObjectToValueObject: Multimap<DummyAddress, DummyAddress>? = null // not supported
+    //    var multiMapValueObjectToValueObject: Multimap<DummyAddress, DummyAddress>? = null // not supported
 
     val mapOfPrimitives: MutableMap<String, Int> = mutableMapOf()
     val mapOfValues: MutableMap<LocalDate, BigDecimal> = mutableMapOf()
@@ -66,7 +67,7 @@ data class SnapshotEntity(@Id var id: Int,
     var shallowPhoneList: MutableList<ShallowPhone> = mutableListOf()
     var shallowPhonesMap: MutableMap<String, ShallowPhone> = mutableMapOf()
 
-    val mapVoToPrimitive: MutableMap<DummyAddress, String> = mutableMapOf()  // not supported
-    var nonParameterizedMap: Map<*, *>? = null                                       // not supported
+    //    val mapVoToPrimitive: MutableMap<DummyAddress, String> = mutableMapOf()  // not supported
+    //    var nonParameterizedMap: Map<*, *>? = null                                       // not supported
 
 }

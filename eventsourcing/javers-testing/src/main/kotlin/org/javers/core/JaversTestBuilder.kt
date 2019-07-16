@@ -106,12 +106,12 @@ class JaversTestBuilder(val builder: JaversBuilder = JaversBuilder()) {
 
     fun instanceId(instance: Any): InstanceId = globalIdFactory.createIdFromInstance(instance)
 
-    fun instanceId(localId: Any, clazz: Class<*>): InstanceId = globalIdFactory.createInstanceId(localId, clazz)
+    fun <T> instanceId(localId: Any, clazz: Class<T>): InstanceId = globalIdFactory.createInstanceId(localId, clazz)
 
     fun valueObjectId(localId: Any, owningClass: Class<*>, fragment: String): ValueObjectId =
         globalIdFactory.createValueObjectIdFromPath(instanceId(localId, owningClass), fragment)
 
-    fun unboundedValueObjectId(valueObjectClass: Class<*>): UnboundedValueObjectId =
+    fun <V> unboundedValueObjectId(valueObjectClass: Class<V>): UnboundedValueObjectId =
         globalIdFactory.createUnboundedValueObjectId(valueObjectClass)
 
 }

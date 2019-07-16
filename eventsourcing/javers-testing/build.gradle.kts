@@ -1,4 +1,7 @@
 dependencies {
+
+    api(project(":eventsourcing:javers-kotlin"))
+
     api(Libraries.javers_core)
     api(Libraries.javers_spring)
     api(Libraries.javers_spring_jpa)
