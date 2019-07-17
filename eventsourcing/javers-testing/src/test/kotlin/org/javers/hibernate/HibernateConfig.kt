@@ -2,7 +2,6 @@ package org.javers.hibernate
 
 import mu.KLogging
 import org.javers.core.Javers
-import org.javers.repository.sql.ConnectionProvider
 import org.javers.spring.auditable.AuthorProvider
 import org.javers.spring.auditable.CommitPropertiesProvider
 import org.javers.spring.auditable.aspect.JaversAuditableAspect
@@ -15,7 +14,6 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType
 import org.springframework.orm.jpa.JpaTransactionManager
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
-import org.springframework.transaction.PlatformTransactionManager
 import java.util.Properties
 import javax.persistence.EntityManagerFactory
 import javax.sql.DataSource
@@ -33,10 +31,13 @@ class HibernateConfig {
     }
 
     @Bean
-    fun jpaConnectionProvider(): ConnectionProvider = JpaHibernateConnectionProvider()
+    fun jpaConnectionProvider() = JpaHibernateConnectionProvider()
 
     @Bean
     fun entityManagerFactory(): LocalContainerEntityManagerFactoryBean {
+
+        logger.info { "Create EntityManagerFactory ..." }
+        
         val em = LocalContainerEntityManagerFactoryBean()
         em.dataSource = dataSource()
         em.setPackagesToScan("org.javers.hibernate.entity", "org.javers.spring.model")
@@ -49,11 +50,10 @@ class HibernateConfig {
     }
 
     @Bean
-    fun transactionManager(emf: EntityManagerFactory): PlatformTransactionManager {
-        return JpaTransactionManager().apply {
+    fun transactionManager(emf: EntityManagerFactory) =
+        JpaTransactionManager().apply {
             entityManagerFactory = emf
         }
-    }
 
     @Bean
     fun exceptionTranslation(): PersistenceExceptionTranslationPostProcessor {

@@ -25,6 +25,9 @@ dependencies {
     testCompile(Libraries.h2)
     testCompile(Libraries.hikaricp)
 
+    implementation(Libraries.hibernate_core)
+    implementation(Libraries.hibernate_jpa_2_1_api)
+
     implementation("org.springframework.data:spring-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

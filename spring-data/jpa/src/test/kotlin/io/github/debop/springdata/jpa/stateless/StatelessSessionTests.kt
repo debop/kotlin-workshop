@@ -11,11 +11,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestMethodOrder
 import kotlin.system.measureTimeMillis
 
-/**
- * StatelessSessionTests
- * @author debop (Sunghyouk Bae)
- */
-
 @Suppress("UNCHECKED_CAST")
 @TestMethodOrder(OrderAnnotation::class)
 class StatelessSessionTests : AbstractDataJpaTest() {
