@@ -33,7 +33,7 @@ class FutureExtensionTest {
         logger.debug { "Start future..." }
 
         val cf = stringFuture.asCompletableFuture()
-        cf.whenComplete { result, error ->
+        cf.whenComplete { result, _ ->
             logger.debug { "result=$result" }
         }
         cf.join()
