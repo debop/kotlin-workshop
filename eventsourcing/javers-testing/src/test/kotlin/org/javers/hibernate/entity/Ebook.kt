@@ -1,5 +1,8 @@
 package org.javers.hibernate.entity
 
+import javax.persistence.Access
+import javax.persistence.AccessType
+import javax.persistence.CascadeType
 import javax.persistence.ElementCollection
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -9,13 +12,14 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "ebook")
-data class Ebook(@Id var id: String? = null) {
+@Access(AccessType.PROPERTY)  // NOTE: AccessType 이 Property인 경우에는 모든 annotation 앞에 get 을 붙여야 합니다.
+data class Ebook(@get:Id var id: String) {
 
     var title: String? = null
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @get:ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
     var author: Author? = null
 
-    @ElementCollection
-    val comments: MutableList<String> = mutableListOf()
+    @get:ElementCollection(targetClass = String::class, fetch = FetchType.EAGER)
+    var comments: MutableList<String>? = mutableListOf()
 }

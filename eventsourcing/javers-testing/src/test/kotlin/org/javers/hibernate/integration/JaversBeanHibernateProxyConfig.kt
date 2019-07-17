@@ -42,7 +42,15 @@ class JaversBeanHibernateProxyConfig {
             .withTxManager(txManager)
             .registerJaversRepository(sqlRepository)
             .withObjectAccessHook(HibernateUnproxyObjectAccessHook<Any>())
-            .withMappingStyle(MappingStyle.BEAN)  // for access property state, call getters
+            .withMappingStyle(MappingStyle.BEAN)  // for access property state, call getters (기본값은 FIELD)
             .build()
+
+        // TODO: Spring @Transactional 이 제대로 되는지 확인해야 합니다. ( TransactionalJaversBuilder을 참고해서 새로운 Transactional Javers Builder를 만들어야 합니다)
+        //        return JaversBuilder
+        //            .javers()
+        //            .registerJaversRepository(Cache2kRepository())
+        //            .withObjectAccessHook(HibernateUnproxyObjectAccessHook<Any>())
+        //            .withMappingStyle(MappingStyle.BEAN)  // for access property state, call getters (기본값은 FIELD)
+        //            .build()
     }
 }

@@ -1,5 +1,7 @@
 package org.javers.hibernate.entity
 
+import javax.persistence.Access
+import javax.persistence.AccessType
 import javax.persistence.CascadeType
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -9,6 +11,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "person")
+@Access(AccessType.FIELD)
 data class Person(@Id var id: String? = null, var name: String? = null) {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
