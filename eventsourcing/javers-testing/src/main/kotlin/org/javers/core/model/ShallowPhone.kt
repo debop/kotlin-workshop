@@ -10,7 +10,6 @@ import org.javers.core.metamodel.annotation.ShallowReference
  * @since 19. 7. 15
  */
 @ShallowReference
-data class ShallowPhone @JvmOverloads constructor(
-    @Id var id: Long,
-    var number: String? = null,
-    var category: CategoryC? = null)
+data class ShallowPhone(@Id var id: Long,
+                        var number: String? = null,
+                        var category: CategoryC? = null)

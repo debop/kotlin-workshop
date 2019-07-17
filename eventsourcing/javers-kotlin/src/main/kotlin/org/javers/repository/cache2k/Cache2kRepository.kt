@@ -27,6 +27,9 @@ import org.javers.trimToRequestedSlice
 import java.util.LinkedList
 import java.util.Optional
 import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.locks.ReadWriteLock
+import java.util.concurrent.locks.ReentrantReadWriteLock
+import kotlin.concurrent.withLock
 
 /**
  * [JaversRepository] using cache2k to save snapshot
@@ -56,6 +59,7 @@ class Cache2kRepository : JaversRepository {
 
     private var head: CommitId? = null
     private var jsonConverter: JsonConverter? = null
+    private val syncObj: ReadWriteLock = ReentrantReadWriteLock()
 
     override fun getValueObjectStateHistory(ownerEntity: EntityType, path: String, queryParams: QueryParams): MutableList<CdoSnapshot> {
 
@@ -168,51 +172,51 @@ class Cache2kRepository : JaversRepository {
         return applyQueryParams(getAll(), queryParams)
     }
 
-    override fun getSnapshots(snapshotIdentifiers: MutableCollection<SnapshotIdentifier>): MutableList<CdoSnapshot> {
+    override fun getSnapshots(snapshotIdentifiers: Collection<SnapshotIdentifier>): List<CdoSnapshot> {
         return getPersistedIdentifiers(snapshotIdentifiers)
             .map {
                 val objectSnapshots = readSnapshots(it.globalId)
                 objectSnapshots[objectSnapshots.size - it.version.toInt()]
             }
-            .toMutableList()
     }
 
-    private fun getPersistedIdentifiers(snapshotIdentifiers: MutableCollection<SnapshotIdentifier>): List<SnapshotIdentifier> {
+    private fun getPersistedIdentifiers(snapshotIdentifiers: Collection<SnapshotIdentifier>): List<SnapshotIdentifier> {
         return snapshotIdentifiers
             .filter {
-                this.contains(it.globalId) && it.version <= readSnapshots(it.globalId).size
+                this.contains(it.globalId) && it.version <= snapshotCache[it.globalId.value()].size
             }
     }
 
     override fun persist(commit: Commit) {
-        logger.debug { "Persist ... commit=$commit" }
+        logger.trace { "Persist ... commit=$commit" }
 
-        commit.snapshots.forEach {
-            persist(it)
+
+        syncObj.writeLock().withLock {
+            commit.snapshots.forEach {
+                persist(it)
+            }
+            head = commit.id
+            commitCache.put(headId, counter.incrementAndGet())
         }
 
-        logger.debug { "${commit.snapshots.size} snapshot(s) persisted" }
-        head = commit.id
-        commitCache.put(headId, counter.incrementAndGet())
+        logger.trace { "${commit.snapshots.size} snapshot(s) persisted" }
     }
 
     private fun persist(snapshot: CdoSnapshot) {
         check(jsonConverter != null) { "jsonConverter is null" }
 
-        logger.debug { "Persist snapshot. $snapshot" }
+        logger.trace { "Persist snapshot. $snapshot" }
 
         // NOTE: snapshot 저장은 Json Format으로 하는 것이 기본이다.
         // TODO: Local 에서는 Binary Serialization과 압축을 이용하면 좋을 듯
         // TODO: Kafka 전송 시에는 그냥 Json Format을 보내던가 Avro 포맷으로 변경하던가 해야겠다 (Kafka Key에 CommitId 를 넣도록 하자))
         val snapshotJson = jsonConverter!!.toJson(snapshot)
 
-        synchronized(this) {
-            val globalIdValue = snapshot.globalId.value()
-            val snapshotsList = snapshotCache.computeIfAbsent(globalIdValue) { LinkedList<String>() }
-            snapshotsList.push(snapshotJson)
-        }
+        val globalIdValue = snapshot.globalId.value()
+        val snapshotsList = snapshotCache.computeIfAbsent(globalIdValue) { LinkedList<String>() }
+        snapshotsList.push(snapshotJson)
 
-        logger.debug { "Persist snapshot as Json:\n$snapshotJson" }
+        logger.trace { "Persist snapshot as Json:\n$snapshotJson" }
     }
 
     override fun getHeadId(): CommitId? = head
@@ -229,15 +233,13 @@ class Cache2kRepository : JaversRepository {
 
     private fun contains(globalIdValue: String): Boolean = snapshotCache.containsKey(globalIdValue)
 
-    private fun readSnapshots(globalIdValue: String): MutableList<CdoSnapshot> {
-        logger.trace { "Read from repository. globalIdValue=$globalIdValue" }
-        return snapshotCache[globalIdValue]
-                   ?.map { jsonConverter!!.fromJson(it, CdoSnapshot::class.java) }
-                   ?.toMutableList()
-               ?: mutableListOf()
+    private fun readSnapshots(globalIdValue: String): List<CdoSnapshot> {
+        // logger.trace { "Read from repository. globalIdValue=$globalIdValue" }
+        return snapshotCache[globalIdValue]?.map { jsonConverter!!.fromJson(it, CdoSnapshot::class.java) }
+               ?: emptyList()
     }
 
-    private fun readSnapshots(globalId: GlobalId): MutableList<CdoSnapshot> {
+    private fun readSnapshots(globalId: GlobalId): List<CdoSnapshot> {
         return readSnapshots(globalId.value())
     }
 }

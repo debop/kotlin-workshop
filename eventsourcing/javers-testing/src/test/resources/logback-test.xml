@@ -10,7 +10,8 @@
 		</encoder>
 	</appender>
 
-	<logger name="org.javers" level="DEBUG"/>
+	<logger name="org.javers.JQL" level="debug"/>
+	<logger name="org.javers.TypeMapper" level="debug"/>
 
 	<root level="INFO">
 		<appender-ref ref="console"/>

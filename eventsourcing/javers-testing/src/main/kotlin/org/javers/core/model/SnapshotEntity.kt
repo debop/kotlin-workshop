@@ -32,6 +32,7 @@ data class SnapshotEntity(@Id var id: Int,
 
     var listOfIntegers: MutableList<Int> = mutableListOf()
     var listOfDates: MutableList<LocalDate> = mutableListOf()
+    val listOfEntities: MutableList<SnapshotEntity> = mutableListOf()
     var listOfValueObjects: MutableList<DummyAddress> = mutableListOf()
     var polymorficList: MutableList<Any?> = mutableListOf()
 
@@ -64,7 +65,7 @@ data class SnapshotEntity(@Id var id: Int,
 
     var shallowPhone: ShallowPhone? = null
     var shallowPhones: MutableSet<ShallowPhone> = mutableSetOf()
-    var shallowPhoneList: MutableList<ShallowPhone> = mutableListOf()
+    var shallowPhonesList: MutableList<ShallowPhone> = mutableListOf()
     var shallowPhonesMap: MutableMap<String, ShallowPhone> = mutableMapOf()
 
     //    val mapVoToPrimitive: MutableMap<DummyAddress, String> = mutableMapOf()  // not supported

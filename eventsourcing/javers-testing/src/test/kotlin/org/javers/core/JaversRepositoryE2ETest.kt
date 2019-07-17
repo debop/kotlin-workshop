@@ -10,25 +10,40 @@ import org.amshove.kluent.shouldContainSame
 import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldEqualTo
 import org.javers.common.date.DateProvider
+import org.javers.core.JaversTestBuilder.Companion.javersTestAssembly
 import org.javers.core.commit.CommitMetadata
 import org.javers.core.diff.changetype.ValueChange
+import org.javers.core.diff.changetype.container.CollectionChange
+import org.javers.core.diff.changetype.container.ValueAdded
 import org.javers.core.metamodel.`object`.InstanceId
+import org.javers.core.model.ConcreteWithActualType
 import org.javers.core.model.DummyAddress
 import org.javers.core.model.DummyUser
 import org.javers.core.model.DummyUserDetails
+import org.javers.core.model.NewEntityWithTypeAlias
+import org.javers.core.model.NewValueObjectWithTypeAlias
 import org.javers.core.model.PrimitiveEntity
 import org.javers.core.model.SnapshotEntity
 import org.javers.core.model.SnapshotEntity.DummyEnum
 import org.javers.repository.api.JaversRepository
+import org.javers.repository.api.SnapshotIdentifier
 import org.javers.repository.cache2k.Cache2kRepository
+import org.javers.repository.jql.JqlQuery
 import org.javers.repository.jql.QueryBuilder
+import org.junit.jupiter.api.Assumptions
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 import java.math.BigDecimal
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import java.util.EnumSet
+import java.util.stream.Stream
 import kotlin.math.abs
 
 /**
@@ -84,8 +99,7 @@ open class JaversRepositoryE2ETest {
     }
 
     protected open fun setNow(dateTime: ZonedDateTime) {
-        val provider = this.dateProvider
-        when (provider) {
+        when (val provider = this.dateProvider) {
             is TikDateProvider  -> provider.set(dateTime)
             is FakeDateProvider -> provider.set(dateTime)
         }
@@ -212,7 +226,7 @@ open class JaversRepositoryE2ETest {
             commitSeq(commitMetadata) shouldEqualTo 2
             commitMetadata.author shouldEqual "author2"
             changed.size shouldEqualTo 1
-            changed[0] == "intProperty"
+            changed[0] shouldEqual "intProperty"
             isInitial.shouldBeFalse()
 
             logger.debug { "Snapshot commitId: ${this.commitId}" }
@@ -307,5 +321,184 @@ open class JaversRepositoryE2ETest {
             val snap = javers.findSnapshots(QueryBuilder.byInstanceId(1, SnapshotEntity::class.java).build()).first()
             snap.getPropertyValue("intProperty") shouldEqual it
         }
+    }
+
+    @Test
+    fun `부모클래스의 Generric 필드에 대한 변화를 commit 하기`() {
+        // GIVEN
+        javers.commit("author", ConcreteWithActualType("a", listOf("1")))
+        javers.commit("author", ConcreteWithActualType("a", listOf("1", "2")))
+
+        // WHEN
+        val changes = javers.findChanges(QueryBuilder.byClass(ConcreteWithActualType::class.java).build())
+
+        // THEN
+        val change = changes[0]
+
+        Assumptions.assumeTrue { change is CollectionChange }
+        change shouldBeInstanceOf CollectionChange::class.java
+        if (change is CollectionChange) {
+            val elementChange = change.changes[0]
+            elementChange shouldBeInstanceOf ValueAdded::class.java
+
+            if (elementChange is ValueAdded) {
+                elementChange.index shouldEqualTo 1
+                elementChange.addedValue shouldBeInstanceOf String::class
+                elementChange.addedValue shouldEqual "2"
+            }
+        }
+    }
+
+    @Test
+    fun `ValueObject와 소유권자인 Entity 를 ValueObject 쿼리로 조회하기`() {
+        // GIVEN
+        javers.commit("author", NewEntityWithTypeAlias(1.toBigDecimal()).apply { valueObject = NewValueObjectWithTypeAlias(5) })
+        javers.commit("author", NewEntityWithTypeAlias(1.toBigDecimal()).apply { valueObject = NewValueObjectWithTypeAlias(6) })
+
+        // WHEN
+        val changes = javers.findChanges(QueryBuilder
+                                             .byValueObject(NewEntityWithTypeAlias::class.java, "valueObject")
+                                             .build())
+
+        // THEN
+        changes.size shouldEqualTo 1
+
+        val valueChange = changes.find { it is ValueChange && it.propertyName == "some" } as ValueChange
+
+        valueChange.left shouldEqual 5
+        valueChange.right shouldEqual 6
+    }
+
+    @ParameterizedTest
+    @MethodSource("getTimeRangeQuery")
+    fun `Entity Snapshot을 기간으로 검색하기`(pair: Pair<JqlQuery, List<LocalDateTime>>) {
+        // GIVEN:
+        repeat(5) {
+            val index = it + 1
+            val entity = SnapshotEntity(1).apply { intProperty = index }
+            val now = ZonedDateTime.of(2015, 1, 1, index, 0, 0, 0, ZoneOffset.UTC)
+            setNow(now)
+            javers.commit("author", entity)
+        }
+
+        val (query, expectedCommitDates) = pair
+
+        // WHEN
+        val snapshots = javers.findSnapshots(query)
+        val commitDates = snapshots.map { it.commitMetadata.commitDate }
+
+        // THEN
+
+        commitDates shouldContainSame expectedCommitDates
+    }
+
+    private fun getTimeRangeQuery(): Stream<Pair<JqlQuery, List<LocalDateTime>>> {
+        return listOf(
+            QueryBuilder.byInstanceId(1, SnapshotEntity::class.java)
+                .from(LocalDateTime.of(2015, 1, 1, 3, 0))
+                .build() to (5 downTo 3).map { LocalDateTime.of(2015, 1, 1, it, 0) },
+
+            QueryBuilder.byInstanceId(1, SnapshotEntity::class.java)
+                .to(LocalDateTime.of(2015, 1, 1, 3, 0))
+                .build() to (3 downTo 1).map { LocalDateTime.of(2015, 1, 1, it, 0) },
+
+            QueryBuilder
+                .byInstanceId(1, SnapshotEntity::class.java)
+                .from(LocalDateTime.of(2015, 1, 1, 2, 0))
+                .to(LocalDateTime.of(2015, 1, 1, 4, 0))
+                .build() to (4 downTo 2).map { LocalDateTime.of(2015, 1, 1, it, 0) }
+        ).stream()
+    }
+
+    @Test
+    fun `Entity snapshot version 은 증가됩니다`() {
+        // WHEN
+        javers.commit("author", SnapshotEntity(1).apply { intProperty = 11 })
+        javers.commit("author", SnapshotEntity(1).apply { intProperty = 22 })
+        javers.commit("author", SnapshotEntity(1).apply { intProperty = 33 })
+
+        // THEN
+        val snapshots = javers.findSnapshots(QueryBuilder.byInstanceId(1, SnapshotEntity::class.java).build())
+        snapshots[0].version shouldEqualTo 3
+        snapshots[1].version shouldEqualTo 2
+        snapshots[2].version shouldEqualTo 1
+    }
+
+
+    @RepeatedTest(3)
+    fun `200개의 다른 snapshot들을 조회한다`() {
+        // GIVEN:
+        repeat(200) {
+            javers.commit("author", SnapshotEntity(id = 1).apply { intProperty = it + 1 })
+        }
+
+        val instanceId = javersTestAssembly().instanceId(SnapshotEntity(id = 1))
+        val snapshotIdentifiers = List(200) { SnapshotIdentifier(instanceId, it + 1L) }
+
+        // WHEN:
+        val snapshots = repository.getSnapshots(snapshotIdentifiers)
+
+        // THEN:
+        snapshots.size shouldEqualTo snapshotIdentifiers.size
+    }
+
+    @Test
+    fun `Commited properties 를 commit 하고 read 하기`() {
+        val commitProperties = mapOf(
+            "tenant" to "ACME",
+            "sessionId" to "1234567890",
+            "device" to "smartwatch",
+            "yet another property name" to "yet another property value"
+        )
+        javers.commit("author", SnapshotEntity(id = 1), commitProperties)
+
+        // WHEN
+        val snapshot = javers.findSnapshots(QueryBuilder.byInstanceId(1, SnapshotEntity::class.java).build()).first()
+
+        // THEN
+        snapshot.commitMetadata.properties shouldContainSame commitProperties
+    }
+
+    @Test
+    fun `cluster-friendly commitId generator 지원하기`() {
+        val threads = 10
+        val javersRepo = Cache2kRepository()
+
+        List(10) { it }
+            .parallelStream()
+            .map {
+                it to JaversBuilder.javers()
+                    .registerJaversRepository(javersRepo)
+                    .withCommitIdGenerator(CommitIdGenerator.RANDOM)
+                    .build()
+            }.forEach {
+                val commit = it.second.commit("author", SnapshotEntity(id = it.first))
+                logger.debug { "Commit entity. commit=$commit" }
+            }
+
+        val javers = JaversBuilder.javers().registerJaversRepository(javersRepo).build()
+        val snapshots = javers.findSnapshots(QueryBuilder.anyDomainObject().build())
+
+        snapshots.map { it.commitId }.toSet().size shouldEqualTo threads
+    }
+
+    @Test
+    fun `변경이 없는 zero snapshots 은 commit 되지 않습니다`() {
+        // GIVEN
+        val anEntity = SnapshotEntity(1).apply { intProperty = 100 }
+
+        // WHEN
+        val commit = javers.commit("author", anEntity)
+        val snapshots = javers.findSnapshots(QueryBuilder.byInstanceId(1, SnapshotEntity::class.java).build())
+
+        // THEN
+        snapshots.size shouldEqualTo 1
+        repository.headId shouldEqual commit.id
+
+        // WHEN: 변경이 없는 엔티티는 저장되면 안됩니다
+        javers.commit("author", anEntity)
+
+        // THEN: 저장되지 않았으므로 headId의 변화가 없다 
+        repository.headId shouldEqual commit.id
     }
 }
