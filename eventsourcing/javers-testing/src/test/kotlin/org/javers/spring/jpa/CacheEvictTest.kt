@@ -20,6 +20,7 @@ import javax.sql.DataSource
  * JPA 예외 발생 시 Transaction Rollback 을 수행하고, Javers 내의 commit 도 취소하도록 한다.
  *
  * TODO: 만약 Kafka를 사용할 경우, Kafka 의 transaction을 사용할 것인가? 아니면 compensation message 를 발송할 것인가? 검토 필요
+ * TODO: spring-kafka의 TransactionManager와 엮는 방법이 가장 좋을 듯 
  */
 @SpringBootTest(classes = [CacheEvictSpringConfig::class])
 class CacheEvictTest {

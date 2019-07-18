@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 class CacheEvictSpringConfig : HibernateConfig() {
 
     @Bean
-    fun sqlRepository() = SqlRepositoryBuilder
+    fun sqlRepository(): JaversSqlRepository = SqlRepositoryBuilder
         .sqlRepository()
         .withConnectionProvider(jpaConnectionProvider())
         .withDialect(DialectName.H2)
@@ -42,6 +42,6 @@ class CacheEvictSpringConfig : HibernateConfig() {
     }
 
     @Bean
-    fun errorThrowingService(repository: PersonCrudRepository) =
+    fun errorThrowingService(repository: PersonCrudRepository): ErrorThrowingService =
         ErrorThrowingService(repository)
 }
