@@ -1,0 +1,16 @@
+javers:
+  algorithm: levenshtein_distance
+  mappingStyle: bean
+  newObjectSnapshot: false
+  prettyPrint: false
+  typeSafeValues: true
+  dialect: H2
+  sqlSchema: 'test'
+  sqlSchemaManagementEnabled: true
+  commitIdGenerator: random
+  packagesToScan: my.company.domain.person, my.company.domain.finance
+  prettyPrintDateFormats:
+    localDateTime: "yyyy-mm-dd HH mm ss SSS"
+    zonedDateTime: "yyyy-mm-dd HH mm ss Z"
+    localDate: "yyy-mm-dd"
+    localTime: "HH mm ss SSS"
