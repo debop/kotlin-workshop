@@ -13,11 +13,11 @@ import java.util.concurrent.CompletableFuture
 data class Image(val content: ByteArray)
 
 fun loadImageAsync(name: String): CompletableFuture<Image> {
-    println("Load images...")
+    TODO("구현 중")
 }
 
 fun combineImages(image1: Image, image2: Image): Image {
-    println("Combine images... $image1 + $image2")
+    TODO("구현 중")
 }
 
 // Java CompletableFuture

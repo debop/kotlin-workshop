@@ -190,7 +190,6 @@ class Cache2kRepository : JaversRepository {
     override fun persist(commit: Commit) {
         logger.trace { "Persist ... commit=$commit" }
 
-
         syncObj.writeLock().withLock {
             commit.snapshots.forEach {
                 persist(it)

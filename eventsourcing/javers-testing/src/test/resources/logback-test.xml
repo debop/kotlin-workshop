@@ -5,15 +5,16 @@
 		<withJansi>true</withJansi>
 		<immediateFlush>true</immediateFlush>
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} %5level [%16.16thread] %32.32logger{31}:%4line: %msg%n</pattern>
+			<pattern>%d{HH:mm:ss.SSS} %5level [%16.16thread] %logger:%4line: %msg%n</pattern>
 			<charset>UTF-8</charset>
 		</encoder>
 	</appender>
 
-	<logger name="org.javers" level="debug"/>
-	<logger name="org.javers.JQL" level="debug"/>
-	<logger name="org.javers.TypeMapper" level="debug"/>
+	<logger name="org.javers" level="DEBUG"/>
+	<logger name="org.javers.JQL" level="DEBUG"/>
+	<logger name="org.javers.TypeMapper" level="DEBUG"/>
 
+	<logger name="org.hibernate" level="DEBUG"/>
 	<logger name="org.springframework.data" level="DEBUG"/>
 	<logger name="com.zaxxer.hikari" level="DEBUG"/>
 

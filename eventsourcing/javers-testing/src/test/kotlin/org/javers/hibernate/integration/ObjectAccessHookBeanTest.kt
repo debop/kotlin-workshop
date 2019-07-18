@@ -18,6 +18,9 @@ import javax.persistence.PersistenceContext
 import javax.transaction.Transactional
 import kotlin.streams.toList
 
+// @ContextConfiguration 을 사용하려면, @ExtendWith(SpringExtension::class) 를 같이 지정해줘야 하고,
+// Test class와 메소드 모두 `open` 키워드를 지정해줘야 합니다.
+//
 @SpringBootTest(classes = [JaversBeanHibernateProxyConfig::class])
 @Transactional
 class ObjectAccessHookBeanTest {
@@ -37,14 +40,14 @@ class ObjectAccessHookBeanTest {
     lateinit var em: EntityManager
 
     @Test
-    open fun `context loading`() {
+    fun `context loading`() {
         javers.shouldNotBeNull()
         ebookRepository.shouldNotBeNull()
         authorRepository.shouldNotBeNull()
     }
 
     @Test
-    open fun `하이버네이트 엔티티의 unproxy된 정보를 Javers에 commit한다`() {
+    fun `하이버네이트 엔티티의 감사 정보를 Javers에 commit한다`() {
         // GIVEN
         val author = Author(id = "1", name = "Sunghyouk Bae")
         authorRepository.save(author)
@@ -58,11 +61,10 @@ class ObjectAccessHookBeanTest {
         logger.debug { "Save ebook. ebook=$ebook" }
 
         val book = ebookRepository.getOne("1")
+
         book.shouldNotBeNull()
         book.author.shouldNotBeNull()
         book.comments!! shouldContainSame listOf("great book", "awesome")
-        //        book.author shouldBeInstanceOf HibernateProxy::class.java
-        //        Hibernate.isInitialized(book.author).shouldBeFalse()
 
         // WHEN
         book.author!!.name = "kazik"

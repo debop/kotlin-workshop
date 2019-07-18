@@ -8,6 +8,7 @@ import org.javers.spring.auditable.aspect.JaversAuditableAspect
 import org.javers.spring.auditable.aspect.springdata.JaversSpringDataAuditableRepositoryAspect
 import org.javers.spring.jpa.JpaHibernateConnectionProvider
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType
@@ -24,6 +25,7 @@ import javax.sql.DataSource
  * @author debop
  * @since 19. 7. 17
  */
+@Configuration
 class HibernateConfig {
 
     companion object : KLogging() {
@@ -89,7 +91,11 @@ class HibernateConfig {
             setProperty("hibernate.connection.autocommit", "false")
             setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect")
             setProperty("hibernate.current_session_context_class", "thread")
-            setProperty("hibernate.enable_lazy_load_no_trans", "true")
+
+            // NOTE: 이 설정은 spring boot의 `Open Session in View` 와 같은 역할을 수행한다. 사용하지 말 것
+            // HINT: https://vladmihalcea.com/the-hibernate-enable_lazy_load_no_trans-anti-pattern/
+            //
+            // setProperty("hibernate.enable_lazy_load_no_trans", "true")
         }
     }
 }

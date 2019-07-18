@@ -17,8 +17,8 @@ import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.annotation.EnableTransactionManagement
 
 @Configuration
-@EnableTransactionManagement
-@EnableAspectJAutoProxy
+@EnableTransactionManagement(proxyTargetClass = true)
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableJpaRepositories(basePackages = ["org.javers.hibernate.entity"])
 @Import(HibernateConfig::class)
 class JaversBeanHibernateProxyConfig {
@@ -41,7 +41,7 @@ class JaversBeanHibernateProxyConfig {
             .javers()
             .withTxManager(txManager)
             .registerJaversRepository(sqlRepository)
-            .withObjectAccessHook(HibernateUnproxyObjectAccessHook<Any>())
+            .withObjectAccessHook(HibernateUnproxyObjectAccessHook<Any>()) // Hibernate Proxy Object에 대한 Hook 인데, Spring Boot 환경에서는 사용할 필요가 없다
             .withMappingStyle(MappingStyle.BEAN)  // for access property state, call getters (기본값은 FIELD)
             .build()
 

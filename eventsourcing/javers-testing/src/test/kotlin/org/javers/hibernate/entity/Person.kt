@@ -12,9 +12,9 @@ import javax.persistence.Table
 @Entity
 @Table(name = "person")
 @Access(AccessType.FIELD)
-data class Person(@Id var id: String? = null, var name: String? = null) {
+data class Person(@Id var id: String, var name: String? = null) {
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], optional = true)
     var boss: Person? = null
 
     fun getBoss(level: Int): Person? {

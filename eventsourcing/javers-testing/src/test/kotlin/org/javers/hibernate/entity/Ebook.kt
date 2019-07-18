@@ -1,5 +1,7 @@
 package org.javers.hibernate.entity
 
+import org.hibernate.annotations.LazyToOne
+import org.hibernate.annotations.LazyToOneOption
 import javax.persistence.Access
 import javax.persistence.AccessType
 import javax.persistence.CascadeType
@@ -17,9 +19,10 @@ data class Ebook(@get:Id var id: String) {
 
     var title: String? = null
 
-    @get:ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
+    @get:ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST], optional = true)
+    @get:LazyToOne(LazyToOneOption.PROXY)
     var author: Author? = null
 
-    @get:ElementCollection(targetClass = String::class, fetch = FetchType.EAGER)
+    @get:ElementCollection(targetClass = String::class)
     var comments: MutableList<String>? = mutableListOf()
 }
