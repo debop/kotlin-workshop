@@ -238,8 +238,8 @@ object Libraries {
     const val latencyUtils = "org.latencyutils:LatencyUtils:2.0.3"
     const val hdrHistogram = "org.hdrhistogram:HdrHistogram:2.1.11"
 
-    const val random_beans: String = "io.github.benas:random-beans:${Versions.random_beans}"
-    const val reflectasm: String = "com.esotericsoftware:reflectasm:${Versions.reflectasm}"
+    const val random_beans = "io.github.benas:random-beans:${Versions.random_beans}"
+    const val reflectasm = "com.esotericsoftware:reflectasm:${Versions.reflectasm}"
 
     // MongoDB
     const val mongo_java_driver = "org.mongodb:mongo-java-driver:${Versions.mongo_driver}"
@@ -322,16 +322,19 @@ object Libraries {
     const val junit_platform_engine = "org.junit.platform:junit-platform-engine:${Versions.junit_platform}"
 
     const val kluent = "org.amshove.kluent:kluent:1.49"
-    const val assertj_core: String = "org.assertj:assertj-core:3.12.2"
-    const val mockk: String = "io.mockk:mockk:${Versions.mockk}"
+    const val assertj_core = "org.assertj:assertj-core:3.12.2"
+    const val mockk = "io.mockk:mockk:${Versions.mockk}"
     const val mockito_core = "org.mockito:mockito-core:${Versions.mockito}"
     const val mockito_junit_jupiter = "org.mockito:mockito-junit-jupiter:${Versions.mockito}"
     const val mockito_kotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
 
-    const val testcontainers: String = "org.testcontainers:testcontainers:${Versions.testcontainers}"
-    const val testcontainers_junit_jupiter: String = "org.testcontainers:junit-jupiter:${Versions.testcontainers}"
-    const val testcontainers_mariadb: String = "org.testcontainers:mariadb:${Versions.testcontainers}"
-    const val testcontainers_mysql: String = "org.testcontainers:mysql:${Versions.testcontainers}"
-    const val testcontainers_postgresql: String = "org.testcontainers:postgresql:${Versions.testcontainers}"
+    const val testcontainers = "org.testcontainers:testcontainers:${Versions.testcontainers}"
+    const val testcontainers_junit_jupiter = "org.testcontainers:junit-jupiter:${Versions.testcontainers}"
+    const val testcontainers_mariadb = "org.testcontainers:mariadb:${Versions.testcontainers}"
+    const val testcontainers_mysql = "org.testcontainers:mysql:${Versions.testcontainers}"
+    const val testcontainers_postgresql = "org.testcontainers:postgresql:${Versions.testcontainers}"
+    const val testcontainers_kafka = "org.testcontainers:kafka:${Versions.testcontainers}"
+
+    const val spring_kafka = "org.springframework.kafka:spring-kafka"
 
 }

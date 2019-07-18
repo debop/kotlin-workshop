@@ -35,6 +35,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -371,7 +372,7 @@ open class JaversRepositoryE2ETest {
 
     @ParameterizedTest
     @MethodSource("getTimeRangeQuery")
-    fun `Entity Snapshot을 기간으로 검색하기`(pair: Pair<JqlQuery, List<LocalDateTime>>) {
+    fun `Entity Snapshot을 기간으로 검색하기`(query: JqlQuery, expectedCommitDates: List<LocalDateTime>) {
         // GIVEN:
         repeat(5) {
             val index = it + 1
@@ -381,34 +382,38 @@ open class JaversRepositoryE2ETest {
             javers.commit("author", entity)
         }
 
-        val (query, expectedCommitDates) = pair
-
         // WHEN
         val snapshots = javers.findSnapshots(query)
         val commitDates = snapshots.map { it.commitMetadata.commitDate }
 
         // THEN
-
         commitDates shouldContainSame expectedCommitDates
     }
 
-    private fun getTimeRangeQuery(): Stream<Pair<JqlQuery, List<LocalDateTime>>> {
-        return listOf(
-            QueryBuilder.byInstanceId(1, SnapshotEntity::class.java)
-                .from(LocalDateTime.of(2015, 1, 1, 3, 0))
-                .build() to (5 downTo 3).map { LocalDateTime.of(2015, 1, 1, it, 0) },
+    private fun getTimeRangeQuery(): Stream<Arguments> =
+        Stream.of(
+            Arguments.of(
+                QueryBuilder.byInstanceId(1, SnapshotEntity::class.java)
+                    .from(LocalDateTime.of(2015, 1, 1, 3, 0))
+                    .build(),
+                (5 downTo 3).map { LocalDateTime.of(2015, 1, 1, it, 0) }
+            ),
+            Arguments.of(
+                QueryBuilder.byInstanceId(1, SnapshotEntity::class.java)
+                    .to(LocalDateTime.of(2015, 1, 1, 3, 0))
+                    .build(),
+                (3 downTo 1).map { LocalDateTime.of(2015, 1, 1, it, 0) }
+            ),
 
-            QueryBuilder.byInstanceId(1, SnapshotEntity::class.java)
-                .to(LocalDateTime.of(2015, 1, 1, 3, 0))
-                .build() to (3 downTo 1).map { LocalDateTime.of(2015, 1, 1, it, 0) },
-
-            QueryBuilder
-                .byInstanceId(1, SnapshotEntity::class.java)
-                .from(LocalDateTime.of(2015, 1, 1, 2, 0))
-                .to(LocalDateTime.of(2015, 1, 1, 4, 0))
-                .build() to (4 downTo 2).map { LocalDateTime.of(2015, 1, 1, it, 0) }
-        ).stream()
-    }
+            Arguments.of(
+                QueryBuilder
+                    .byInstanceId(1, SnapshotEntity::class.java)
+                    .from(LocalDateTime.of(2015, 1, 1, 2, 0))
+                    .to(LocalDateTime.of(2015, 1, 1, 4, 0))
+                    .build(),
+                (4 downTo 2).map { LocalDateTime.of(2015, 1, 1, it, 0) }
+            )
+        )
 
     @Test
     fun `Entity snapshot version 은 증가됩니다`() {
