@@ -7,14 +7,16 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 
 @SpringBootApplication
-@ComponentScan("org.javers.spring.boot.sql")
+@ComponentScan("org.javers.spring.boot.sql", "org.javers.spring.boot.repository")
 class TestApplication {
 
     @Bean
     fun commitPropertiesProvider(): CommitPropertiesProvider =
         CommitPropertiesProvider {
-            mapOf("key" to "ok",
-                  "system" to "wms")
+            mapOf(
+                "key" to "ok",
+                "system" to "wms"
+            )
         }
 }
 

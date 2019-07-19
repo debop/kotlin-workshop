@@ -1,4 +1,4 @@
-package org.javers.spring.boot.repositoriy
+package org.javers.spring.boot.repository
 
 import org.javers.spring.annotation.JaversSpringDataAuditable
 import org.javers.spring.boot.model.EmployeeEntity

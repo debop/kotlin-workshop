@@ -49,4 +49,6 @@ include("eventsourcing:javers-example")
 include("eventsourcing:javers-mongodb-example")
 include("eventsourcing:javers-testing")
 
+include("utils:kotlin-uuid")
+
 include("kotlin-tests")

@@ -11,7 +11,10 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "employee")
-data class EmployeeEntity(@Id var id: UUID): Serializable {
+data class EmployeeEntity(
+    @Id
+    var id: UUID = UUID.randomUUID()
+): Serializable {
 
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "department_id", referencedColumnName = "id")

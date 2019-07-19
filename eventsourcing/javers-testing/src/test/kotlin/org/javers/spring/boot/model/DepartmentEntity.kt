@@ -13,7 +13,8 @@ import javax.persistence.Table
 data class DepartmentEntity(
     @Id
     @GeneratedValue
-    var id: UUID
+    @org.javers.core.metamodel.annotation.Id
+    var id: UUID? = null
 ): Serializable {
 
     @OneToMany(mappedBy = "department")

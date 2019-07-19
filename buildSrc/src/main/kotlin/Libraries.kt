@@ -241,6 +241,10 @@ object Libraries {
     const val random_beans = "io.github.benas:random-beans:${Versions.random_beans}"
     const val reflectasm = "com.esotericsoftware:reflectasm:${Versions.reflectasm}"
 
+    // UUID Generators
+    const val java_uuid_generator = "com.fasterxml.uuid:java-uuid-generator:3.2.0"
+    const val uuid_creator = "com.github.f4b6a3:uuid-creator:1.3.9"
+
     // MongoDB
     const val mongo_java_driver = "org.mongodb:mongo-java-driver:${Versions.mongo_driver}"
     const val mongo_bson = "org.mongodb:bson:${Versions.mongo_driver}"
