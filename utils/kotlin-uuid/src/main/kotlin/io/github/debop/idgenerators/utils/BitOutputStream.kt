@@ -1,4 +1,4 @@
-package io.github.debop.uuid.utils
+package io.github.debop.idgenerators.utils
 
 /**
  * BitOutputStream

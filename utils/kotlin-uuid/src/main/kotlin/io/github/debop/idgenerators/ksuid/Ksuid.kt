@@ -1,4 +1,4 @@
-package io.github.debop.uuid.ksuid
+package io.github.debop.idgenerators.ksuid
 
 import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer

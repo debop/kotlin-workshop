@@ -1,4 +1,4 @@
-package io.github.debop.uuid.snowflake
+package io.github.debop.idgenerators.snowflake
 
 import java.io.Serializable
 
@@ -15,6 +15,6 @@ data class SnowflakeId(val timestamp: Long,
     /**
      * Snowflake의 Long 값
      */
-    val longValue: Long = Snowflake.makeId(timestamp, machineId, increment)
-    val asString: String by lazy { longValue.toString(Snowflake.ALPHA_NUMERIC_BASE) }
+    val value: Long = Snowflake.makeId(timestamp, machineId, increment)
+    val valueAsString: String by lazy { value.toString(Snowflake.ALPHA_NUMERIC_BASE) }
 }

@@ -1,7 +1,7 @@
-package io.github.debop.uuid.ksuid
+package io.github.debop.idgenerators.ksuid
 
-import io.github.debop.uuid.utils.BitInputStream
-import io.github.debop.uuid.utils.BitOutputStream
+import io.github.debop.idgenerators.utils.BitInputStream
+import io.github.debop.idgenerators.utils.BitOutputStream
 import mu.KLogging
 
 /**
