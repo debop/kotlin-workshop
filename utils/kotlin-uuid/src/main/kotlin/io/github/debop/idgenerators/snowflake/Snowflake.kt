@@ -96,7 +96,7 @@ class Snowflake(machineId: Int = 0) {
 
     private class Sequencer {
         private var lastTimestamp: Long = -1L
-        @Volatile private var sequence = 0
+        private var sequence = 0
 
         fun nextSequence(): Pair<Long, Int> = synchronized(this) {
             var currentTimestamp = System.currentTimeMillis()
@@ -106,11 +106,12 @@ class Snowflake(machineId: Int = 0) {
                     while (currentTimestamp == lastTimestamp) {
                         currentTimestamp = System.currentTimeMillis()
                     }
+                    lastTimestamp = currentTimestamp
                 }
             } else {
                 sequence = 0
+                lastTimestamp = currentTimestamp
             }
-            lastTimestamp = currentTimestamp
             return lastTimestamp to sequence
         }
     }
