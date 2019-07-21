@@ -18,7 +18,7 @@ class FutureValueTest {
 
         futureVal.isDone.shouldBeFalse()
 
-        Thread.sleep(200)
+        Thread.sleep(500)
 
         futureVal.isDone.shouldBeTrue()
         futureVal.value shouldEqualTo time

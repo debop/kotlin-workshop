@@ -18,7 +18,7 @@ class RedisCacheApplication {
 
     companion object {
         // TestContainers를 이용한 Docker Instance
-        val redisServer = RedisServer.Instance
+        val redisServer = RedisServer()
     }
 }
 

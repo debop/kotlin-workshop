@@ -10,6 +10,6 @@ import mu.KLogging
 abstract class AbstractMultistoreTests {
 
     companion object : KLogging() {
-        private val mongoDB = MongoDBServer.Instance
+        private val mongoDB = MongoDBServer()
     }
 }

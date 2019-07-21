@@ -12,7 +12,7 @@ import javax.annotation.PreDestroy
 @SpringBootApplication
 class RedissonSpringDataApplication {
     companion object {
-        val redisServer = RedisServer.Instance
+        val redisServer = RedisServer()
     }
 
     @Autowired

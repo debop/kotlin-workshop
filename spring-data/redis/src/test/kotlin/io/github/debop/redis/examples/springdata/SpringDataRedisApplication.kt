@@ -24,7 +24,7 @@ import javax.annotation.PreDestroy
 class SpringDataRedisApplication {
 
     companion object : KLogging() {
-        val redisServer = RedisServer.Instance
+        val redisServer = RedisServer()
     }
 
     @Autowired

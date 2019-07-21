@@ -1,7 +1,10 @@
 package org.javers.hibernate.integration
 
 import mu.KLogging
+import org.amshove.kluent.shouldBeFalse
+import org.amshove.kluent.shouldBeTrue
 import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.javers.core.Javers
 import org.javers.hibernate.entity.Person
@@ -20,7 +23,7 @@ import javax.transaction.Transactional
 @Transactional
 class ObjectAccessHookFieldTest {
 
-    companion object : KLogging()
+    companion object: KLogging()
 
     @PersistenceContext
     lateinit var em: EntityManager
@@ -69,5 +72,28 @@ class ObjectAccessHookFieldTest {
         val snapshot = javers.getLatestSnapshot(proxy.id, Person::class.java).get()
         logger.debug { "Latest snapshot=\n${javers.jsonConverter.toJson(snapshot)}" }
         snapshot.getPropertyValue("name") shouldEqual "New Name"
+    }
+
+    @Test
+    fun `기존 엔티티 로드 시에는 Snapshot이 없다`() {
+        val dummy = Person(id = "100", name = "debop")
+        em.persist(dummy)
+        em.flush()
+
+        val persisted = repository.getOne(dummy.id)
+
+        javers.getLatestSnapshot(persisted.id, Person::class.java).isPresent.shouldBeFalse()
+
+        // NOTE: 처음 Update 시에는 모든 Properties가 새롭게 갱신되는 것으로 본다
+        //
+        persisted.name = "Sunghyouk Bae"
+        repository.save(persisted)
+
+        val snapshot = javers.getLatestSnapshot(persisted.id, Person::class.java).orElse(null)
+        logger.debug { "snapshot=${javers.jsonConverter.toJson(snapshot)}" }
+        snapshot.shouldNotBeNull()
+        snapshot.isInitial.shouldBeTrue()
+        snapshot.changed.size shouldEqualTo 2
+        logger.debug { "state=${snapshot.state}" }
     }
 }

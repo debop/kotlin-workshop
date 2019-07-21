@@ -9,7 +9,7 @@ import org.springframework.cache.annotation.EnableCaching
 @SpringBootApplication
 class RedissonApplication {
     companion object {
-        val redisServer = RedisServer.Instance
+        val redisServer = RedisServer()
     }
 }
 
