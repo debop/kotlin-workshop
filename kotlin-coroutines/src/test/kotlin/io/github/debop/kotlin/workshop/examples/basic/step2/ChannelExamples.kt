@@ -266,17 +266,17 @@ class ChannelExamples {
             log.trace { "다음 요소는 50ms 안에 준비되지 않습니다: $nextElement" }
             nextElement.shouldBeNull()
 
-            nextElement = withTimeoutOrNull(60) { tickerChannel.receive() }
+            nextElement = withTimeoutOrNull(80) { tickerChannel.receive() }
             log.trace { "다음 요소는 100ms 안에 준비됩니다: $nextElement" }
 
             // 오래 기다리면 ticker 가 충분히 많은 요소를 생성합니다.
-            log.trace { "Consumer pauses for 150ms" }
-            delay(150)
+            log.trace { "Consumer pauses for 200ms" }
+            delay(200)
 
             nextElement = withTimeoutOrNull(1) { tickerChannel.receive() }
             log.trace { "다음 요소는 즉시 가능하다: $nextElement" }
 
-            nextElement = withTimeoutOrNull(50) { tickerChannel.receive() }
+            nextElement = withTimeoutOrNull(100) { tickerChannel.receive() }
             log.trace { "다음 요소는 오랜 기간 기다렸기 때문에 즉시 가능하다: $nextElement" }
             nextElement.shouldNotBeNull()
 

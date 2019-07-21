@@ -18,7 +18,7 @@ plugins {
 
     id(BuildPlugins.detekt) version BuildPlugins.Versions.detekt apply false
     id(BuildPlugins.dokka) version BuildPlugins.Versions.dokka apply false
-    id(BuildPlugins.dependency_management) version BuildPlugins.Versions.dependencyManagement
+    id(BuildPlugins.dependency_management) version BuildPlugins.Versions.dependency_management
     `maven-publish`
 }
 

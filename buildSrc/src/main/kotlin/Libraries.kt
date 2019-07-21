@@ -3,9 +3,9 @@ object BuildPlugins {
     object Versions {
         const val detekt = "1.0.0-RC12"
         const val dokka = "0.9.18"
-        const val dependencyManagement = "1.0.8.RELEASE"
+        const val dependency_management = "1.0.8.RELEASE"
         const val jooq = "3.0.3"
-        const val protobuf = "0.8.9"
+        const val protobuf = "0.8.10"
     }
 
     const val detekt = "io.gitlab.arturbosch.detekt"
@@ -27,14 +27,14 @@ object Versions {
     const val vavr = "0.10.0"
     const val netty = "4.1.36.Final"
 
-    const val grpc = "1.21.0"
-    const val protobuf = "3.8.0"
+    const val grpc = "1.22.1"
+    const val protobuf = "3.9.0"
     const val krotoplus = "0.4.0"
     const val avro = "1.8.2"   // 1.9.0 은 jackson-dataformat-avro 에서 아직 지원하지 않습니다.
 
     const val jasync_sql = "1.0.5"
 
-    const val reactor = "3.2.9.RELEASE"
+    const val reactor = "3.2.10.RELEASE"
     const val jackson = "2.9.9"
 
     const val random_beans = "3.9.0"
