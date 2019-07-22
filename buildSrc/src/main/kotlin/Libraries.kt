@@ -25,7 +25,7 @@ object Versions {
     const val spring_boot = "2.1.6.RELEASE"
     const val resilience4j = "0.16.0"
     const val vavr = "0.10.0"
-    const val netty = "4.1.36.Final"
+    const val netty = "4.1.37.Final"
 
     const val grpc = "1.22.1"
     const val protobuf = "3.9.0"
@@ -37,8 +37,6 @@ object Versions {
     const val reactor = "3.2.10.RELEASE"
     const val jackson = "2.9.9"
 
-    const val random_beans = "3.9.0"
-    const val reflectasm = "1.11.9"
     const val mongo_driver = "3.10.2"
     const val lettuce = "5.1.7.RELEASE"
     const val redisson = "3.11.0"
@@ -60,11 +58,9 @@ object Versions {
 
     const val byte_buddy = "1.9.13"
 
-    const val junit_jupiter = "5.5.0"
-    const val junit_platform = "1.5.0"
-    const val assertj_core = "3.12.2"
-    const val mockk = "1.9.3"
-    const val mockito = "2.28.2"
+    const val junit_jupiter = "5.5.1"
+    const val junit_platform = "1.5.1"
+    const val mockito = "3.0.0"
     const val testcontainers = "1.11.4"
 }
 
@@ -216,7 +212,7 @@ object Libraries {
 
     // Compression
     const val snappy_java = "org.xerial.snappy:snappy-java:1.1.7.3"
-    const val lz4_java = "org.lz4:lz4-java:1.3.0"
+    const val lz4_java = "org.lz4:lz4-java:1.6.0"
 
     // Reactor
     const val reactor_core = "io.projectreactor:reactor-core:${Versions.reactor}"
@@ -238,8 +234,8 @@ object Libraries {
     const val latencyUtils = "org.latencyutils:LatencyUtils:2.0.3"
     const val hdrHistogram = "org.hdrhistogram:HdrHistogram:2.1.11"
 
-    const val random_beans = "io.github.benas:random-beans:${Versions.random_beans}"
-    const val reflectasm = "com.esotericsoftware:reflectasm:${Versions.reflectasm}"
+    const val random_beans = "io.github.benas:random-beans:3.9.0"
+    const val reflectasm = "com.esotericsoftware:reflectasm:1.11.9"
 
     // UUID Generators
     const val java_uuid_generator = "com.fasterxml.uuid:java-uuid-generator:3.2.0"
@@ -258,6 +254,11 @@ object Libraries {
     const val redisson = "org.redisson:redisson:${Versions.redisson}"
     const val redisson_spring_boot_starter = "org.redisson:redisson-spring-boot-starter:${Versions.redisson}"
     const val redisson_spring_data_21 = "org.redisson:redisson-spring-data-21:${Versions.redisson}"
+
+    // Cassandra
+    const val datastax_java_driver_core = "com.datastax.oss:java-driver-core:4.1.0"
+    const val datastax_java_driver_query_builder = "com.datastax.oss:java-driver-query-builder:4.1.0"
+    const val datastax_java_driver_test_infra = "com.datastax.oss:java-driver-test-infra:4.1.0"
 
     // Hibernate
     const val hibernate_core = "org.hibernate:hibernate-core:${Versions.hibernate}"
@@ -291,6 +292,7 @@ object Libraries {
     const val postgresql_driver = "org.postgresql:postgresql:42.2.5"
 
     const val h2 = "com.h2database:h2:1.4.199"
+    const val hsqldb = "org.hsqldb:hsqldb:2.5.0"
 
     const val jooq = "org.jooq:jooq:${Versions.jooq}"
     const val jooq_checker = "org.jooq:jooq-checker:${Versions.jooq}"
@@ -325,9 +327,9 @@ object Libraries {
     const val junit_platform_commons = "org.junit.platform:junit-platform-commons:${Versions.junit_platform}"
     const val junit_platform_engine = "org.junit.platform:junit-platform-engine:${Versions.junit_platform}"
 
-    const val kluent = "org.amshove.kluent:kluent:1.49"
+    const val kluent = "org.amshove.kluent:kluent:1.52"
     const val assertj_core = "org.assertj:assertj-core:3.12.2"
-    const val mockk = "io.mockk:mockk:${Versions.mockk}"
+    const val mockk = "io.mockk:mockk:1.9.3"
     const val mockito_core = "org.mockito:mockito-core:${Versions.mockito}"
     const val mockito_junit_jupiter = "org.mockito:mockito-junit-jupiter:${Versions.mockito}"
     const val mockito_kotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
@@ -338,6 +340,8 @@ object Libraries {
     const val testcontainers_mysql = "org.testcontainers:mysql:${Versions.testcontainers}"
     const val testcontainers_postgresql = "org.testcontainers:postgresql:${Versions.testcontainers}"
     const val testcontainers_kafka = "org.testcontainers:kafka:${Versions.testcontainers}"
+    const val testcontainers_cassandra = "org.testcontainers:cassandra:${Versions.testcontainers}"
+    const val testcontainers_elasticsearch = "org.testcontainers:elasticsearch:${Versions.testcontainers}"
 
     const val spring_kafka = "org.springframework.kafka:spring-kafka"
 
