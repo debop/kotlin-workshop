@@ -3,10 +3,10 @@ package io.github.debop.idgenerators.snowflake
 import mu.KLogging
 import org.amshove.kluent.shouldBeGreaterOrEqualTo
 import org.amshove.kluent.shouldBeGreaterThan
+import org.amshove.kluent.shouldBeInRange
 import org.amshove.kluent.shouldBeTrue
 import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldEqualTo
-import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -28,25 +28,33 @@ class SnowflakeTest {
 
     val snowflake = Snowflake()
 
+    @Test
+    fun `create machine id`() {
+        val machineId = Snowflake.createMachineId()
+        logger.debug { "machineId=$machineId" }
+    }
+
     @ParameterizedTest
-    @ValueSource(ints = [-100, 0, 100, 1000])
+    @ValueSource(ints = [-1000, -100, 0, 100, 1000])
     fun `create Snowflake instance`(machineId: Int) {
-        Snowflake(machineId).shouldNotBeNull()
+        val snowflake = Snowflake(machineId)
+        snowflake.machineId shouldBeInRange (0 until Snowflake.MAX_MACHINE_ID)
     }
 
     @Test
     fun `generate snowflake id`() {
+        snowflake.nextId()
         val id1 = snowflake.nextId()
         val id2 = snowflake.nextId()
         id2 shouldBeGreaterThan id1
 
-        logger.debug { "id1=${snowflake.parse(id1)}" }
-        logger.debug { "id2=${snowflake.parse(id2)}" }
+        logger.debug { "id1=$id1, ${snowflake.parse(id1)}" }
+        logger.debug { "id2=$id2, ${snowflake.parse(id2)}" }
     }
 
     @RepeatedTest(5)
     fun `generate snowflake id list`() {
-        val ids = snowflake.nextIds(100)
+        val ids = snowflake.nextIds(TEST_COUNT)
         val sorted = ids.sorted()
 
         sorted.forEachIndexed { index, id ->
