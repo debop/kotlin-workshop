@@ -5,9 +5,10 @@ plugins {
 
 dependencies {
 
-    implementation(project(":spring-data:redis"))
-    api(project(":kotlin-tests"))
+    api(project(":spring-data:redis"))
+    testApi(project(":kotlin-tests"))
     api("org.springframework.boot:spring-boot-starter-data-redis")
+
 
     implementation(Libraries.fst)
     implementation(Libraries.kryo)

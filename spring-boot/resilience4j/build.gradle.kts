@@ -23,6 +23,8 @@ dependencies {
     api("org.springframework.boot:spring-boot-autoconfigure")
     implementation("org.springframework.boot:spring-boot-configuration-processor")
 
+    api(Libraries.resilience4j_all)
+    api(Libraries.resilience4j_kotlin)
     api(Libraries.resilience4j_spring_boot2)
     api(Libraries.resilience4j_reactor)
 

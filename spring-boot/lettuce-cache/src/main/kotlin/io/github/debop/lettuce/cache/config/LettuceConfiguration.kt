@@ -33,12 +33,10 @@ class LettuceConfiguration {
 
     @Bean
     fun cacheManager(connectionFactory: RedisConnectionFactory): CacheManager {
-
-        val cacheManager = RedisCacheManager.builder(connectionFactory).build()
-        cacheManager.isTransactionAware = true
-        cacheManager.cacheConfigurations
-
-        return cacheManager
+        return RedisCacheManager.builder(connectionFactory).build().apply {
+            isTransactionAware = true
+            // cacheConfigurations
+        }
     }
 
     @Bean

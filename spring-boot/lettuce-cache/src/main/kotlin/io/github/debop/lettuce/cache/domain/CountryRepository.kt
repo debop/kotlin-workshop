@@ -19,6 +19,7 @@ class CountryRepository {
 
     @Cacheable
     fun findByCode(code: String): Country {
+        Thread.sleep(400)
         logger.info { "---> Loading country with code `$code`" }
         return Country(code)
     }

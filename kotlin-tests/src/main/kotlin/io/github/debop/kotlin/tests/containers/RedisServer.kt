@@ -12,7 +12,7 @@ import org.testcontainers.containers.wait.strategy.Wait
  * TestContainers 를 이용하여 필요 시에만 Redis를 docker로 실행할 수 있도록 해 줍니다.
  * @author debop (Sunghyouk Bae)
  *
- * @param dockerImageName Redis docker image name
+ * @param tag            Redis docker's tag
  * @param useDefaultPort Redis 기본 port 를 이용할 것인가 여부. 기본적으로는 docker의 dynamic port를 이용한다
  */
 class RedisServer(tag: String = REDIS_TAG,
@@ -45,16 +45,18 @@ class RedisServer(tag: String = REDIS_TAG,
     override fun start() {
         super.start()
 
-        System.setProperty("testcontainers.redis.host", host)
-        System.setProperty("testcontainers.redis.port", port.toString())
-        System.setProperty("testcontainers.redis.url", url)
+        val name = "testcontainers.redis"
+
+        System.setProperty("$name.host", host)
+        System.setProperty("$name.port", port.toString())
+        System.setProperty("$name.url", url)
 
         logger.info {
             """
             |Start TestContainer Redis:
-            |    testcontainers.redis.host=$host
-            |    testcontainers.redis.port=$port
-            |    testcontainers.redis.url=$url
+            |    $name.host=$host
+            |    $name.port=$port
+            |    $name.url=$url
             """.trimMargin()
         }
     }

@@ -117,10 +117,12 @@ object Libraries {
     const val kryo_serializers = "de.javakaffee:kryo-serializers:0.45"
 
     // Resilience4j
+    const val resilience4j_all = "io.github.resilience4j:resilience4j-all:${Versions.resilience4j}"
     const val resilience4j_annotations = "io.github.resilience4j:resilience4j-annotations:${Versions.resilience4j}"
     const val resilience4j_bulkhead = "io.github.resilience4j:resilience4j-bulkhead:${Versions.resilience4j}"
     const val resilience4j_circuitbreaker = "io.github.resilience4j:resilience4j-circuitbreaker:${Versions.resilience4j}"
     const val resilience4j_core = "io.github.resilience4j:resilience4j-core:${Versions.resilience4j}"
+    const val resilience4j_kotlin = "io.github.resilience4j:resilience4j-kotlin:${Versions.resilience4j}"
     const val resilience4j_framework_common = "io.github.resilience4j:resilience4j-framework-common:${Versions.resilience4j}"
     const val resilience4j_micrometer = "io.github.resilience4j:resilience4j-micrometer:${Versions.resilience4j}"
     const val resilience4j_ratelimiter = "io.github.resilience4j:resilience4j-ratelimiter:${Versions.resilience4j}"

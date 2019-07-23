@@ -21,7 +21,7 @@ class SampleClient(@Autowired val countryRepository: CountryRepository) {
 
     private val random: Random = Random(System.currentTimeMillis())
 
-    @Scheduled(fixedDelay = 500)
+    @Scheduled(fixedDelay = 100)
     fun retrieveCountry() {
         val index = random.nextInt(SAMPLE_COUNTRY_CODES.size)
         val randomCode = SAMPLE_COUNTRY_CODES[index]

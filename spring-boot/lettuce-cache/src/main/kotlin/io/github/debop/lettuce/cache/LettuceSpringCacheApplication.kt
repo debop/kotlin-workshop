@@ -17,6 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling
 class LettuceSpringCacheApplication {
 
     companion object: KLogging() {
+        // Redis Container for Testing
         val redisServer = RedisServer()
     }
 }
