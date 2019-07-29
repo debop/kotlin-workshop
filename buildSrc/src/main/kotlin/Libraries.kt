@@ -99,6 +99,10 @@ object Libraries {
     const val commons_io = "commons-io:commons-io:2.6"
     const val commons_validator = "commons-validator:commons-validator:1.6"
 
+    const val eclipse_collections = "org.eclipse.collections:eclipse-collections:10.0.0"
+    const val eclipse_collections_forkjoin = "org.eclipse.collections:eclipse-collections-forkjoin:10.0.0"
+    const val eclipse_collections_testutils = "org.eclipse.collections:eclipse-collections-testutils:10.0.0"
+
     const val kotlin_logging = "io.github.microutils:kotlin-logging:${Versions.kotlin_logging}"
     const val slf4j_api = "org.slf4j:slf4j-api:${Versions.slf4j}"
     const val slf4j_simple = "org.slf4j:slf4j-simple:${Versions.slf4j}"
