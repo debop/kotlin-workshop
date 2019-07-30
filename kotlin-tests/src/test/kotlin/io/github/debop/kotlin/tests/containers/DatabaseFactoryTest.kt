@@ -90,6 +90,18 @@ class DatabaseFactoryTest {
         }
     }
 
+    @Test
+    fun `create cockroach db server`() {
+        DatabaseFactory.newCockroachDBServer().use { cockroach ->
+            cockroach.shouldNotBeNull()
+            cockroach.isRunning.shouldBeTrue()
+
+            cockroach.newDataSource().use { datasource ->
+                datasource.verifyConnect()
+            }
+        }
+    }
+
     private fun DataSource.verifyConnect() {
         connection.use { conn ->
             conn.isValid(1).shouldBeTrue()

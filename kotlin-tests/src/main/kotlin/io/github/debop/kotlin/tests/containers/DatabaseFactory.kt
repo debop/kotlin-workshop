@@ -42,4 +42,10 @@ object DatabaseFactory {
                             username: String = "test",
                             password: String = "test"): PostgreSQLServer =
         PostgreSQLServer(tag, useDefaultPort, username, password)
+
+    fun newCockroachDBServer(tag: String = CockroachDBContainer.DEFAULT_TAG,
+                             useDefaultPort: Boolean = false,
+                             username: String = "root",
+                             password: String = ""): CockroachDBServer =
+        CockroachDBServer(tag, useDefaultPort, username, password)
 }
