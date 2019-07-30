@@ -7,9 +7,9 @@ import java.io.Serializable
  * @author debop (Sunghyouk Bae)
  */
 data class TrieConfig(
-    val allowOverlaps: Boolean = true,
-    val onlyWholeWords: Boolean = false,
-    val onlyWholeWordsWhiteSpaceSeparated: Boolean = false,
-    val caseInsensitive: Boolean = false,
-    val stopOnHit: Boolean = false
+    var allowOverlaps: Boolean = true,
+    var onlyWholeWords: Boolean = false,
+    var onlyWholeWordsWhiteSpaceSeparated: Boolean = false,
+    var caseInsensitive: Boolean = false,
+    var stopOnHit: Boolean = false
 ): Serializable
