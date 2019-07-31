@@ -50,6 +50,7 @@ include("eventsourcing:javers-mongodb-example")
 include("eventsourcing:javers-testing")
 
 include("text:ahocorasick-kotlin")
+include("text:flashtext-kotlin")
 
 include("utils:kotlin-uuid")
 

@@ -21,6 +21,21 @@ class Trie(private val config: TrieConfig) {
 
     private val isCaseInsensitive: Boolean get() = config.caseInsensitive
 
+    suspend fun replace(text: String, map: Map<String, String>): String {
+        val tokens = tokenize(text)
+
+        return buildString {
+            tokens.forEach { token ->
+                val keyword = token.emit?.keyword
+                if (keyword != null && map.containsKey(keyword)) {
+                    append(map[keyword])
+                } else {
+                    append(token.fragment)
+                }
+            }
+        }
+    }
+
     suspend fun tokenize(text: String): MutableList<Token> {
         val tokens = LinkedList<Token>()
         var lastCollectionIndex = -1
