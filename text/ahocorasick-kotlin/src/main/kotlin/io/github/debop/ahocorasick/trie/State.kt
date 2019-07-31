@@ -49,7 +49,11 @@ class State(val depth: Int = 0): Serializable {
         this.emits.add(keyword)
     }
 
-    fun addEmit(vararg emits: String) {
+    fun addEmits(emits: Collection<String>) {
+        this.emits.addAll(emits)
+    }
+
+    fun addEmits(vararg emits: String) {
         this.emits.addAll(emits)
     }
 
@@ -59,4 +63,7 @@ class State(val depth: Int = 0): Serializable {
 
     fun getTransitions(): Collection<Char> = this.success.keys
 
+    override fun toString(): String {
+        return "State(emits=$emits, failure=$failure)"
+    }
 }

@@ -1,9 +1,14 @@
 package io.github.debop.ahocorasick.trie
 
+import io.github.debop.ahocorasick.interval.IntervalTree
 import mu.KLogging
+import java.util.ArrayDeque
+import java.util.LinkedList
 
 /**
- * Trie
+ * Based on the Aho-Corasick white paper, Bell technologies:
+ * http://cr.yp.to/bib/1975/aho.pdf
+ *
  * @author debop (Sunghyouk Bae)
  */
 class Trie(private val config: TrieConfig) {
@@ -17,22 +22,60 @@ class Trie(private val config: TrieConfig) {
     private val isCaseInsensitive: Boolean get() = config.caseInsensitive
 
     suspend fun tokenize(text: String): MutableList<Token> {
-        val tokens = mutableListOf<Token>()
+        val tokens = LinkedList<Token>()
         var lastCollectionIndex = -1
 
         val collectedEmits = parseText(text)
 
-        TODO("구현 중")
+        collectedEmits.forEach { emit ->
+            if (emit.start - lastCollectionIndex > 1) {
+                tokens.add(createFragment(emit, text, lastCollectionIndex))
+            }
+            tokens.add(createMatch(emit, text))
+            lastCollectionIndex = emit.end
+        }
+
+        if (text.length - lastCollectionIndex > 1) {
+            tokens.add(createFragment(null, text, lastCollectionIndex))
+        }
+        return tokens
     }
 
     suspend fun parseText(text: CharSequence, emitHandler: StatefulEmitHandler = DefaultEmitHandler()): List<Emit> {
-        TODO("구현 중")
+        runParseText(text, emitHandler)
+
+        var collectedEmits = emitHandler.emits
+
+        if (config.onlyWholeWords) {
+            removePartialMatches(text, collectedEmits)
+        }
+
+        if (config.onlyWholeWordsWhiteSpaceSeparated) {
+            removePartialMatchesWhiteSpaceSeparated(text, collectedEmits)
+        }
+
+        if (!config.allowOverlaps) {
+            val intervalTree = IntervalTree(collectedEmits)
+            collectedEmits = intervalTree.removeOverlaps(collectedEmits)
+        }
+        return collectedEmits
     }
 
     suspend fun containsMatch(text: CharSequence): Boolean = firstMatch(text) != null
 
     fun runParseText(text: CharSequence, emitHandler: EmitHandler) {
-        TODO("구현 중")
+        var currentState = rootState
+
+        text.forEachIndexed { pos, ch ->
+            currentState = when {
+                config.caseInsensitive -> getState(currentState, ch.toLowerCase())
+                else                   -> getState(currentState, ch)
+            }
+            val stored = storeEmits(pos, currentState, emitHandler)
+            if (stored && config.stopOnHit) {
+                return
+            }
+        }
     }
 
     /**
@@ -42,7 +85,31 @@ class Trie(private val config: TrieConfig) {
      * @return null if no matches found.
      */
     suspend fun firstMatch(text: CharSequence): Emit? {
-        TODO("구현 중")
+        if (!config.allowOverlaps) {
+            return parseText(text).firstOrNull()
+        }
+
+        var currentState = rootState
+
+        text.forEachIndexed { pos, ch ->
+            currentState = when {
+                config.caseInsensitive -> getState(currentState, ch.toLowerCase())
+                else                   -> getState(currentState, ch)
+            }
+
+            currentState.emit().forEach { emitStr ->
+                val emit = Emit(pos - emitStr.length + 1, pos, emitStr)
+                if (config.onlyWholeWords) {
+                    if (!isPartialMatch(text, emit)) {
+                        return emit
+                    }
+                } else {
+                    return emit
+                }
+            }
+        }
+        logger.trace { "Not found matches. text=$text" }
+        return null
     }
 
     private fun addKeyword(keyword: String) {
@@ -64,7 +131,8 @@ class Trie(private val config: TrieConfig) {
         keywords.forEach { addKeyword(it) }
     }
 
-    private fun addState(keyword: String): State = rootState.addState(keyword)
+    private fun addState(keyword: String): State =
+        rootState.addState(keyword)
 
 
     private fun createFragment(emit: Emit?, text: String, lastCollectedPosition: Int): Token {
@@ -75,9 +143,20 @@ class Trie(private val config: TrieConfig) {
         return MatchToken(text.substring(emit.start, emit.end + 1), emit)
     }
 
-
     private fun isPartialMatch(searchText: CharSequence, emit: Emit): Boolean {
-        TODO("구현 중")
+        logger.trace { "Is partial match? searchText=$searchText, emit=$emit" }
+        fun isAlphabeticStart() =
+            emit.start != 0 && Character.isAlphabetic(searchText[emit.start - 1].toInt())
+
+        if (isAlphabeticStart()) {
+            return true
+        }
+
+        fun isAlphabeticEnd() =
+            emit.end + 1 != searchText.length &&
+            Character.isAlphabetic(searchText[emit.end + 1].toInt())
+
+        return isAlphabeticEnd()
     }
 
     private fun removePartialMatches(searchText: CharSequence, collectedEmits: MutableList<Emit>) {
@@ -85,7 +164,17 @@ class Trie(private val config: TrieConfig) {
     }
 
     private fun removePartialMatchesWhiteSpaceSeparated(searchText: CharSequence, collectedEmits: MutableList<Emit>) {
-        TODO("구현 중")
+        val size = searchText.length
+
+        collectedEmits.removeIf { emit ->
+            val isEmptyStart = emit.start == 0 || Character.isWhitespace(searchText[emit.start - 1])
+            if (!isEmptyStart) {
+                true
+            } else {
+                val isEmptyEnd = emit.end + 1 == size || Character.isWhitespace(searchText[emit.end + 1])
+                !isEmptyEnd
+            }
+        }
     }
 
     private fun getState(currentState: State, ch: Char): State {
@@ -99,11 +188,47 @@ class Trie(private val config: TrieConfig) {
     }
 
     private fun constructFailureStates() {
-        TODO("구현 중")
+        val queue = ArrayDeque<State>()
+        val startState = rootState
+
+        // First, set the fail state of all depth 1 states to the root state
+        startState.getStates().forEach { depthOneState ->
+            depthOneState.failure = startState
+            queue.add(depthOneState)
+        }
+
+        // Second, determine the fail state for all depth > 1 state
+        while (!queue.isEmpty()) {
+            val currentState = queue.remove()
+            logger.trace { "currentState=$currentState" }
+
+            currentState.getTransitions().forEach { transition ->
+                val targetState = currentState.nextState(transition)
+                check(targetState != null) { "targetState must not be null. transition=$transition, currentState=$currentState" }
+                queue.add(targetState)
+
+                var traceFailureState = currentState.failure!!
+                while (traceFailureState.nextState(transition) == null) {
+                    traceFailureState = traceFailureState.failure!!
+                }
+                val newFailureState = traceFailureState.nextState(transition)!!
+                targetState.failure = newFailureState
+                targetState.addEmits(newFailureState.emit())
+            }
+        }
     }
 
     private fun storeEmits(position: Int, currentState: State, emitHandler: EmitHandler): Boolean {
-        TODO("구현 중")
+        var emitted = false
+        val emits = currentState.emit()
+
+        emits.forEach {
+            emitted = emitHandler.emit(Emit(position - it.length + 1, position, it))
+            if (emitted && config.stopOnHit) {
+                return emitted
+            }
+        }
+        return emitted
     }
 
     /**
@@ -113,7 +238,7 @@ class Trie(private val config: TrieConfig) {
         private val config = TrieConfig()
         private val trie = Trie(config)
 
-        fun ignoreClass() = apply {
+        fun ignoreCase() = apply {
             config.caseInsensitive = true
         }
 
@@ -135,6 +260,10 @@ class Trie(private val config: TrieConfig) {
 
         fun onlyWholeWords() = apply {
             config.onlyWholeWords = true
+        }
+
+        fun onlyWholeWordsWhitespaceSeparated() = apply {
+            config.onlyWholeWordsWhiteSpaceSeparated = true
         }
 
         fun stopOnHit() = apply {

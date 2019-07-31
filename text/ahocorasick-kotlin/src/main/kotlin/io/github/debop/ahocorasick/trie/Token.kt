@@ -6,7 +6,9 @@ interface Token {
     val emit: Emit?
 }
 
-abstract class AbstractToken(override val fragment: String): Token
+abstract class AbstractToken(override val fragment: String): Token {
+    override fun toString(): String = "Token(fragment=$fragment, emit=$emit)"
+}
 
 class MatchToken(fragment: String, override val emit: Emit): AbstractToken(fragment) {
     override fun isMatch(): Boolean = true

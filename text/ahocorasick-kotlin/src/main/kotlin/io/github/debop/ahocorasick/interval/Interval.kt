@@ -27,10 +27,11 @@ open class Interval(override val start: Int,
         return comparison
     }
 
-    override fun equals(other: Any?): Boolean = when (other) {
-        is Intervalable -> start == other.start && end == other.end
-        else            -> false
-    }
+    override fun equals(other: Any?): Boolean =
+        when (other) {
+            is Intervalable -> start == other.start && end == other.end
+            else            -> false
+        }
 
     override fun hashCode(): Int {
         return if (isEmpty()) -1
