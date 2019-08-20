@@ -3,6 +3,7 @@ dependencies {
     api(project(":kotlin-basic"))
     testImplementation(project(":kotlin-tests"))
 
+    api(Libraries.koin_core)
     api(Libraries.koin_core_ext)
     testImplementation(Libraries.koin_test)
 

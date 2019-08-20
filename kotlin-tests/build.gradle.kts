@@ -9,7 +9,8 @@ dependencies {
     api(Libraries.testcontainers_mariadb)
     api(Libraries.testcontainers_mysql)
     api(Libraries.testcontainers_postgresql)
-    api(Libraries.testcontainers_kafka)
+    implementation(Libraries.testcontainers_kafka)
+    implementation(Libraries.testcontainers_elasticsearch)
 
     api(Libraries.hikaricp)
     api(Libraries.mysql_connector_java)

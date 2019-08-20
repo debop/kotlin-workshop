@@ -70,7 +70,7 @@ class BasicConnectionExample: AbstractJasyncTest() {
 
         withContext(Dispatchers.IO) {
             val result1 = conn.sendPreparedStatement("SELECT 1")
-            val result2 = conn.sendPreparedStatement("SELECT 1")
+            val result2 = conn.sendPreparedStatement("SELECT 2")
 
             val rowData1 = result1.await().rows[0] as ArrayRowData
             val rowData2 = result2.await().rows[0] as ArrayRowData
