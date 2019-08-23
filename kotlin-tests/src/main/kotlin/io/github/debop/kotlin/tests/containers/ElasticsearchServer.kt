@@ -31,8 +31,10 @@ class ElasticsearchServer(tag: String = ELASTICSEARCH_DEFAULT_VERSION,
         // BUG: 왜 기본 Port 매핑이 안되는지???
         if (useDefaultPort) {
             withCreateContainerCmdModifier {
-                it.withPortBindings(PortBinding(Binding.bindPort(ELASTICSEARCH_PORT), ExposedPort(ELASTICSEARCH_PORT)))
-                it.withPortBindings(PortBinding(Binding.bindPort(ELASTICSEARCH_TCP_PORT), ExposedPort(ELASTICSEARCH_TCP_PORT)))
+                it.withPortBindings(
+                    PortBinding(Binding.bindPort(ELASTICSEARCH_PORT), ExposedPort(ELASTICSEARCH_PORT)),
+                    PortBinding(Binding.bindPort(ELASTICSEARCH_TCP_PORT), ExposedPort(ELASTICSEARCH_TCP_PORT))
+                )
             }
         }
     }

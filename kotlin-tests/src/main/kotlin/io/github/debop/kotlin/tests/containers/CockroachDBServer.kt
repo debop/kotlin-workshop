@@ -25,8 +25,9 @@ class CockroachDBServer(tag: String = CockroachDBContainer.DEFAULT_TAG,
 
         if (useDefaultPort) {
             withCreateContainerCmdModifier {
-                it.withPortBindings(PortBinding(Binding.bindPort(COCKROACH_PORT), ExposedPort(COCKROACH_PORT)))
-                it.withPortBindings(PortBinding(Binding.bindPort(REST_API_PORT), ExposedPort(REST_API_PORT)))
+                val port = PortBinding(Binding.bindPort(COCKROACH_PORT), ExposedPort(COCKROACH_PORT))
+                val apiPort = PortBinding(Binding.bindPort(REST_API_PORT), ExposedPort(REST_API_PORT))
+                it.withPortBindings(port, apiPort)
             }
         }
 

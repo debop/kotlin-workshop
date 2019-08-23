@@ -13,46 +13,45 @@ object BuildPlugins {
     const val dependency_management = "io.spring.dependency-management"
 
     const val jooq = "nu.studer.jooq"
-    // https://github.com/google/protobuf-gradle-plugin
     const val protobuf = "com.google.protobuf"
 }
 
 object Versions {
 
-    const val kotlin = "1.3.41"
+    const val kotlin = "1.3.50"
     const val kotlinx_coroutines = "1.2.2"
 
-    const val spring_boot = "2.1.6.RELEASE"
-    const val resilience4j = "0.16.0"
-    const val vavr = "0.10.0"
-    const val netty = "4.1.37.Final"
+    const val spring_boot = "2.1.7.RELEASE"
+    const val resilience4j = "0.17.0"
+    const val vavr = "0.10.2"
+    const val netty = "4.1.39.Final"
 
     const val grpc = "1.22.1"
     const val protobuf = "3.9.0"
     const val krotoplus = "0.4.0"
     const val avro = "1.8.2"   // 1.9.0 은 jackson-dataformat-avro 에서 아직 지원하지 않습니다.
 
-    const val jasync_sql = "1.0.5"
+    const val jasync_sql = "1.0.6"
 
-    const val reactor = "3.2.10.RELEASE"
+    const val reactor = "3.2.11.RELEASE"
     const val jackson = "2.9.9"
 
-    const val mongo_driver = "3.10.2"
-    const val lettuce = "5.1.7.RELEASE"
-    const val redisson = "3.11.0"
+    const val mongo_driver = "3.11.0"
+    const val lettuce = "5.1.8.RELEASE"
+    const val redisson = "3.11.2"
 
     const val hibernate = "5.4.3.Final"
     const val hibernate_validator = "6.0.17.Final"
-    const val javers = "5.6.2"
+    const val javers = "5.6.3"
     const val querydsl = "4.2.1"
     const val jooq = "3.11.11"
 
-    const val kotlin_logging = "1.6.26"
+    const val kotlin_logging = "1.7.6"
     const val slf4j = "1.7.26"
     const val logback = "1.2.3"
 
     const val micrometer = "1.2.0"
-    const val cache2k = "1.2.2.Final"
+    const val cache2k = "1.2.3.Final"
 
     const val koin = "2.0.1"
 

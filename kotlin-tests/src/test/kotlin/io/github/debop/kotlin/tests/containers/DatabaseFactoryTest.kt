@@ -2,6 +2,7 @@ package io.github.debop.kotlin.tests.containers
 
 import mu.KLogging
 import org.amshove.kluent.shouldBeTrue
+import org.amshove.kluent.shouldEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -95,6 +96,19 @@ class DatabaseFactoryTest {
         DatabaseFactory.newCockroachDBServer().use { cockroach ->
             cockroach.shouldNotBeNull()
             cockroach.isRunning.shouldBeTrue()
+
+            cockroach.newDataSource().use { datasource ->
+                datasource.verifyConnect()
+            }
+        }
+    }
+
+    @Test
+    fun `create cockroach db server with default port`() {
+        DatabaseFactory.newCockroachDBServer(useDefaultPort = true).use { cockroach ->
+            cockroach.shouldNotBeNull()
+            cockroach.isRunning.shouldBeTrue()
+            cockroach.port shouldEqualTo CockroachDBContainer.COCKROACH_PORT
 
             cockroach.newDataSource().use { datasource ->
                 datasource.verifyConnect()
