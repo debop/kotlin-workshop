@@ -28,8 +28,10 @@ dependencies {
     api(Libraries.resilience4j_spring_boot2)
     api(Libraries.resilience4j_reactor)
 
-    implementation(Libraries.jackson_module_kotlin)
-    implementation(Libraries.micrometer_registry_prometheus)
+    api(Libraries.jackson_module_kotlin)
+    api(Libraries.micrometer_registry_prometheus)
+
+    api(Libraries.vavr_jackson)
 
     testApi(Libraries.reactor_test)
     testApi("org.springframework.boot:spring-boot-starter-test") {

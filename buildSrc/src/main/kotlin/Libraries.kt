@@ -19,11 +19,11 @@ object BuildPlugins {
 object Versions {
 
     const val kotlin = "1.3.50"
-    const val kotlinx_coroutines = "1.2.2"
+    const val kotlinx_coroutines = "1.3.0"
 
     const val spring_boot = "2.1.7.RELEASE"
     const val resilience4j = "0.17.0"
-    const val vavr = "0.10.2"
+    const val vavr = "0.10.0"
     const val netty = "4.1.39.Final"
 
     const val grpc = "1.22.1"

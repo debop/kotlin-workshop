@@ -39,14 +39,14 @@ class GreeterServiceTest {
 
     companion object: KLogging()
 
-    val server: Server = InProcessServerBuilder
+    private val server: Server = InProcessServerBuilder
         .forName("helloworld")
         .addService(GreeterService())
         .directExecutor()
         .build()
         .start()
 
-    val channel: ManagedChannel = InProcessChannelBuilder
+    private val channel: ManagedChannel = InProcessChannelBuilder
         .forName("helloworld")
         .executor(ForkJoinPool.commonPool())  // NOTE: 서버랑 같이 directExecutor()를 사용하면 가끔 먹통이 된다. 이를 방지하기 위해 이 것을 사용한다
         .build()
