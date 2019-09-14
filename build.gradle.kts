@@ -193,6 +193,11 @@ subprojects {
             dependency(Libraries.netty_transport_native_epoll)
             dependency(Libraries.netty_transport_native_kqueue)
 
+            // Kafka
+            dependency(Libraries.kafka_clients)
+            dependency(Libraries.kafka_streams)
+            dependency(Libraries.kafka_streams_test_utils)
+            
             // Jackson
             dependency(Libraries.jackson_annotations)
             dependency(Libraries.jackson_core)

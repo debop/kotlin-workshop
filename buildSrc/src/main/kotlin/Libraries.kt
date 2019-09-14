@@ -19,21 +19,23 @@ object BuildPlugins {
 object Versions {
 
     const val kotlin = "1.3.50"
-    const val kotlinx_coroutines = "1.3.0"
+    const val kotlinx_coroutines = "1.3.1"
 
     const val spring_boot = "2.1.7.RELEASE"
     const val resilience4j = "0.17.0"
-    const val vavr = "0.10.0"
-    const val netty = "4.1.39.Final"
+    const val vavr = "0.10.2"
+    const val netty = "4.1.41.Final"
 
     const val grpc = "1.22.1"
     const val protobuf = "3.9.0"
     const val krotoplus = "0.4.0"
     const val avro = "1.8.2"   // 1.9.0 은 jackson-dataformat-avro 에서 아직 지원하지 않습니다.
 
+    const val kafka = "2.2.1"
+
     const val jasync_sql = "1.0.6"
 
-    const val reactor = "3.2.11.RELEASE"
+    const val reactor = "3.2.12.RELEASE"
     const val jackson = "2.9.9"
 
     const val mongo_driver = "3.11.0"
@@ -176,6 +178,11 @@ object Libraries {
     const val avro_ipc_netty = "org.apache.avro:avro-ipc-netty:${Versions.avro}"
     const val avro_compiler = "org.apache.avro:avro-compiler:${Versions.avro}"
     const val avro_protobuf = "org.apache.avro:avro-protobuf:${Versions.avro}"
+
+    const val kafka_clients = "org.apache.kafka:kafka-clients:${Versions.kafka}"
+    const val kafka_streams = "org.apache.kafka:kafka-streams:${Versions.kafka}"
+    const val kafka_streams_test_utils = "org.apache.kafka:kafka-streams-test-utils:${Versions.kafka}"
+    
 
     // kroto-plus
     const val kroto_plus_coroutines = "com.github.marcoferrer.krotoplus:kroto-plus-coroutines:${Versions.krotoplus}"
@@ -348,6 +355,6 @@ object Libraries {
     const val testcontainers_cassandra = "org.testcontainers:cassandra:${Versions.testcontainers}"
     const val testcontainers_elasticsearch = "org.testcontainers:elasticsearch:${Versions.testcontainers}"
 
-    const val spring_kafka = "org.springframework.kafka:spring-kafka"
+    const val spring_kafka = "org.springframework.kafka:spring-kafka:2.2.8.RELEASE"
 
 }

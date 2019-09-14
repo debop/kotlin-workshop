@@ -49,6 +49,9 @@ include("eventsourcing:javers-example")
 include("eventsourcing:javers-mongodb-example")
 include("eventsourcing:javers-testing")
 
+include("messaging:kafka-clients-examples")
+include("messaging:kafka-streams-examples")
+
 include("text:ahocorasick-kotlin")
 include("text:flashtext-kotlin")
 
