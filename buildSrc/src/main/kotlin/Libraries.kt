@@ -6,6 +6,7 @@ object BuildPlugins {
         const val dependency_management = "1.0.8.RELEASE"
         const val jooq = "3.0.3"
         const val protobuf = "0.8.10"
+        const val spring_boot = "2.1.8.RELEASE"
     }
 
     const val detekt = "io.gitlab.arturbosch.detekt"
@@ -14,6 +15,7 @@ object BuildPlugins {
 
     const val jooq = "nu.studer.jooq"
     const val protobuf = "com.google.protobuf"
+    const val spring_boot = "org.springframework.boot"
 }
 
 object Versions {
@@ -21,9 +23,9 @@ object Versions {
     const val kotlin = "1.3.50"
     const val kotlinx_coroutines = "1.3.1"
 
-    const val spring_boot = "2.1.7.RELEASE"
+    const val spring_boot = BuildPlugins.Versions.spring_boot
     const val resilience4j = "0.17.0"
-    const val vavr = "0.10.2"
+    const val vavr = "0.10.0"
     const val netty = "4.1.41.Final"
 
     const val grpc = "1.22.1"

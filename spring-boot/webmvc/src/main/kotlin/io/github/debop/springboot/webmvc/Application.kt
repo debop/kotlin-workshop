@@ -3,6 +3,7 @@ package io.github.debop.springboot.webmvc
 import com.mongodb.ConnectionString
 import com.mongodb.connection.netty.NettyStreamFactoryFactory
 import io.github.debop.kotlin.tests.containers.MongoDBServer
+import org.springframework.boot.WebApplicationType
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer
 import org.springframework.boot.runApplication
@@ -26,5 +27,7 @@ class Application {
 }
 
 fun main() {
-    runApplication<Application>()
+    runApplication<Application>() {
+        webApplicationType = WebApplicationType.SERVLET
+    }
 }

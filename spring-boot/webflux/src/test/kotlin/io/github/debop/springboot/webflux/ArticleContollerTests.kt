@@ -10,13 +10,11 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestMethodOrder
-import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType.TEXT_EVENT_STREAM
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToFlux
 import org.springframework.web.reactive.function.client.bodyToMono
@@ -24,7 +22,6 @@ import reactor.test.test
 import java.time.LocalDateTime
 
 @TestMethodOrder(OrderAnnotation::class)
-@ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class ArticleContollerTests(@LocalServerPort private val port: Int) {
 

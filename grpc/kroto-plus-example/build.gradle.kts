@@ -11,14 +11,6 @@ plugins {
     id(BuildPlugins.protobuf) version BuildPlugins.Versions.protobuf
 }
 
-//sourceSets {
-//    create("sample") {
-//        proto {
-//            srcDir("src/sample/protobuf")
-//        }
-//    }
-//}
-
 dependencies {
 
     api(project(":kotlin-basic"))

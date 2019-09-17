@@ -3,6 +3,8 @@ package io.github.debop.springboot.webflux
 import com.mongodb.ConnectionString
 import com.mongodb.connection.netty.NettyStreamFactoryFactory
 import io.github.debop.kotlin.tests.containers.MongoDBServer
+import org.springframework.boot.Banner
+import org.springframework.boot.WebApplicationType
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer
 import org.springframework.boot.runApplication
@@ -26,5 +28,8 @@ class Application {
 }
 
 fun main(args: Array<String>) {
-    runApplication<Application>(*args)
+    runApplication<Application>(*args) {
+        webApplicationType = WebApplicationType.REACTIVE
+        setBannerMode(Banner.Mode.CONSOLE)
+    }
 }
