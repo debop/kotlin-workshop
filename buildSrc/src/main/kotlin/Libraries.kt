@@ -24,7 +24,7 @@ object Versions {
     const val kotlinx_coroutines = "1.3.2"
 
     const val spring_boot = BuildPlugins.Versions.spring_boot
-    const val resilience4j = "0.17.0"
+    const val resilience4j = "1.0.0"
     const val vavr = "0.10.0"
     const val netty = "4.1.41.Final"
 

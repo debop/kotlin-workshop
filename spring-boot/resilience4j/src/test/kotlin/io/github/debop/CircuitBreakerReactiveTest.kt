@@ -76,7 +76,7 @@ class CircuitBreakerReactiveTest : AbstractResilience4jTest() {
 
         log.debug { "health details=${body.details}" }
 
-        val circuitBreakerDetails = body.details[circuitBreakerName] as Map<String, Any?>
+        val circuitBreakerDetails = body.details[circuitBreakerName] as? Map<String, Any?>
 
         circuitBreakerDetails.shouldNotBeNull()
         circuitBreakerDetails["status"] shouldEqual status.toString()
