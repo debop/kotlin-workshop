@@ -47,8 +47,19 @@ subprojects {
     tasks.withType<KotlinCompile> {
         sourceCompatibility = "1.8"
         kotlinOptions {
+            val experimentalAnnotations = listOf("kotlin.Experimental",
+                                                 "kotlin.experimental.ExperimentalTypeInference",
+                                                 "kotlin.ExperimentalMultiplatform",
+                                                 "kotlinx.coroutines.ExperimentalCoroutinesApi",
+                                                 "kotlinx.coroutines.ObsoleteCoroutinesApi",
+                                                 "kotlinx.coroutines.InternalCoroutinesApi",
+                                                 "kotlinx.coroutines.FlowPreview")
             jvmTarget = "1.8"
-            freeCompilerArgs = listOf("-Xjsr305=strict", "-Xjvm-default=enable")
+            freeCompilerArgs.plus("-Xjsr305=strict")
+            freeCompilerArgs.plus("-Xjvm-default=enable")
+            freeCompilerArgs.plus(experimentalAnnotations.map { "-Xuse-experimental=$it" })
+            freeCompilerArgs.plus("-progressive")
+            freeCompilerArgs.plus("-XXLanguage:+InlineClasses")
         }
     }
 
@@ -197,7 +208,7 @@ subprojects {
             dependency(Libraries.kafka_clients)
             dependency(Libraries.kafka_streams)
             dependency(Libraries.kafka_streams_test_utils)
-            
+
             // Jackson
             dependency(Libraries.jackson_annotations)
             dependency(Libraries.jackson_core)
