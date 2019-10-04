@@ -149,7 +149,6 @@ class FlowExamples {
                     emit("Making requesst $request")
                     emit(performRequest(request))
                 }.collect { response ->
-
                     logger.debug { "response=$response" }
                     responses.add(response)
                 }

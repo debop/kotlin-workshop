@@ -64,7 +64,7 @@ object Versions {
     const val junit_jupiter = "5.5.2"
     const val junit_platform = "1.5.2"
     const val mockito = "3.0.0"
-    const val testcontainers = "1.12.1"
+    const val testcontainers = "1.11.4"
 }
 
 object Libraries {
@@ -184,7 +184,7 @@ object Libraries {
     const val kafka_clients = "org.apache.kafka:kafka-clients:${Versions.kafka}"
     const val kafka_streams = "org.apache.kafka:kafka-streams:${Versions.kafka}"
     const val kafka_streams_test_utils = "org.apache.kafka:kafka-streams-test-utils:${Versions.kafka}"
-    
+
 
     // kroto-plus
     const val kroto_plus_coroutines = "com.github.marcoferrer.krotoplus:kroto-plus-coroutines:${Versions.krotoplus}"
