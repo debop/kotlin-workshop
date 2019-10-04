@@ -5,6 +5,7 @@ import io.github.debop.redis.reactive.domain.Person
 import mu.KLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.WebApplicationType.REACTIVE
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
@@ -96,5 +97,7 @@ class RedisReactiveApplication {
 }
 
 fun main() {
-    runApplication<RedisReactiveApplication>()
+    runApplication<RedisReactiveApplication>() {
+        webApplicationType = REACTIVE
+    }
 }

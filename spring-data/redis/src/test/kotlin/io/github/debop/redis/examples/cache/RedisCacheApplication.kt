@@ -1,6 +1,7 @@
 package io.github.debop.redis.examples.cache
 
 import io.github.debop.kotlin.tests.containers.RedisServer
+import org.springframework.boot.WebApplicationType.NONE
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.cache.annotation.EnableCaching
@@ -23,5 +24,7 @@ class RedisCacheApplication {
 }
 
 fun main() {
-    runApplication<RedisCacheApplication>()
+    runApplication<RedisCacheApplication>() {
+        webApplicationType = NONE
+    }
 }

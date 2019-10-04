@@ -4,6 +4,7 @@ import io.github.debop.kotlin.tests.containers.RedisServer
 import io.github.debop.redis.serializer.FstRedisSerializer
 import mu.KLogging
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.WebApplicationType.NONE
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
@@ -53,5 +54,7 @@ class SpringDataRedisApplication {
 }
 
 fun main() {
-    runApplication<SpringDataRedisApplication>()
+    runApplication<SpringDataRedisApplication>() {
+        webApplicationType = NONE
+    }
 }

@@ -21,7 +21,7 @@ object BuildPlugins {
 object Versions {
 
     const val kotlin = "1.3.50"
-    const val kotlinx_coroutines = "1.3.1"
+    const val kotlinx_coroutines = "1.3.2"
 
     const val spring_boot = BuildPlugins.Versions.spring_boot
     const val resilience4j = "0.17.0"
@@ -61,10 +61,10 @@ object Versions {
 
     const val byte_buddy = "1.9.13"
 
-    const val junit_jupiter = "5.5.1"
-    const val junit_platform = "1.5.1"
+    const val junit_jupiter = "5.5.2"
+    const val junit_platform = "1.5.2"
     const val mockito = "3.0.0"
-    const val testcontainers = "1.11.4"
+    const val testcontainers = "1.12.1"
 }
 
 object Libraries {
@@ -231,7 +231,7 @@ object Libraries {
     // Reactor
     const val reactor_core = "io.projectreactor:reactor-core:${Versions.reactor}"
     const val reactor_test = "io.projectreactor:reactor-test:${Versions.reactor}"
-    const val reactor_netty = "io.projectreactor.netty:reactor-netty:0.8.9.RELEASE"
+    const val reactor_netty = "io.projectreactor.netty:reactor-netty:0.8.11.RELEASE"
 
     // RxJava2
     const val rxjava2 = "io.reactivex.rxjava2:rxjava:2.2.10"

@@ -20,7 +20,7 @@ import java.util.UUID
 @SpringBootTest
 class KeyOperationsTest {
 
-    companion object : KLogging() {
+    companion object: KLogging() {
         const val PREFIX = "KeyOperationsTest"
         const val KEY_PATTERN = PREFIX + "*"
     }
@@ -64,9 +64,9 @@ class KeyOperationsTest {
     private fun printKeys(keys: Iterator<ByteArray>) {
         var i = 0
         keys.forEach {
-            println("key=${it.toString(Charsets.UTF_8)}")
+            logger.debug { "key=${it.toString(Charsets.UTF_8)}" }
             i++
         }
-        println("Total No. found: $i")
+        logger.debug { "Total No. found: $i" }
     }
 }

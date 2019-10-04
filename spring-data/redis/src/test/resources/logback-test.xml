@@ -12,8 +12,8 @@
 
     <logger name="io.github.debop.redis" level="TRACE"/>
 
-    <logger name="org.springframework.data.redis" level="DEBUG"/>
-    <logger name="io.lettuce.core" level="DEBUG"/>
+    <logger name="org.springframework.data.redis" level="INFO"/>
+    <logger name="io.lettuce.core" level="INFO"/>
 
     <root level="INFO">
         <appender-ref ref="console"/>
