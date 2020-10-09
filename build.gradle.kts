@@ -45,7 +45,7 @@ subprojects {
     }
 
     tasks.withType<KotlinCompile> {
-        sourceCompatibility = "1.8"
+        sourceCompatibility = "11"
         kotlinOptions {
             val experimentalAnnotations = listOf("kotlin.Experimental",
                                                  "kotlin.experimental.ExperimentalTypeInference",
@@ -54,7 +54,7 @@ subprojects {
                                                  "kotlinx.coroutines.ObsoleteCoroutinesApi",
                                                  "kotlinx.coroutines.InternalCoroutinesApi",
                                                  "kotlinx.coroutines.FlowPreview")
-            jvmTarget = "1.8"
+            jvmTarget = "11"
             freeCompilerArgs.plus("-Xjsr305=strict")
             freeCompilerArgs.plus("-Xjvm-default=enable")
             freeCompilerArgs.plus(experimentalAnnotations.map { "-Xuse-experimental=$it" })

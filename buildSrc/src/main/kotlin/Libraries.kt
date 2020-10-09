@@ -1,32 +1,41 @@
 object BuildPlugins {
 
     object Versions {
-        const val detekt = "1.0.0-RC12"
+        const val detekt = "1.2.2"
         const val dokka = "0.9.18"
-        const val dependency_management = "1.0.8.RELEASE"
+        const val dependency_management = "1.0.10.RELEASE"
         const val jooq = "3.0.3"
-        const val protobuf = "0.8.10"
-        const val spring_boot = "2.1.8.RELEASE"
+        const val protobuf = "0.8.13"
+        const val avro = "0.17.0"
+        const val jarTest = "1.0.1"
+        const val spring_boot = "2.3.4.RELEASE"
     }
 
     const val detekt = "io.gitlab.arturbosch.detekt"
     const val dokka = "org.jetbrains.dokka"
     const val dependency_management = "io.spring.dependency-management"
+    const val spring_boot = "org.springframework.boot"
 
     const val jooq = "nu.studer.jooq"
+
+    // https://github.com/google/protobuf-gradle-plugin
     const val protobuf = "com.google.protobuf"
-    const val spring_boot = "org.springframework.boot"
+
+    // https://github.com/davidmc24/gradle-avro-plugin
+    const val avro = "com.commercehub.gradle.plugin.avro"
+
+    const val jarTest = "com.github.hauner.jarTest"
 }
 
 object Versions {
 
-    const val kotlin = "1.3.50"
-    const val kotlinx_coroutines = "1.3.2"
+    const val kotlin = "1.4.10"
+    const val kotlinx_coroutines = "1.3.9"
 
     const val spring_boot = BuildPlugins.Versions.spring_boot
-    const val resilience4j = "1.0.0"
+    const val resilience4j = "1.6.0"
     const val vavr = "0.10.0"
-    const val netty = "4.1.41.Final"
+    const val netty = "4.1.52.Final"
 
     const val grpc = "1.22.1"
     const val protobuf = "3.9.0"
@@ -38,7 +47,7 @@ object Versions {
     const val jasync_sql = "1.0.6"
 
     const val reactor = "3.2.12.RELEASE"
-    const val jackson = "2.9.9"
+    const val jackson = "2.11.3"
 
     const val mongo_driver = "3.11.0"
     const val lettuce = "5.1.8.RELEASE"
@@ -61,10 +70,10 @@ object Versions {
 
     const val byte_buddy = "1.9.13"
 
-    const val junit_jupiter = "5.5.2"
-    const val junit_platform = "1.5.2"
+    const val junit_jupiter = "5.7.0"
+    const val junit_platform = "1.7.0"
     const val mockito = "3.0.0"
-    const val testcontainers = "1.11.4"
+    const val testcontainers = "1.15.0-rc2"
 }
 
 object Libraries {
