@@ -31,9 +31,10 @@ object Versions {
 
     const val kotlin = "1.4.10"
     const val kotlinx_coroutines = "1.3.9"
+    const val atomicfu = "0.14.4"
 
     const val spring_boot = BuildPlugins.Versions.spring_boot
-    const val resilience4j = "1.6.0"
+    const val resilience4j = "1.6.1"
     const val vavr = "0.10.0"
     const val netty = "4.1.52.Final"
 
@@ -92,6 +93,8 @@ object Libraries {
     const val kotlinx_coroutines_rx2 = "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:${Versions.kotlinx_coroutines}"
     const val kotlinx_coroutines_debug = "org.jetbrains.kotlinx:kotlinx-coroutines-debug:${Versions.kotlinx_coroutines}"
     const val kotlinx_coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinx_coroutines}"
+
+    const val atomicfu = "org.jetbrains.kotlinx:atomicfu:${Versions.atomicfu}"
 
     // javax api
     const val activation_api = "javax.activation:javax.activation-api:1.2.0"

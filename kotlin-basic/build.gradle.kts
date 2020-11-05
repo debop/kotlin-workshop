@@ -1,6 +1,6 @@
 
 dependencies {
 
-    testCompile(project(":kotlin-tests"))
+    testApi(project(":kotlin-tests"))
 
 }

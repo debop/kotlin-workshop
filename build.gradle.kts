@@ -3,6 +3,16 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformJvmPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath("org.jetbrains.kotlinx:atomicfu-gradle-plugin:${Versions.atomicfu}")
+    }
+}
+
 plugins {
 
     base
@@ -13,8 +23,6 @@ plugins {
     kotlin("plugin.allopen") version Versions.kotlin apply false
     kotlin("plugin.noarg") version Versions.kotlin apply false
     kotlin("plugin.jpa") version Versions.kotlin apply false
-    // Use old scripts
-    // kotlin("plugin.sam-with-receiver") version kotlinVersion apply false
 
     id(BuildPlugins.detekt) version BuildPlugins.Versions.detekt apply false
     id(BuildPlugins.dokka) version BuildPlugins.Versions.dokka apply false
@@ -34,6 +42,8 @@ subprojects {
     apply {
         plugin<JavaLibraryPlugin>()
         plugin<KotlinPlatformJvmPlugin>()
+
+        plugin("kotlinx-atomicfu")
 
         plugin("jacoco")
         plugin("maven-publish")
@@ -326,6 +336,7 @@ subprojects {
         testImplementation(Libraries.kotlin_test_junit5)
 
         implementation(Libraries.kotlinx_coroutines_jdk8)
+        implementation(Libraries.atomicfu)
 
         api(Libraries.commons_lang3)
 
