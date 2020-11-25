@@ -4,7 +4,7 @@ plugins {
     kotlin("plugin.spring")
     kotlin("plugin.noarg")
 
-    id(BuildPlugins.spring_boot) version BuildPlugins.Versions.spring_boot
+    id(BuildPlugins.spring_boot)
 }
 
 val bootJar: BootJar by tasks

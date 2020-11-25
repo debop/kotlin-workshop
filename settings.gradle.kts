@@ -26,6 +26,10 @@ include("jackson:dataformats-binary")
 include("jackson:dataformats-text")
 include("jackson:module-examples")
 
+include("rsocket:rsocket-communication:api")
+include("rsocket:rsocket-communication:client")
+include("rsocket:rsocket-communication:server")
+
 include("spring-boot:basic")
 include("spring-boot:cache2k")
 include("spring-boot:cache2k-jcache")

@@ -8,7 +8,7 @@ object BuildPlugins {
         const val protobuf = "0.8.13"
         const val avro = "0.17.0"
         const val jarTest = "1.0.1"
-        const val spring_boot = "2.3.4.RELEASE"
+        const val spring_boot = "2.4.0"
     }
 
     const val detekt = "io.gitlab.arturbosch.detekt"
@@ -29,11 +29,12 @@ object BuildPlugins {
 
 object Versions {
 
-    const val kotlin = "1.4.10"
-    const val kotlinx_coroutines = "1.3.9"
+    const val kotlin = "1.4.20"
+    const val kotlinx_coroutines = "1.4.1"
     const val atomicfu = "0.14.4"
 
     const val spring_boot = BuildPlugins.Versions.spring_boot
+    const val spring_cloud = "Hoxton.SR9"
     const val resilience4j = "1.6.1"
     const val vavr = "0.10.0"
     const val netty = "4.1.52.Final"
@@ -47,7 +48,7 @@ object Versions {
 
     const val jasync_sql = "1.0.6"
 
-    const val reactor = "3.2.12.RELEASE"
+    const val reactor = "3.4.0"
     const val jackson = "2.11.3"
 
     const val mongo_driver = "3.11.0"
@@ -245,7 +246,7 @@ object Libraries {
     // Reactor
     const val reactor_core = "io.projectreactor:reactor-core:${Versions.reactor}"
     const val reactor_test = "io.projectreactor:reactor-test:${Versions.reactor}"
-    const val reactor_netty = "io.projectreactor.netty:reactor-netty:0.8.11.RELEASE"
+    const val reactor_netty = "io.projectreactor.netty:reactor-netty:1.0.1"
 
     // RxJava2
     const val rxjava2 = "io.reactivex.rxjava2:rxjava:2.2.10"

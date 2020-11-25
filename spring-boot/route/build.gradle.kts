@@ -1,14 +1,14 @@
-import org.springframework.boot.gradle.tasks.bundling.BootJar
+// import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     kotlin("plugin.spring")
     kotlin("plugin.noarg")
 
-    id(BuildPlugins.spring_boot) version BuildPlugins.Versions.spring_boot
+    id(BuildPlugins.spring_boot)
 }
 
-val bootJar: BootJar by tasks
-bootJar.enabled = false
+// val bootJar: BootJar by tasks
+// bootJar.enabled = false
 
 dependencies {
 

@@ -27,6 +27,7 @@ plugins {
     id(BuildPlugins.detekt) version BuildPlugins.Versions.detekt apply false
     id(BuildPlugins.dokka) version BuildPlugins.Versions.dokka apply false
     id(BuildPlugins.dependency_management) version BuildPlugins.Versions.dependency_management
+    id(BuildPlugins.spring_boot) version BuildPlugins.Versions.spring_boot apply false
     `maven-publish`
 }
 
@@ -137,6 +138,7 @@ subprojects {
     dependencyManagement {
         imports {
             mavenBom("org.springframework.boot:spring-boot-dependencies:${Versions.spring_boot}")
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:${Versions.spring_cloud}")
         }
         dependencies {
             dependency(Libraries.kotlin_stdlib)
