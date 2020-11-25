@@ -11,11 +11,10 @@ import javax.annotation.PreDestroy
 class RSocketController {
 
     companion object: KLogging() {
-
-        private const val SERVER = "Server"
-        private const val RESPONSE = "Response"
-        private const val STREAM = "Stream"
-        private const val CHANNEL = "Channel"
+        const val SERVER = "Server"
+        const val RESPONSE = "Response"
+        const val STREAM = "Stream"
+        const val CHANNEL = "Channel"
     }
 
     private val clients = mutableListOf<RSocketRequester>()

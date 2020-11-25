@@ -356,7 +356,7 @@ object Libraries {
     const val junit_platform_commons = "org.junit.platform:junit-platform-commons:${Versions.junit_platform}"
     const val junit_platform_engine = "org.junit.platform:junit-platform-engine:${Versions.junit_platform}"
 
-    const val kluent = "org.amshove.kluent:kluent:1.52"
+    const val kluent = "org.amshove.kluent:kluent:1.62"
     const val assertj_core = "org.assertj:assertj-core:3.12.2"
     const val mockk = "io.mockk:mockk:1.9.3"
     const val mockito_core = "org.mockito:mockito-core:${Versions.mockito}"

@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import mu.KLogging
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.rsocket.context.LocalRSocketServerPort
@@ -16,7 +17,8 @@ import org.springframework.messaging.rsocket.RSocketRequester
 import org.springframework.messaging.rsocket.RSocketStrategies
 import org.springframework.messaging.rsocket.annotation.support.RSocketMessageHandler
 import org.springframework.messaging.rsocket.connectTcpAndAwait
-import org.springframework.messaging.rsocket.retrieveMono
+import org.springframework.messaging.rsocket.retrieveAndAwait
+import org.springframework.messaging.rsocket.retrieveAndAwaitOrNull
 import java.util.UUID
 
 
@@ -41,7 +43,16 @@ class RSocketServerApplicationTest(
     fun `fire and forget`() = runBlocking<Unit> {
         val result = requester.route("fire-and-forget")
             .data(Message("TEST", "Fire-And-Forget"))
-            .retrieveMono<Void>()
+            .retrieveAndAwaitOrNull<Unit>()
+    }
+
+    @Test
+    fun `request get response`() = runBlocking<Unit> {
+        val result = requester.route("request-response")
+            .data(Message("TEST", "Request"))
+            .retrieveAndAwait<Message>()
+
+        result shouldBeEqualTo Message(RSocketController.SERVER, RSocketController.RESPONSE, 0)
     }
 
     class ClientHandler {
