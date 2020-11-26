@@ -1,0 +1,9 @@
+POST http://localhost:7000/request-response
+Content-Type: application/json
+
+{
+    "origin": "Client",
+    "interaction": "Request"
+}
+
+###

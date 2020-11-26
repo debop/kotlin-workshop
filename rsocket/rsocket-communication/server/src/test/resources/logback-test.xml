@@ -11,6 +11,7 @@
     </appender>
 
     <logger name="io.github.debop" level="DEBUG"/>
+    <logger name="io.rsocket" level="DEBUG"/>
 
     <root level="INFO">
         <appender-ref ref="console"/>
