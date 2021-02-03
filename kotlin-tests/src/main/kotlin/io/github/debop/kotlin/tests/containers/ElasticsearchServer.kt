@@ -12,13 +12,16 @@ import org.testcontainers.elasticsearch.ElasticsearchContainer
  * ElasticSearchServer
  * @author debop (Sunghyouk Bae)
  */
-class ElasticsearchServer(tag: String = ELASTICSEARCH_DEFAULT_VERSION,
-                          private val useDefaultPort: Boolean = false)
-    : ElasticsearchContainer("$IMAGE:$tag") {
+class ElasticsearchServer(
+    tag: String = DEFAULT_TAG,
+    useDefaultPort: Boolean = false,
+): ElasticsearchContainer("$IMAGE:$tag") {
 
     companion object: KLogging() {
         const val IMAGE = "docker.elastic.co/elasticsearch/elasticsearch"
+        const val DEFAULT_TAG = "7.9.2"
         const val NAME = "elasticsearch"
+
         const val ELASTICSEARCH_PORT = 9200
         const val ELASTICSEARCH_TCP_PORT = 9300
     }
@@ -39,7 +42,7 @@ class ElasticsearchServer(tag: String = ELASTICSEARCH_DEFAULT_VERSION,
         }
     }
 
-    val host: String get() = containerIpAddress
+    // val host: String by lazy { containerIpAddress }
     val port: Int by lazy { getMappedPort(ELASTICSEARCH_PORT) }
     val tcpPort: Int by lazy { getMappedPort(ELASTICSEARCH_TCP_PORT) }
     val url: String get() = "http://$host:$port"

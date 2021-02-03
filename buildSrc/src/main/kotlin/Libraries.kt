@@ -8,7 +8,7 @@ object BuildPlugins {
         const val protobuf = "0.8.13"
         const val avro = "0.17.0"
         const val jarTest = "1.0.1"
-        const val spring_boot = "2.4.0"
+        const val spring_boot = "2.4.2"
     }
 
     const val detekt = "io.gitlab.arturbosch.detekt"
@@ -29,15 +29,15 @@ object BuildPlugins {
 
 object Versions {
 
-    const val kotlin = "1.4.20"
-    const val kotlinx_coroutines = "1.4.1"
+    const val kotlin = "1.4.21"
+    const val kotlinx_coroutines = "1.4.2"
     const val atomicfu = "0.14.4"
 
     const val spring_boot = BuildPlugins.Versions.spring_boot
-    const val spring_cloud = "Hoxton.SR9"
-    const val resilience4j = "1.6.1"
+    const val spring_cloud = "2020.0.1"
+    const val resilience4j = "1.7.0"
     const val vavr = "0.10.0"
-    const val netty = "4.1.52.Final"
+    const val netty = "4.1.58.Final"
 
     const val grpc = "1.22.1"
     const val protobuf = "3.9.0"
@@ -48,12 +48,12 @@ object Versions {
 
     const val jasync_sql = "1.0.6"
 
-    const val reactor = "3.4.0"
+    const val reactor = "3.4.2"
     const val jackson = "2.11.3"
 
     const val mongo_driver = "3.11.0"
     const val lettuce = "5.1.8.RELEASE"
-    const val redisson = "3.11.2"
+    const val redisson = "3.12.1"
 
     const val hibernate = "5.4.3.Final"
     const val hibernate_validator = "6.0.17.Final"
@@ -75,7 +75,7 @@ object Versions {
     const val junit_jupiter = "5.7.0"
     const val junit_platform = "1.7.0"
     const val mockito = "3.0.0"
-    const val testcontainers = "1.15.0-rc2"
+    const val testcontainers = "1.15.1"
 }
 
 object Libraries {
@@ -356,9 +356,9 @@ object Libraries {
     const val junit_platform_commons = "org.junit.platform:junit-platform-commons:${Versions.junit_platform}"
     const val junit_platform_engine = "org.junit.platform:junit-platform-engine:${Versions.junit_platform}"
 
-    const val kluent = "org.amshove.kluent:kluent:1.62"
-    const val assertj_core = "org.assertj:assertj-core:3.12.2"
-    const val mockk = "io.mockk:mockk:1.9.3"
+    const val kluent = "org.amshove.kluent:kluent:1.64"
+    const val assertj_core = "org.assertj:assertj-core:3.19.0"
+    const val mockk = "io.mockk:mockk:1.10.5"
     const val mockito_core = "org.mockito:mockito-core:${Versions.mockito}"
     const val mockito_junit_jupiter = "org.mockito:mockito-junit-jupiter:${Versions.mockito}"
     const val mockito_kotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"

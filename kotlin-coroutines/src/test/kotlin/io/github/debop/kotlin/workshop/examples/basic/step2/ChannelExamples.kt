@@ -10,7 +10,6 @@ import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.channels.produce
-import kotlinx.coroutines.channels.take
 import kotlinx.coroutines.channels.ticker
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -98,18 +97,20 @@ class ChannelExamples {
             }
         }
 
-        @Test
-        fun `consume chained channels`() = runBlocking {
-            val numbers = produceNumbers()
-            val squares = square(numbers)
-
-            squares.take(5).consumeEach {
-                logger.trace { "Received: $it" }
-            }
-            logger.debug { "Done!" }
-
-            coroutineContext.cancelChildren() // cancel children coroutines (produceNumbers)
-        }
+        // Flow 로 대체 
+        //        @Test
+        //        fun `consume chained channels`() = runBlocking {
+        //            val numbers = produceNumbers()
+        //            val squares = square(numbers)
+        //
+        //            squares.take(5).consumeEach {
+        //                logger.trace { "Received: $it" }
+        //            }
+        //
+        //            logger.debug { "Done!" }
+        //
+        //            coroutineContext.cancelChildren() // cancel children coroutines (produceNumbers)
+        //        }
     }
 
     @Nested

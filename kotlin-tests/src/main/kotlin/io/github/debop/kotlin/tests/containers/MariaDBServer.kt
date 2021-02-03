@@ -24,7 +24,7 @@ class MariaDBServer(tag: String = DEFAULT_TAG,
         const val MARIADB_PORT = 3306
     }
 
-    val host: String by lazy { containerIpAddress }
+    // val host: String by lazy { containerIpAddress }
     val port: Int by lazy { getMappedPort(MARIADB_PORT) }
 
     init {

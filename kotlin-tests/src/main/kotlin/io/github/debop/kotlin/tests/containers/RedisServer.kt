@@ -24,7 +24,7 @@ class RedisServer(tag: String = REDIS_TAG,
         const val REDIS_PORT: Int = 6379
     }
 
-    val host: String get() = containerIpAddress
+    // val host: String get() = containerIpAddress
     val port: Int get() = getMappedPort(REDIS_PORT)
     val url: String get() = "redis://$host:$port"
 

@@ -23,7 +23,7 @@ class PostgreSQLServer(tag: String = DEFAULT_TAG,
         const val POSTGRESQL_11_TAG = "11.1"
     }
 
-    val host: String by lazy { containerIpAddress }
+    // val host: String by lazy { containerIpAddress }
     val port: Int by lazy { getMappedPort(POSTGRESQL_PORT) }
 
     init {

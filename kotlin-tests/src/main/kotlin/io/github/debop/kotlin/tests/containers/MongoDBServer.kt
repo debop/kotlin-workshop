@@ -24,7 +24,7 @@ class MongoDBServer(tag: String = MONGODB_TAG,
         const val MONGODB_PORT: Int = 27017
     }
 
-    val host: String get() = containerIpAddress
+    // val host: String get() = containerIpAddress
     val port: Int get() = getMappedPort(MONGODB_PORT)
 
     val connectionString: String

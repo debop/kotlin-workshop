@@ -26,7 +26,7 @@ class MySQLServer(tag: String = DEFAULT_TAG,
         const val DRIVER_CLASS_NAME = "com.mysql.cj.jdbc.Driver"
     }
 
-    val host: String by lazy { containerIpAddress }
+    // val host: String by lazy { containerIpAddress }
     val port: Int by lazy { getMappedPort(MYSQL_PORT) }
 
     init {

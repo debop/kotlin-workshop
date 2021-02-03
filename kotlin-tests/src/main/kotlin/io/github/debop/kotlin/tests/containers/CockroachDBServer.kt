@@ -9,12 +9,14 @@ import org.testcontainers.containers.output.Slf4jLogConsumer
  * CockroachDBServer
  * @author debop (Sunghyouk Bae)
  */
-class CockroachDBServer(tag: String = CockroachDBContainer.DEFAULT_TAG,
-                        useDefaultPort: Boolean = false,
-                        username: String = "root",
-                        password: String = ""): CockroachDBContainer<CockroachDBServer>("$IMAGE:$tag") {
+class CockroachDBServer(
+    tag: String = DEFAULT_TAG,
+    useDefaultPort: Boolean = false,
+    username: String = "root",
+    password: String = "",
+): CockroachDBContainer<CockroachDBServer>("$IMAGE:$tag") {
 
-    val host: String by lazy { containerIpAddress }
+    // val host: String by lazy { containerIpAddress }
     val port: Int by lazy { getMappedPort(COCKROACH_PORT) }
 
     init {
