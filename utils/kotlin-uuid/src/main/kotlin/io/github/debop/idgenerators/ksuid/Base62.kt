@@ -121,8 +121,8 @@ class Base62 {
         private const val MASK_5BITS = 0x1F // 0001111
 
         private fun decodedBitsForCharacter(char: Char): Int {
-            val result: Int = DECODE_TABLE[char.toInt()].toInt()
-            if (char.toInt() >= DECODE_TABLE.size || result < 0) {
+            val result: Int = DECODE_TABLE[char.code].toInt()
+            if (char.code >= DECODE_TABLE.size || result < 0) {
                 throw IllegalArgumentException("Wrong Base62 symbol found: $char")
             }
             return result

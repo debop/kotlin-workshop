@@ -4,7 +4,7 @@ plugins {
 }
 
 repositories {
-    maven { setUrl("http://oss.jfrog.org/artifactory/oss-snapshot-local/") }
+    maven { setUrl("https://oss.jfrog.org/artifactory/oss-snapshot-local/") }
 }
 
 configurations.all {
@@ -22,6 +22,9 @@ dependencies {
 
     api("org.springframework.boot:spring-boot-autoconfigure")
     implementation("org.springframework.boot:spring-boot-configuration-processor")
+
+    api(Libraries.kotlinx_coroutines_jdk8)
+    api(Libraries.kotlinx_coroutines_reactor)
 
     api(Libraries.resilience4j_all)
     api(Libraries.resilience4j_kotlin)

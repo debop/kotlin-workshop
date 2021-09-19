@@ -9,7 +9,7 @@ plugins {
 dependencies {
 
     api(project(":eventsourcing:javers-kotlin"))
-    testCompile(project(":kotlin-tests"))
+    testImplementation(project(":kotlin-tests"))
 
     api(Libraries.javers_core)
     api(Libraries.javers_spring)
@@ -22,8 +22,8 @@ dependencies {
     api(Libraries.jackson_module_kotlin)
     api(Libraries.cache2k_core)
 
-    testCompile(Libraries.h2)
-    testCompile(Libraries.hikaricp)
+    testImplementation(Libraries.h2)
+    testImplementation(Libraries.hikaricp)
 
     implementation(Libraries.hibernate_core)
     implementation(Libraries.hibernate_jpa_2_1_api)

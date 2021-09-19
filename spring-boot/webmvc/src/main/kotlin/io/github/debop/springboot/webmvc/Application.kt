@@ -26,8 +26,8 @@ class Application {
         }
 }
 
-fun main() {
-    runApplication<Application>() {
+fun main(vararg args: String) {
+    runApplication<Application>(*args) {
         webApplicationType = WebApplicationType.SERVLET
     }
 }

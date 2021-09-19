@@ -2,8 +2,8 @@ package io.github.debop
 
 import io.github.debop.controller.BackendAController
 import io.github.debop.controller.BackendBController
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldContain
-import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -30,22 +30,22 @@ abstract class AbstractResilience4jTest {
 
     protected fun procedureFailure(backend: String) {
         val response = restTemplate.getForEntity<String>("/$backend/failure")
-        response.statusCode shouldEqual HttpStatus.INTERNAL_SERVER_ERROR
+        response.statusCode shouldBeEqualTo HttpStatus.INTERNAL_SERVER_ERROR
     }
 
     protected fun procedureSuccess(backend: String) {
         val response = restTemplate.getForEntity<String>("/$backend/success")
-        response.statusCode shouldEqual HttpStatus.OK
+        response.statusCode shouldBeEqualTo HttpStatus.OK
     }
 
     protected fun procedureMonoFailure(backend: String) {
         val response = restTemplate.getForEntity<String>("/$backend/monoFailure")
-        response.statusCode shouldEqual HttpStatus.INTERNAL_SERVER_ERROR
+        response.statusCode shouldBeEqualTo HttpStatus.INTERNAL_SERVER_ERROR
     }
 
     protected fun procedureMonoSuccess(backend: String) {
         val response = restTemplate.getForEntity<String>("/$backend/monoSuccess")
-        response.statusCode shouldEqual HttpStatus.OK
+        response.statusCode shouldBeEqualTo HttpStatus.OK
     }
 
     protected fun checkRetryStatus(kind: String, backend: String, count: String) {

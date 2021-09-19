@@ -8,7 +8,7 @@ object BuildPlugins {
         const val protobuf = "0.8.13"
         const val avro = "0.17.0"
         const val jarTest = "1.0.1"
-        const val spring_boot = "2.4.2"
+        const val spring_boot = "2.5.4"
     }
 
     const val detekt = "io.gitlab.arturbosch.detekt"
@@ -29,12 +29,12 @@ object BuildPlugins {
 
 object Versions {
 
-    const val kotlin = "1.4.21"
-    const val kotlinx_coroutines = "1.4.2"
-    const val atomicfu = "0.14.4"
+    const val kotlin = "1.5.30"
+    const val kotlinx_coroutines = "1.5.2"
+    const val atomicfu = "0.15.1"
 
     const val spring_boot = BuildPlugins.Versions.spring_boot
-    const val spring_cloud = "2020.0.1"
+    const val spring_cloud = "2020.0.3"
     const val resilience4j = "1.7.0"
     const val vavr = "0.10.0"
     const val netty = "4.1.58.Final"
@@ -44,15 +44,15 @@ object Versions {
     const val krotoplus = "0.4.0"
     const val avro = "1.8.2"   // 1.9.0 은 jackson-dataformat-avro 에서 아직 지원하지 않습니다.
 
-    const val kafka = "2.2.1"
+    const val kafka = "2.8.1"
 
     const val jasync_sql = "1.0.6"
 
-    const val reactor = "3.4.2"
-    const val jackson = "2.11.3"
+    const val reactor = "3.4.10"
+    const val jackson = "2.12.5"
 
-    const val mongo_driver = "3.11.0"
-    const val lettuce = "5.1.8.RELEASE"
+    const val mongo_driver = "4.3.2"
+    const val lettuce = "6.1.5.RELEASE"
     const val redisson = "3.12.1"
 
     const val hibernate = "5.4.3.Final"
@@ -65,17 +65,17 @@ object Versions {
     const val slf4j = "1.7.26"
     const val logback = "1.2.3"
 
-    const val micrometer = "1.2.0"
+    const val micrometer = "1.7.4"
     const val cache2k = "1.2.3.Final"
 
     const val koin = "2.0.1"
 
     const val byte_buddy = "1.9.13"
 
-    const val junit_jupiter = "5.7.0"
-    const val junit_platform = "1.7.0"
+    const val junit_jupiter = "5.7.2"
+    const val junit_platform = "1.7.2"
     const val mockito = "3.0.0"
-    const val testcontainers = "1.15.1"
+    const val testcontainers = "1.16.0"
 }
 
 object Libraries {
@@ -246,7 +246,10 @@ object Libraries {
     // Reactor
     const val reactor_core = "io.projectreactor:reactor-core:${Versions.reactor}"
     const val reactor_test = "io.projectreactor:reactor-test:${Versions.reactor}"
-    const val reactor_netty = "io.projectreactor.netty:reactor-netty:1.0.1"
+
+    const val reactor_netty = "io.projectreactor.netty:reactor-netty:1.0.11"
+    const val reactor_kotlin_extensions = "io.projectreactor.kotlin:reactor-kotlin-extensions:1.1.4"
+
 
     // RxJava2
     const val rxjava2 = "io.reactivex.rxjava2:rxjava:2.2.10"
@@ -271,12 +274,10 @@ object Libraries {
     const val uuid_creator = "com.github.f4b6a3:uuid-creator:1.3.9"
 
     // MongoDB
-    const val mongo_java_driver = "org.mongodb:mongo-java-driver:${Versions.mongo_driver}"
     const val mongo_bson = "org.mongodb:bson:${Versions.mongo_driver}"
-    const val mongo_driver = "org.mongodb:mongodb-driver:${Versions.mongo_driver}"
-    const val mongo_driver_async = "org.mongodb:mongodb-driver-async:${Versions.mongo_driver}"
+    const val mongo_driver_sync = "org.mongodb:mongodb-driver-sync:${Versions.mongo_driver}"
     const val mongo_driver_core = "org.mongodb:mongodb-driver-core:${Versions.mongo_driver}"
-    const val mongo_driver_reactivestreams = "org.mongodb:mongodb-driver-reactivestreams:1.11.0"
+    const val mongo_driver_reactivestreams = "org.mongodb:mongodb-driver-reactivestreams:${Versions.mongo_driver}"
 
     // Redis
     const val lettuceCore = "io.lettuce:lettuce-core:${Versions.lettuce}"
@@ -356,8 +357,8 @@ object Libraries {
     const val junit_platform_commons = "org.junit.platform:junit-platform-commons:${Versions.junit_platform}"
     const val junit_platform_engine = "org.junit.platform:junit-platform-engine:${Versions.junit_platform}"
 
-    const val kluent = "org.amshove.kluent:kluent:1.64"
-    const val assertj_core = "org.assertj:assertj-core:3.19.0"
+    const val kluent = "org.amshove.kluent:kluent:1.68"
+    const val assertj_core = "org.assertj:assertj-core:3.20.2"
     const val mockk = "io.mockk:mockk:1.10.5"
     const val mockito_core = "org.mockito:mockito-core:${Versions.mockito}"
     const val mockito_junit_jupiter = "org.mockito:mockito-junit-jupiter:${Versions.mockito}"
@@ -372,6 +373,6 @@ object Libraries {
     const val testcontainers_cassandra = "org.testcontainers:cassandra:${Versions.testcontainers}"
     const val testcontainers_elasticsearch = "org.testcontainers:elasticsearch:${Versions.testcontainers}"
 
-    const val spring_kafka = "org.springframework.kafka:spring-kafka:2.2.8.RELEASE"
+    const val spring_kafka = "org.springframework.kafka:spring-kafka:2.7.7"
 
 }

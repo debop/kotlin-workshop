@@ -5,15 +5,11 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.server.router
 
-/**
- * Router
- *
- * @author debop
- * @since 19. 6. 3
- */
 @Configuration
-class Router(private val userHandler: UserHandler,
-             private val articleHandler: ArticleHandler) {
+class Router(
+    private val userHandler: UserHandler,
+    private val articleHandler: ArticleHandler,
+) {
 
     @Bean
     fun appRouter() = router {
@@ -28,11 +24,12 @@ class Router(private val userHandler: UserHandler,
                 POST("/", articleHandler::save)
                 DELETE("/{slug}", articleHandler::delete)
             }
-        }
-        // (GET("/api/article/notifications") and accept(MediaType.TEXT_EVENT_STREAM)).invoke(articleHandler::notifications)
-        accept(MediaType.TEXT_EVENT_STREAM).nest {
-            "/api/article/notifications".nest {
-                GET("/", articleHandler::notifications)
+
+            // (GET("/api/article/notifications") and accept(MediaType.TEXT_EVENT_STREAM)).invoke(articleHandler::notifications)
+            accept(MediaType.TEXT_EVENT_STREAM).nest {
+                "/api/article/notifications".nest {
+                    GET("/", articleHandler::notifications)
+                }
             }
         }
     }

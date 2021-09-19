@@ -161,7 +161,7 @@ class Trie(private val config: TrieConfig) {
     private fun isPartialMatch(searchText: CharSequence, emit: Emit): Boolean {
         logger.trace { "Is partial match? searchText=$searchText, emit=$emit" }
         fun isAlphabeticStart() =
-            emit.start != 0 && Character.isAlphabetic(searchText[emit.start - 1].toInt())
+            emit.start != 0 && Character.isAlphabetic(searchText[emit.start - 1].code)
 
         if (isAlphabeticStart()) {
             return true
@@ -169,7 +169,7 @@ class Trie(private val config: TrieConfig) {
 
         fun isAlphabeticEnd() =
             emit.end + 1 != searchText.length &&
-            Character.isAlphabetic(searchText[emit.end + 1].toInt())
+            Character.isAlphabetic(searchText[emit.end + 1].code)
 
         return isAlphabeticEnd()
     }

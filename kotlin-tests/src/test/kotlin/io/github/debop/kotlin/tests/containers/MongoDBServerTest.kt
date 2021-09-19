@@ -1,8 +1,8 @@
 package io.github.debop.kotlin.tests.containers
 
-import com.mongodb.MongoClient
+import com.mongodb.client.MongoClients
 import mu.KLogging
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.bson.Document
 import org.junit.jupiter.api.Test
@@ -13,7 +13,7 @@ class MongoDBServerTest {
         val mongodb: MongoDBServer = MongoDBServer()
     }
 
-    val client = MongoClient(mongodb.host, mongodb.port)
+    val client = MongoClients.create(mongodb.connectionString)
 
     @Test
     fun `create mongodb testcontainer instance`() {
@@ -47,6 +47,6 @@ class MongoDBServerTest {
         customers.insertOne(document)
 
         val loaded = customers.find().toList()
-        loaded.size shouldEqualTo 1
+        loaded.size shouldBeEqualTo 1
     }
 }

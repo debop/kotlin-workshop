@@ -1,6 +1,7 @@
 package io.github.debop.springboot.routes.web
 
 import io.github.debop.springboot.routes.domain.model.Article
+import io.github.debop.springboot.routes.domain.model.ArticleEvent
 import io.github.debop.springboot.routes.domain.repository.ArticleEventRepository
 import io.github.debop.springboot.routes.domain.repository.ArticleRepository
 import io.github.debop.springboot.routes.service.MarkdownConverter
@@ -10,7 +11,8 @@ import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import org.springframework.web.reactive.function.server.body
 import org.springframework.web.reactive.function.server.bodyToMono
-import org.springframework.web.reactive.function.server.bodyToServerSentEvents
+import org.springframework.web.reactive.function.server.sse
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 /**
@@ -20,11 +22,13 @@ import reactor.core.publisher.Mono
  * @since 19. 6. 3
  */
 @Component
-class ArticleHandler(private val articleRepository: ArticleRepository,
-                     private val articleEventRepository: ArticleEventRepository,
-                     private val markdownConverter: MarkdownConverter) {
+class ArticleHandler(
+    private val articleRepository: ArticleRepository,
+    private val articleEventRepository: ArticleEventRepository,
+    private val markdownConverter: MarkdownConverter,
+) {
 
-    val notifications = articleEventRepository
+    private val notifications: Flux<ArticleEvent> = articleEventRepository
         .count()
         .flatMapMany { articleEventRepository.findWithTailableCursorBy().skip(it) }
         .share()
@@ -57,6 +61,7 @@ class ArticleHandler(private val articleRepository: ArticleRepository,
         ok().body(articleRepository.deleteById(req.pathVariable("slug")))
 
     fun notifications(req: ServerRequest) =
-        ok().bodyToServerSentEvents(notifications)
+        ok().sse().body(notifications)
+    //ok().bodyToServerSentEvents(notifications)
 
 }

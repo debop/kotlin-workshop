@@ -24,7 +24,7 @@ import javax.annotation.PreDestroy
 @SpringBootApplication
 class SpringDataRedisApplication {
 
-    companion object : KLogging() {
+    companion object: KLogging() {
         val redisServer = RedisServer()
     }
 
@@ -53,8 +53,8 @@ class SpringDataRedisApplication {
     }
 }
 
-fun main() {
-    runApplication<SpringDataRedisApplication>() {
+fun main(vararg args: String) {
+    runApplication<SpringDataRedisApplication>(*args) {
         webApplicationType = NONE
     }
 }

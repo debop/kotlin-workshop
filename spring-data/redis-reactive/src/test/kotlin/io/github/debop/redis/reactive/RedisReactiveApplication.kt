@@ -9,6 +9,7 @@ import org.springframework.boot.WebApplicationType.REACTIVE
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Primary
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory
 import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration
@@ -45,6 +46,7 @@ class RedisReactiveApplication {
         return LettuceConnectionFactory(configuration)
     }
 
+    @Primary
     @Bean
     fun reactiveRedisTemplate(connectionFactory: ReactiveRedisConnectionFactory): ReactiveRedisTemplate<String, String> {
         return ReactiveRedisTemplate<String, String>(connectionFactory,
@@ -96,8 +98,8 @@ class RedisReactiveApplication {
     }
 }
 
-fun main() {
-    runApplication<RedisReactiveApplication>() {
+fun main(vararg args: String) {
+    runApplication<RedisReactiveApplication>(*args) {
         webApplicationType = REACTIVE
     }
 }

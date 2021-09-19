@@ -1,4 +1,3 @@
-import io.gitlab.arturbosch.detekt.detekt
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformJvmPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -6,7 +5,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 buildscript {
     repositories {
         mavenCentral()
-        jcenter()
     }
     dependencies {
         classpath("org.jetbrains.kotlinx:atomicfu-gradle-plugin:${Versions.atomicfu}")
@@ -24,7 +22,7 @@ plugins {
     kotlin("plugin.noarg") version Versions.kotlin apply false
     kotlin("plugin.jpa") version Versions.kotlin apply false
 
-    id(BuildPlugins.detekt) version BuildPlugins.Versions.detekt apply false
+    //id(BuildPlugins.detekt) version BuildPlugins.Versions.detekt apply false
     id(BuildPlugins.dokka) version BuildPlugins.Versions.dokka apply false
     id(BuildPlugins.dependency_management) version BuildPlugins.Versions.dependency_management
     id(BuildPlugins.spring_boot) version BuildPlugins.Versions.spring_boot apply false
@@ -34,6 +32,7 @@ plugins {
 allprojects {
     repositories {
         mavenCentral()
+        google()
         jcenter()
     }
 }
@@ -49,7 +48,7 @@ subprojects {
         plugin("jacoco")
         plugin("maven-publish")
 
-        plugin("io.gitlab.arturbosch.detekt")
+        // plugin("io.gitlab.arturbosch.detekt")
         plugin("org.jetbrains.dokka")
         plugin("io.spring.dependency-management")
         plugin("maven-publish")
@@ -104,18 +103,18 @@ subprojects {
         }
     }
 
-    detekt {
-        description = "Runs a failfast detekt build."
-
-        input = files("src/main/kotlin")
-        config = files("${project.rootProject.rootDir}/detekt.yml")
-        filters = ".*/build/.*"
-
-        reports {
-            xml.enabled = false
-            html.enabled = true
-        }
-    }
+    //    detekt {
+    //        description = "Runs a failfast detekt build."
+    //
+    //        input = files("src/main/kotlin")
+    //        config = files("${project.rootProject.rootDir}/detekt.yml")
+    //        filters = ".*/build/.*"
+    //
+    //        reports {
+    //            xml.enabled = false
+    //            html.enabled = true
+    //        }
+    //    }
 
     // jacoco
     configure<JacocoPluginExtension> {
@@ -123,9 +122,9 @@ subprojects {
 
     tasks.withType<JacocoReport> {
         reports {
-            html.isEnabled = true
-            xml.isEnabled = true
-            csv.isEnabled = false
+            html.required.set(true)
+            xml.required.set(true)
+            csv.required.set(false)
         }
     }
 
@@ -178,49 +177,6 @@ subprojects {
             dependency(Libraries.kryo)
             dependency(Libraries.kryo_serializers)
 
-            // Resilience4j
-            dependency(Libraries.resilience4j_annotations)
-            dependency(Libraries.resilience4j_bulkhead)
-            dependency(Libraries.resilience4j_circuitbreaker)
-            dependency(Libraries.resilience4j_core)
-            dependency(Libraries.resilience4j_framework_common)
-            dependency(Libraries.resilience4j_micrometer)
-            dependency(Libraries.resilience4j_ratelimiter)
-            dependency(Libraries.resilience4j_reactor)
-            dependency(Libraries.resilience4j_retry)
-            dependency(Libraries.resilience4j_spring)
-            dependency(Libraries.resilience4j_spring_boot2)
-            dependency(Libraries.resilience4j_spring_boot_common)
-
-            // Vavr
-            dependency(Libraries.vavr)
-            dependency(Libraries.vavr_jackson)
-            dependency(Libraries.vavr_kotlin)
-            dependency(Libraries.vavr_match)
-            dependency(Libraries.vavr_test)
-
-            // Netty
-            dependency(Libraries.netty_all)
-            dependency(Libraries.netty_common)
-            dependency(Libraries.netty_buffer)
-            dependency(Libraries.netty_codec)
-            dependency(Libraries.netty_codec_dns)
-            dependency(Libraries.netty_codec_http)
-            dependency(Libraries.netty_codec_http2)
-            dependency(Libraries.netty_codec_socks)
-            dependency(Libraries.netty_handler)
-            dependency(Libraries.netty_handler_proxy)
-            dependency(Libraries.netty_resolver)
-            dependency(Libraries.netty_resolver_dns)
-            dependency(Libraries.netty_transport)
-            dependency(Libraries.netty_transport_native_epoll)
-            dependency(Libraries.netty_transport_native_kqueue)
-
-            // Kafka
-            dependency(Libraries.kafka_clients)
-            dependency(Libraries.kafka_streams)
-            dependency(Libraries.kafka_streams_test_utils)
-
             // Jackson
             dependency(Libraries.jackson_annotations)
             dependency(Libraries.jackson_core)
@@ -235,75 +191,28 @@ subprojects {
             dependency(Libraries.jackson_module_kotlin)
             dependency(Libraries.jackson_module_afterburner)
 
-            // Micrometer
-            dependency(Libraries.micrometer_core)
-            dependency(Libraries.micrometer_test)
-            dependency(Libraries.micrometer_registry)
-            dependency(Libraries.micrometer_registry_prometheus)
-            dependency(Libraries.micrometer_registry_graphite)
-            dependency(Libraries.micrometer_registry_jmx)
-
             // Reactor
             dependency(Libraries.reactor_core)
-            dependency(Libraries.reactor_test)
+            dependency(Libraries.reactor_kotlin_extensions)
             dependency(Libraries.reactor_netty)
-
-            dependency(Libraries.rxjava2)
-            dependency(Libraries.rxkotlin)
-
-            dependency(Libraries.mongo_java_driver)
-            dependency(Libraries.mongo_bson)
-            dependency(Libraries.mongo_driver)
-            dependency(Libraries.mongo_driver_async)
-            dependency(Libraries.mongo_driver_core)
-            dependency(Libraries.mongo_driver_reactivestreams)
-
-            // Hibernate
-            dependency(Libraries.hibernate_core)
-            dependency(Libraries.hibernate_jpa_2_1_api)
-            dependency(Libraries.javassist)
-            dependency(Libraries.querydsl_apt)
-            dependency(Libraries.querydsl_jpa)
-
-            // Validators
-            dependency(Libraries.validation_api)
-            dependency(Libraries.hibernate_validator)
-            dependency(Libraries.hibernate_validator_annotation_processor)
-            dependency(Libraries.javax_el_api)
-            dependency(Libraries.javax_el)
+            dependency(Libraries.reactor_test)
 
             dependency(Libraries.hikaricp)
             dependency(Libraries.mysql_connector_java)
             dependency(Libraries.mariadb_java_client)
             dependency(Libraries.h2)
 
-            // Cache
-            dependency(Libraries.cache_api)
-            dependency(Libraries.cache2k_all)
-            dependency(Libraries.cache2k_spring)
-            dependency(Libraries.cache2k_jcache)
-
-            // Dagger
-            dependency(Libraries.dagger)
-            dependency(Libraries.dagger_compiler)
-
-            // Koin
-            dependency(Libraries.koin_core)
-            dependency(Libraries.koin_core_ext)
-            dependency(Libraries.koin_test)
-
-            // Metrics
-            dependency(Libraries.latencyUtils)
-            dependency(Libraries.hdrHistogram)
+            // Mongo Driver
+            dependency(Libraries.mongo_bson)
+            dependency(Libraries.mongo_driver_core)
+            dependency(Libraries.mongo_driver_sync)
+            dependency(Libraries.mongo_driver_reactivestreams)
 
             dependency(Libraries.byte_buddy)
             dependency(Libraries.byte_buddy_agent)
 
             dependency(Libraries.objenesis)
             dependency(Libraries.ow2_asm)
-
-            dependency(Libraries.random_beans)
-            dependency(Libraries.reflectasm)
 
             dependency(Libraries.junit_jupiter)
             dependency(Libraries.junit_jupiter_api)
@@ -327,11 +236,11 @@ subprojects {
 
     dependencies {
         val api by configurations
-        val compile by configurations
         val implementation by configurations
         val testImplementation by configurations
         val testRuntimeOnly by configurations
 
+        implementation(Libraries.kotlin_stdlib)
         implementation(Libraries.kotlin_stdlib_jdk8)
         implementation(Libraries.kotlin_reflect)
         testImplementation(Libraries.kotlin_test)
@@ -355,9 +264,9 @@ subprojects {
     }
 }
 
-dependencies {
-    // Make the root project archives configuration depend on every subproject
-    subprojects.forEach {
-        archives(it)
-    }
-}
+//dependencies {
+//    // Make the root project archives configuration depend on every subproject
+//    subprojects.forEach {
+//        archives(it)
+//    }
+//}

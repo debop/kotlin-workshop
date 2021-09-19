@@ -25,4 +25,7 @@ dependencies {
     implementation("com.atlassian.commonmark:commonmark:0.12.1")
     implementation("com.atlassian.commonmark:commonmark-ext-autolink:0.12.1")
     implementation(Libraries.jackson_module_kotlin)
+
+    implementation(Libraries.mongo_driver_sync)
+    implementation(Libraries.netty_all)
 }

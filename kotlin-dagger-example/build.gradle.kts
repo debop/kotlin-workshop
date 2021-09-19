@@ -5,10 +5,10 @@ plugins {
 
 dependencies {
 
-    compile(project(":kotlin-basic"))
+    implementation(project(":kotlin-basic"))
     testImplementation(project(":kotlin-tests"))
 
-    compile(Libraries.dagger)
+    compileOnly(Libraries.dagger)
     kapt(Libraries.dagger_compiler)
 }
 

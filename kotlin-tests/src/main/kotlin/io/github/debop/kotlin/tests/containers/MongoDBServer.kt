@@ -15,8 +15,10 @@ import org.testcontainers.containers.wait.strategy.Wait
  * @param tag            MongoDB docker tag
  * @param useDefaultPort MongoDB 기본 port 를 이용할 것인가 여부. 기본적으로는 docker의 dynamic port를 이용한다
  */
-class MongoDBServer(tag: String = MONGODB_TAG,
-                    useDefaultPort: Boolean = false): GenericContainer<MongoDBServer>("$MONGODB_IMAGE_NAME:$tag") {
+class MongoDBServer(
+    tag: String = MONGODB_TAG,
+    useDefaultPort: Boolean = false,
+): GenericContainer<MongoDBServer>("$MONGODB_IMAGE_NAME:$tag") {
 
     companion object: KLogging() {
         const val MONGODB_IMAGE_NAME: String = "mongo"
@@ -27,8 +29,7 @@ class MongoDBServer(tag: String = MONGODB_TAG,
     // val host: String get() = containerIpAddress
     val port: Int get() = getMappedPort(MONGODB_PORT)
 
-    val connectionString: String
-        get() = "mongodb://$host:$port"
+    val connectionString: String get() = "mongodb://$host:$port"
 
     init {
         withExposedPorts(MONGODB_PORT)

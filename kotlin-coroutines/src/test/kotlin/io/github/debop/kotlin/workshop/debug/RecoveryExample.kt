@@ -4,6 +4,7 @@ import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 
@@ -19,7 +20,7 @@ class RecoveryExample {
             return doWork() + 1
         }
 
-        suspend fun awaitAsynchronousWorkInMainThread() {
+        suspend fun awaitAsynchronousWorkInMainThread() = coroutineScope {
             val task = async(Dispatchers.Default) {
                 asynchronousWork()
             }

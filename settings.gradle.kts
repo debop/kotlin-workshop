@@ -15,10 +15,10 @@ include("kotlin-basic")
 include("kotlin-coroutines")
 include("kotlin-futures")
 
-include("kotlin-dagger-example")
-include("kotlin-koin-example")
+// include("kotlin-dagger-example")
+// include("kotlin-koin-example")
 
-include("grpc:kroto-plus-example")
+// include("grpc:kroto-plus-example")
 
 include("jasync:jasync-mysql-example")
 
@@ -41,17 +41,17 @@ include("spring-boot:resilience4j")
 
 include("spring-boot:redisson")
 
-include("spring-data:jdbc")
+//include("spring-data:jdbc")
 include("spring-data:jooq")
 include("spring-data:jpa")
 include("spring-data:multi-store")
 include("spring-data:redis")
 include("spring-data:redis-reactive")
 
-include("eventsourcing:javers-kotlin")
-include("eventsourcing:javers-example")
-include("eventsourcing:javers-mongodb-example")
-include("eventsourcing:javers-testing")
+//include("eventsourcing:javers-kotlin")
+//include("eventsourcing:javers-example")
+//include("eventsourcing:javers-mongodb-example")
+//include("eventsourcing:javers-testing")
 
 include("messaging:kafka-clients-examples")
 include("messaging:kafka-streams-examples")

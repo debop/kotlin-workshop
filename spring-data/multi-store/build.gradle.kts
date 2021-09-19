@@ -15,7 +15,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-    compile(Libraries.querydsl_jpa)
+    implementation(Libraries.querydsl_jpa)
     // NOTE: classifier를 지정할 때에는 추가적으로 ":classfier" 를 지정해주어야 한다.
     // Libraries 에 미리 정의하면 인식하지 못한다
     kapt(Libraries.querydsl_apt + ":jpa")

@@ -1,10 +1,11 @@
 package io.github.debop.springboot.webflux
 
+//import reactor.test.test
 import io.github.debop.springboot.webflux.domain.model.Article
 import io.github.debop.springboot.webflux.domain.model.ArticleEvent
 import mu.KLogging
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldContain
-import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldNotContain
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
 import org.junit.jupiter.api.Order
@@ -18,14 +19,14 @@ import org.springframework.http.MediaType.TEXT_EVENT_STREAM
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToFlux
 import org.springframework.web.reactive.function.client.bodyToMono
-import reactor.test.test
+import reactor.kotlin.test.test
 import java.time.LocalDateTime
 
 @TestMethodOrder(OrderAnnotation::class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class ArticleContollerTests(@LocalServerPort private val port: Int) {
 
-    companion object : KLogging()
+    companion object: KLogging()
 
     // TODO Migrate to WebTestClient when https://youtrack.jetbrains.com/issue/KT-5464 will be fixed
     private val client: WebClient = WebClient.create("http://localhost:$port")
@@ -50,10 +51,10 @@ class ArticleContollerTests(@LocalServerPort private val port: Int) {
             .test()
             .consumeNextWith { article ->
                 logger.trace { article }
-                article.slug shouldEqual slug
-                article.title shouldEqual "Spring Framework 5.0 goes GA"
-                article.author shouldEqual "springjuergen"
-                article.addedAt shouldEqual LocalDateTime.of(2017, 9, 28, 11, 30)
+                article.slug shouldBeEqualTo slug
+                article.title shouldBeEqualTo "Spring Framework 5.0 goes GA"
+                article.author shouldBeEqualTo "springjuergen"
+                article.addedAt shouldBeEqualTo LocalDateTime.of(2017, 9, 28, 11, 30)
 
                 article.headline shouldContain ("[repo.spring.io](https://repo.spring.io)")
             }
@@ -70,10 +71,10 @@ class ArticleContollerTests(@LocalServerPort private val port: Int) {
             .test()
             .consumeNextWith { article ->
                 logger.trace { article }
-                article.slug shouldEqual slug
-                article.title shouldEqual "Spring Framework 5.0 goes GA"
-                article.author shouldEqual "springjuergen"
-                article.addedAt shouldEqual LocalDateTime.of(2017, 9, 28, 11, 30)
+                article.slug shouldBeEqualTo slug
+                article.title shouldBeEqualTo "Spring Framework 5.0 goes GA"
+                article.author shouldBeEqualTo "springjuergen"
+                article.addedAt shouldBeEqualTo LocalDateTime.of(2017, 9, 28, 11, 30)
 
                 article.headline shouldNotContain ("[repo.spring.io](https://repo.spring.io)")
                 article.headline shouldContain ("<a href=\"https://repo.spring.io\">repo.spring.io</a>")
@@ -89,7 +90,7 @@ class ArticleContollerTests(@LocalServerPort private val port: Int) {
         client.get().uri("/api/article/{slug}?converter=foo", slug).exchange()
             .test()
             .consumeNextWith {
-                it.statusCode() shouldEqual HttpStatus.INTERNAL_SERVER_ERROR
+                it.statusCode() shouldBeEqualTo HttpStatus.INTERNAL_SERVER_ERROR
             }
             .verifyComplete()
     }
@@ -100,15 +101,18 @@ class ArticleContollerTests(@LocalServerPort private val port: Int) {
 
         val newArticle = Article("foo", "Foo", "foo", "foo", "mark", LocalDateTime.now())
 
-        client.get().uri("/api/article/notifications").accept(TEXT_EVENT_STREAM).retrieve().bodyToFlux<ArticleEvent>()
+        client.get()
+            .uri("/api/article/notifications")
+            .accept(TEXT_EVENT_STREAM).retrieve().bodyToFlux<ArticleEvent>()
             .take(1)
             .doOnSubscribe {
-                client.post().uri("/api/article/").syncBody(newArticle).exchange().subscribe()
+                //client.post().uri("/api/article/").bodyValue(newArticle).exchange().block()
+                client.post().uri("/api/article/").bodyValue(newArticle).retrieve().bodyToMono<Article>()
             }
             .test()
             .consumeNextWith { evt ->
-                evt.slug shouldEqual newArticle.slug
-                evt.title shouldEqual newArticle.title
+                evt.slug shouldBeEqualTo newArticle.slug
+                evt.title shouldBeEqualTo newArticle.title
             }
             .verifyComplete()
     }

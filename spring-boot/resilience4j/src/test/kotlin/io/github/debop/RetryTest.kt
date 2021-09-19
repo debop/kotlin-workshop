@@ -15,7 +15,7 @@ class RetryTest : AbstractResilience4jTest() {
     }
 
     @Test
-    fun `should successed without retry`() {
+    fun `should success without retry`() {
         procedureSuccess(BACKEND_A)
 
         checkRetryStatus("successful_without_retry", BACKEND_A, "1.0")

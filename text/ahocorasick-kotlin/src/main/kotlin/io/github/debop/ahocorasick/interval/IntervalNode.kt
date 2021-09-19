@@ -23,8 +23,8 @@ open class IntervalNode(inputs: Iterable<Intervalable>): Serializable {
     }
 
     private fun determineMedian(inputs: Iterable<Intervalable>): Int {
-        val start = inputs.map { it.start }.min() ?: 0
-        val end = inputs.map { it.end }.max() ?: 0
+        val start = inputs.map { it.start }.minOrNull() ?: 0
+        val end = inputs.map { it.end }.maxOrNull() ?: 0
         return (start + end) / 2
     }
 

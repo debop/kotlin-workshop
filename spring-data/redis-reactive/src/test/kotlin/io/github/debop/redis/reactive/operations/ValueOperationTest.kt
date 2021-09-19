@@ -9,16 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.redis.core.ReactiveRedisOperations
 import reactor.core.publisher.Mono
-import reactor.core.publisher.switchIfEmpty
+import reactor.kotlin.core.publisher.switchIfEmpty
 import reactor.test.StepVerifier
 import java.time.Duration
 
-/**
- * ValueOperationTest
- *
- * @author debop (Sunghyouk Bae)
- * @since 19. 6. 15
- */
 @SpringBootTest(classes = [RedisReactiveApplication::class])
 class ValueOperationTest {
 

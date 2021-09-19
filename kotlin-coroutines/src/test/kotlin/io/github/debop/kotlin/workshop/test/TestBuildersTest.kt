@@ -8,10 +8,9 @@ import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import mu.KLogging
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeFalse
 import org.amshove.kluent.shouldBeTrue
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.Test
 import kotlin.coroutines.ContinuationInterceptor
 
@@ -29,7 +28,7 @@ class TestBuildersTest {
     fun `scope run blocking - passes Dispatcher`() {
         val scope = TestCoroutineScope()
         scope.runBlockingTest {
-            coroutineContext[ContinuationInterceptor] shouldEqual scope.coroutineContext[ContinuationInterceptor]
+            coroutineContext[ContinuationInterceptor] shouldBeEqualTo scope.coroutineContext[ContinuationInterceptor]
         }
     }
 
@@ -37,7 +36,7 @@ class TestBuildersTest {
     fun `dispatcher run blocking - passes dispatcher`() {
         val dispatcher = TestCoroutineDispatcher()
         dispatcher.runBlockingTest {
-            coroutineContext[ContinuationInterceptor] shouldEqual dispatcher
+            coroutineContext[ContinuationInterceptor] shouldBeEqualTo dispatcher
         }
     }
 
@@ -51,7 +50,7 @@ class TestBuildersTest {
 
         scope.runBlockingTest {
             assertRunsFast {
-                deferred.await() shouldEqualTo 3
+                deferred.await() shouldBeEqualTo 3
             }
         }
     }
@@ -67,7 +66,7 @@ class TestBuildersTest {
 
         dispatcher.runBlockingTest {
             assertRunsFast {
-                deferred.await() shouldEqualTo 3
+                deferred.await() shouldBeEqualTo 3
             }
         }
     }
@@ -91,7 +90,7 @@ class TestBuildersTest {
 
         // Immediately execute all pending tasks and advance the virtual clock-time to the last delay.
         scope.advanceUntilIdle()
-        deferred.getCompleted() shouldEqualTo 3
+        deferred.getCompleted() shouldBeEqualTo 3
     }
 
     @Test
@@ -112,7 +111,7 @@ class TestBuildersTest {
         scope.advanceTimeBy(1_000)
         scope.launch {
             assertRunsFast {
-                deferred.getCompleted() shouldEqualTo 3
+                deferred.getCompleted() shouldBeEqualTo 3
             }
         }
         scope.runCurrent()
@@ -141,6 +140,6 @@ class TestBuildersTest {
             }
             ++calls
         }
-        calls shouldEqualTo 4
+        calls shouldBeEqualTo 4
     }
 }

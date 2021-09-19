@@ -14,7 +14,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-    compile(Libraries.querydsl_jpa)
+    implementation(Libraries.querydsl_jpa)
     kapt(Libraries.querydsl_apt + ":jpa")
     kaptTest(Libraries.querydsl_apt + ":jpa")
 
