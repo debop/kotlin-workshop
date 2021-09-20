@@ -5,8 +5,8 @@ import io.github.debop.multistore.customer.CustomerRepository
 import io.github.debop.multistore.order.Order
 import io.github.debop.multistore.order.OrderItem
 import io.github.debop.multistore.order.OrderRepository
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldContainAll
-import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -52,7 +52,7 @@ class MultistoreTests : AbstractMultistoreTests() {
         entityManager.clear()
 
         val loaded = customerRepo.findByIdOrNull(customer.id)!!
-        loaded shouldEqual customer
+        loaded shouldBeEqualTo customer
 
     }
 
@@ -62,13 +62,13 @@ class MultistoreTests : AbstractMultistoreTests() {
         orderRepo.save(order)
 
         val loaded = orderRepo.findByIdOrNull(order.id)!!
-        loaded shouldEqual order
+        loaded shouldBeEqualTo order
 
         orderRepo.save(createOrder("1004"))
         orderRepo.save(createOrder("1004"))
 
         val orders = orderRepo.findByCustomerId("1004")
-        orders.size shouldEqual 3
+        orders.size shouldBeEqualTo 3
     }
 
     @Transactional

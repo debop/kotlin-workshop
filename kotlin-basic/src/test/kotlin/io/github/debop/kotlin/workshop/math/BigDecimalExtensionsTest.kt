@@ -1,7 +1,7 @@
 package io.github.debop.kotlin.workshop.math
 
 import mu.KLogging
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 /**
@@ -18,13 +18,13 @@ class BigDecimalExtensionsTest {
         val a = 1.2.toBigDecimal()
         val b = 2.4.toBigDecimal()
 
-        a + a shouldEqualTo b
-        b - a shouldEqualTo a
+        a + a shouldBeEqualTo b
+        b - a shouldBeEqualTo a
 
-        a * 2 shouldEqualTo b
-        2 * a shouldEqualTo b
+        a * 2 shouldBeEqualTo b
+        2 * a shouldBeEqualTo b
 
-        a * 2.0 shouldEqualTo b
-        2.0 * a shouldEqualTo b
+        a * 2.0 shouldBeEqualTo b
+        2.0 * a shouldBeEqualTo b
     }
 }

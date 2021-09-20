@@ -1,7 +1,7 @@
 package io.github.debop.ahocorasick.interval
 
 import mu.KLogging
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 /**
@@ -26,9 +26,9 @@ class IntervalableComparatorTest {
 
         intervals.sortWith(positionComparator)
 
-        intervals[0] shouldEqual Interval(1, 4)
-        intervals[1] shouldEqual Interval(3, 8)
-        intervals[2] shouldEqual Interval(4, 5)
+        intervals[0] shouldBeEqualTo Interval(1, 4)
+        intervals[1] shouldBeEqualTo Interval(3, 8)
+        intervals[2] shouldBeEqualTo Interval(4, 5)
     }
 
     @Test
@@ -41,9 +41,9 @@ class IntervalableComparatorTest {
 
         intervals.sortWith(sizeComparator)
 
-        intervals[0].size shouldEqual 2
-        intervals[1].size shouldEqual 4
-        intervals[2].size shouldEqual 6
+        intervals[0].size shouldBeEqualTo 2
+        intervals[1].size shouldBeEqualTo 4
+        intervals[2].size shouldBeEqualTo 6
     }
 
     @Test
@@ -56,9 +56,9 @@ class IntervalableComparatorTest {
 
         intervals.sortWith(sizeReverseComparator)
 
-        intervals[0].size shouldEqual 6
-        intervals[1].size shouldEqual 4
-        intervals[2].size shouldEqual 2
+        intervals[0].size shouldBeEqualTo 6
+        intervals[1].size shouldBeEqualTo 4
+        intervals[2].size shouldBeEqualTo 2
     }
 
     @Test
@@ -71,8 +71,8 @@ class IntervalableComparatorTest {
 
         intervals.sortWith(sizeReverseComparator)
 
-        intervals[0] shouldEqual Interval(2, 5)
-        intervals[1] shouldEqual Interval(3, 6)
-        intervals[2] shouldEqual Interval(4, 7)
+        intervals[0] shouldBeEqualTo Interval(2, 5)
+        intervals[1] shouldBeEqualTo Interval(3, 6)
+        intervals[2] shouldBeEqualTo Interval(4, 7)
     }
 }

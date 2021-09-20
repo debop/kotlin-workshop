@@ -2,7 +2,7 @@ package io.github.debop.springboot.routes
 
 import io.github.debop.springboot.routes.domain.model.User
 import mu.KLogging
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.context.SpringBootTest
@@ -45,7 +45,7 @@ class UserApiTests(@LocalServerPort port: Int) {
             .test()
             .consumeNextWith { user ->
 
-                user shouldEqual expected
+                user shouldBeEqualTo expected
             }
             .verifyComplete()
     }

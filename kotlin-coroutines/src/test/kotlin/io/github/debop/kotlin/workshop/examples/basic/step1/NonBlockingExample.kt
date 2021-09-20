@@ -1,5 +1,6 @@
 package io.github.debop.kotlin.workshop.examples.basic.step1
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.joinAll
@@ -45,9 +46,9 @@ class NonBlockingExample {
     @Test
     @Order(3)
     fun `non-blocking by delay with coroutines`() {
-        runBlocking {
+        runBlocking(Dispatchers.IO) {
             val jobs = List(100_000) {
-                GlobalScope.launch {
+                launch {
                     delay(1000)
                     print(".")
                 }

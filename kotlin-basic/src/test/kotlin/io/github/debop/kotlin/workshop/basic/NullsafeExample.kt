@@ -1,9 +1,9 @@
 package io.github.debop.kotlin.workshop.basic
 
 import mu.KLogging
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeNull
 import org.amshove.kluent.shouldContainAll
-import org.amshove.kluent.shouldEqualTo
 import org.amshove.kluent.shouldNotBeBlank
 import org.amshove.kluent.shouldNotBeNullOrEmpty
 import org.junit.jupiter.api.Test
@@ -12,13 +12,12 @@ import org.junit.jupiter.api.assertThrows
 /**
  * https://kotlinlang.org/docs/reference/null-safety.html
  */
-@Suppress("UNUSED_VARIABLE")
 class NullsafeExample {
 
-    companion object : KLogging()
+    companion object: KLogging()
 
     @Test
-    fun `nullable type with ?`() {
+    fun `nullable type with question mark`() {
         var a: String = "abc"
         // a = null // compilation error
 
@@ -37,11 +36,11 @@ class NullsafeExample {
         // safe call and elvis operator (?:)
         val len2 = str?.length ?: -1
 
-        len2 shouldEqualTo len1
+        len2 shouldBeEqualTo len1
 
         str = null
         val len3 = str?.length ?: -1
-        len3 shouldEqualTo -1
+        len3 shouldBeEqualTo -1
     }
 
     @Test
@@ -49,7 +48,7 @@ class NullsafeExample {
         var str: String? = "abc"
 
         val len = str!!.length
-        len shouldEqualTo 3
+        len shouldBeEqualTo 3
 
         str = null
         assertThrows<NullPointerException> {

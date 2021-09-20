@@ -1,7 +1,7 @@
 package io.github.debop.springdata.jpa.mapping.compositeid
 
 import io.github.debop.springdata.jpa.AbstractDataJpaTest
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
 
@@ -15,15 +15,15 @@ class CompositeIdTest: AbstractDataJpaTest() {
         val loaded = em.persistFlushFind(car)
 
         loaded.shouldNotBeNull()
-        loaded shouldEqual car
+        loaded shouldBeEqualTo car
 
-        loaded.brand shouldEqual car.brand
-        loaded.year shouldEqual car.year
+        loaded.brand shouldBeEqualTo car.brand
+        loaded.year shouldBeEqualTo car.year
 
         clear()
 
         val loaded2 = em.find(IdClassCar::class.java, CarIdentifier("BMW", 2015))
-        loaded2 shouldEqual car
+        loaded2 shouldBeEqualTo car
     }
 
     @Test
@@ -35,14 +35,14 @@ class CompositeIdTest: AbstractDataJpaTest() {
         val loaded = em.persistFlushFind(car)
 
         loaded.shouldNotBeNull()
-        loaded shouldEqual car
+        loaded shouldBeEqualTo car
 
-        loaded.id.brand shouldEqual car.id.brand
-        loaded.id.year shouldEqual car.id.year
+        loaded.id.brand shouldBeEqualTo car.id.brand
+        loaded.id.year shouldBeEqualTo car.id.year
 
         clear()
 
         val loaded2 = em.find(EmbeddedIdCar::class.java, EmbeddableCarId("Kia", 2012))
-        loaded2 shouldEqual car
+        loaded2 shouldBeEqualTo car
     }
 }

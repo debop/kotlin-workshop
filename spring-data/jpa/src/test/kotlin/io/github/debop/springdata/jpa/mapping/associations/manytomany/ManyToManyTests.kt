@@ -1,8 +1,7 @@
 package io.github.debop.springdata.jpa.mapping.associations.manytomany
 
 import io.github.debop.springdata.jpa.AbstractDataJpaTest
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -40,10 +39,10 @@ class ManyToManyTests : AbstractDataJpaTest() {
         flushAndClear()
 
         var loaded1 = ownerRepo.findByIdOrNull(owner1.id)!!
-        loaded1.accounts.size shouldEqualTo owner1.accounts.size
+        loaded1.accounts.size shouldBeEqualTo owner1.accounts.size
 
         var loaded2 = ownerRepo.findByIdOrNull(owner2.id)!!
-        loaded2.accounts.size shouldEqualTo owner2.accounts.size
+        loaded2.accounts.size shouldBeEqualTo owner2.accounts.size
 
         val accountToRemove = accountRepo.findByIdOrNull(loaded2.accounts.first().id)!!
         loaded2.removeAccounts(accountToRemove)
@@ -51,10 +50,10 @@ class ManyToManyTests : AbstractDataJpaTest() {
         flushAndClear()
 
         loaded1 = ownerRepo.findByIdOrNull(owner1.id)!!
-        loaded1.accounts.size shouldEqualTo owner1.accounts.size
+        loaded1.accounts.size shouldBeEqualTo owner1.accounts.size
 
         loaded2 = ownerRepo.findByIdOrNull(owner2.id)!!
-        loaded2.accounts.size shouldEqualTo owner2.accounts.size - 1
+        loaded2.accounts.size shouldBeEqualTo owner2.accounts.size - 1
 
         //
         // cascade 에 REMOVE 가 빠져 있다면, many-to-many 관계만 삭제된다.
@@ -110,7 +109,7 @@ class ManyToManyTests : AbstractDataJpaTest() {
 
     private fun verifyExistsAccount(account: BankAccount) {
         val loaded = accountRepo.findByIdOrNull(account.id)!!
-        loaded shouldEqual account
-        loaded.owners.size shouldEqual account.owners.size
+        loaded shouldBeEqualTo account
+        loaded.owners.size shouldBeEqualTo account.owners.size
     }
 }

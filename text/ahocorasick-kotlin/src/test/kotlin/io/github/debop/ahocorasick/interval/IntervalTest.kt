@@ -1,10 +1,10 @@
 package io.github.debop.ahocorasick.interval
 
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeFalse
 import org.amshove.kluent.shouldBeGreaterThan
 import org.amshove.kluent.shouldBeLessThan
 import org.amshove.kluent.shouldBeTrue
-import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.Test
 import java.util.TreeSet
 
@@ -17,14 +17,14 @@ class IntervalTest {
     @Test
     fun `proper range properties`() {
         val interval = Interval(1, 3)
-        interval.start shouldEqualTo 1
-        interval.end shouldEqualTo 3
+        interval.start shouldBeEqualTo 1
+        interval.end shouldBeEqualTo 3
     }
 
     @Test
     fun `proper size property`() {
-        Interval(0, 2).size shouldEqualTo 3
-        Interval(5, 8).size shouldEqualTo 4
+        Interval(0, 2).size shouldBeEqualTo 3
+        Interval(5, 8).size shouldBeEqualTo 4
     }
 
     @Test
@@ -73,8 +73,8 @@ class IntervalTest {
         intervals.add(Interval(3, 4))
 
         val iter = intervals.iterator()
-        iter.next().start shouldEqualTo 2
-        iter.next().start shouldEqualTo 3
-        iter.next().start shouldEqualTo 4
+        iter.next().start shouldBeEqualTo 2
+        iter.next().start shouldBeEqualTo 3
+        iter.next().start shouldBeEqualTo 4
     }
 }

@@ -1,7 +1,7 @@
 package io.github.debop.idgenerators.ksuid
 
 import mu.KLogging
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
@@ -30,7 +30,7 @@ class KsuidTest {
         val sorted = ids.sorted()
 
         repeat(100) {
-            sorted[it] shouldEqual ids[it]
+            sorted[it] shouldBeEqualTo ids[it]
         }
     }
 }

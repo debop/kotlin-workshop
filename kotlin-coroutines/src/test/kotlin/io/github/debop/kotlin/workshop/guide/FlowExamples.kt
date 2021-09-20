@@ -33,13 +33,13 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import mu.KLogging
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeGreaterThan
 import org.amshove.kluent.shouldBeLessThan
 import org.amshove.kluent.shouldBeNull
 import org.amshove.kluent.shouldBeTrue
 import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldContainSame
-import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.fail
@@ -158,7 +158,7 @@ class FlowExamples {
                     responses.add(response)
                 }
         }
-        responses.size shouldEqualTo 3
+        responses.size shouldBeEqualTo 3
     }
 
     @Test
@@ -180,7 +180,7 @@ class FlowExamples {
                     responses.add(response)
                 }
         }
-        responses.size shouldEqualTo 6
+        responses.size shouldBeEqualTo 6
     }
 
     @Test
@@ -213,7 +213,7 @@ class FlowExamples {
                 .map { it * it }
                 .reduce { acc, n -> acc + n }  // sum
 
-            sum shouldEqualTo listOf(1, 4, 9, 16, 25).sum()
+            sum shouldBeEqualTo listOf(1, 4, 9, 16, 25).sum()
         }
     }
 
@@ -339,7 +339,7 @@ class FlowExamples {
                     }
             }
             logger.debug { "Collected in $time ms" }
-            time shouldBeLessThan (300 * 3 + 100 * 3)
+            time shouldBeLessThan 300 * 3 + 100 * 3
         }
     }
 
@@ -405,7 +405,7 @@ class FlowExamples {
                 "$a -> $b"
             }
             .toList()
-            .size shouldEqualTo 3
+            .size shouldBeEqualTo 3
     }
 
     @Test

@@ -7,6 +7,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
+import kotlin.test.assertFailsWith
 
 class RecoveryExample {
 
@@ -30,6 +31,8 @@ class RecoveryExample {
 
     @Test
     fun `switch debug mode on and off to see the difference`() = runBlocking<Unit> {
-        PublicApiImplementation.awaitAsynchronousWorkInMainThread()
+        assertFailsWith<IllegalStateException> {
+            PublicApiImplementation.awaitAsynchronousWorkInMainThread()
+        }
     }
 }

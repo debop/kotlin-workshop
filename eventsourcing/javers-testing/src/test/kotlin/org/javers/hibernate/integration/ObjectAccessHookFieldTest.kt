@@ -3,8 +3,8 @@ package org.javers.hibernate.integration
 import mu.KLogging
 import org.amshove.kluent.shouldBeFalse
 import org.amshove.kluent.shouldBeTrue
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.javers.core.Javers
 import org.javers.hibernate.entity.Person
@@ -71,7 +71,7 @@ class ObjectAccessHookFieldTest {
         // THEN
         val snapshot = javers.getLatestSnapshot(proxy.id, Person::class.java).get()
         logger.debug { "Latest snapshot=\n${javers.jsonConverter.toJson(snapshot)}" }
-        snapshot.getPropertyValue("name") shouldEqual "New Name"
+        snapshot.getPropertyValue("name") shouldBeEqualTo "New Name"
     }
 
     @Test
@@ -93,7 +93,7 @@ class ObjectAccessHookFieldTest {
         logger.debug { "snapshot=${javers.jsonConverter.toJson(snapshot)}" }
         snapshot.shouldNotBeNull()
         snapshot.isInitial.shouldBeTrue()
-        snapshot.changed.size shouldEqualTo 2
+        snapshot.changed.size shouldBeEqualTo 2
         logger.debug { "state=${snapshot.state}" }
     }
 }

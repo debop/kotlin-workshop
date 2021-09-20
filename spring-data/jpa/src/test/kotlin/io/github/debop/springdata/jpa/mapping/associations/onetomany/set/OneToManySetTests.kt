@@ -2,9 +2,8 @@ package io.github.debop.springdata.jpa.mapping.associations.onetomany.set
 
 import io.github.debop.springdata.jpa.AbstractDataJpaTest
 import org.amshove.kluent.shouldBeEmpty
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeFalse
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.amshove.kluent.shouldNotContain
 import org.junit.jupiter.api.Test
@@ -34,15 +33,15 @@ class OneToManySetTests : AbstractDataJpaTest() {
         val bid3 = Bid(amount = BigDecimal(300.0))
         item.addBids(bid1, bid2, bid3)
 
-        item.bids.size shouldEqualTo 3
+        item.bids.size shouldBeEqualTo 3
 
         biddingItemRepo.saveAndFlush(item)
         clear()
 
         val loaded = biddingItemRepo.findByIdOrNull(item.id)
         loaded.shouldNotBeNull()
-        loaded shouldEqual item
-        loaded.bids.size shouldEqualTo item.bids.size
+        loaded shouldBeEqualTo item
+        loaded.bids.size shouldBeEqualTo item.bids.size
 
         val bidToRemoved = loaded.bids.first()
         loaded.removeBids(bidToRemoved)
@@ -51,8 +50,8 @@ class OneToManySetTests : AbstractDataJpaTest() {
 
         val loaded2 = biddingItemRepo.findByIdOrNull(item.id)
         loaded2.shouldNotBeNull()
-        loaded2 shouldEqual item
-        loaded2.bids.size shouldEqualTo item.bids.size - 1
+        loaded2 shouldBeEqualTo item
+        loaded2.bids.size shouldBeEqualTo item.bids.size - 1
         loaded2.bids shouldNotContain bidToRemoved
 
         biddingItemRepo.delete(loaded2)
@@ -75,8 +74,8 @@ class OneToManySetTests : AbstractDataJpaTest() {
 
         val loaded = productRepo.findByIdOrNull(product.id)
         loaded.shouldNotBeNull()
-        loaded shouldEqual product
-        loaded.images.size shouldEqualTo product.images.size
+        loaded shouldBeEqualTo product
+        loaded.images.size shouldBeEqualTo product.images.size
 
         val imageToRemove = loaded.images.first()
         loaded.removeImages(imageToRemove)
@@ -85,8 +84,8 @@ class OneToManySetTests : AbstractDataJpaTest() {
 
         val loaded2 = productRepo.findByIdOrNull(product.id)
         loaded2.shouldNotBeNull()
-        loaded2 shouldEqual product
-        loaded2.images.size shouldEqualTo product.images.size - 1
+        loaded2 shouldBeEqualTo product
+        loaded2.images.size shouldBeEqualTo product.images.size - 1
 
         productRepo.delete(loaded2)
         productRepo.flush()

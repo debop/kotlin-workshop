@@ -4,8 +4,8 @@ import com.google.common.util.concurrent.ListenableFuture
 import io.github.debop.futures.jdk8.asCompletableFuture
 import io.github.debop.futures.jdk8.futureOf
 import io.github.debop.futures.jdk8.recover
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeInstanceOf
-import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.util.concurrent.CompletableFuture
@@ -24,11 +24,11 @@ class FutureConvertersTest {
 
     @Test
     fun `성공한 ListenableFuture를 CompletableFuture로 변환`() {
-        success.toCompletableFuture().get() shouldEqualTo 1
+        success.toCompletableFuture().get() shouldBeEqualTo 1
 
         success.toCompletableFuture()
             .thenApplyAsync(Function<Int, Int> { it + it }, ForkJoinExecutor)
-            .get() shouldEqualTo 2
+            .get() shouldBeEqualTo 2
     }
 
     @Test
@@ -38,7 +38,7 @@ class FutureConvertersTest {
             failed.toCompletableFuture().get()
         }.cause shouldBeInstanceOf IllegalArgumentException::class
 
-        failed.toCompletableFuture().recover { 2 }.get() shouldEqualTo 2
+        failed.toCompletableFuture().recover { 2 }.get() shouldBeEqualTo 2
     }
 
     private fun successCompletableFuture(value: Int = 42): CompletableFuture<Int> =
@@ -49,8 +49,8 @@ class FutureConvertersTest {
 
     @Test
     fun `성공한 CompletableFuture를 ListenableFuture로 변환`() {
-        successCompletableFuture().toListenableFuture().get() shouldEqualTo 42
-        successCompletableFuture().toListenableFuture().map { it + it }.get() shouldEqualTo 84
+        successCompletableFuture().toListenableFuture().get() shouldBeEqualTo 42
+        successCompletableFuture().toListenableFuture().map { it + it }.get() shouldBeEqualTo 84
     }
 
     @Test

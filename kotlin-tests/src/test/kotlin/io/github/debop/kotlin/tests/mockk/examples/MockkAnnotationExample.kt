@@ -5,16 +5,10 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.impl.annotations.SpyK
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-/**
- * MockkAnnotationExample
- *
- * @author debop
- * @since 19. 6. 13
- */
 class MockkAnnotationExample {
 
     interface Dependency1 {
@@ -58,6 +52,6 @@ class MockkAnnotationExample {
 
         val sut = SystemUnderTest(doc1, doc2, doc3)
 
-        sut.calculate() shouldEqualTo 7
+        sut.calculate() shouldBeEqualTo 7
     }
 }

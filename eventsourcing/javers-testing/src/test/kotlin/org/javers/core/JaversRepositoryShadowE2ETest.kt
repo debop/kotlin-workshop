@@ -3,8 +3,8 @@ package org.javers.core
 import org.amshove.kluent.shouldBeEmpty
 import org.amshove.kluent.shouldBeInstanceOf
 import org.amshove.kluent.shouldBeNull
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.javers.common.exception.JaversException
 import org.javers.common.exception.JaversExceptionCode
@@ -38,14 +38,14 @@ class JaversRepositoryShadowE2ETest : JaversRepositoryE2ETest() {
         val shadows = javers.findShadowsAndStream<SnapshotEntity>(query).map { it.get() }.toList()
 
         // THEN
-        shadows.size shouldEqualTo 2
+        shadows.size shouldBeEqualTo 2
         with(shadows[0] as SnapshotEntity) {
-            id shouldEqualTo 1
-            intProperty shouldEqual 2
+            id shouldBeEqualTo 1
+            intProperty shouldBeEqualTo 2
         }
         with(shadows[1] as SnapshotEntity) {
-            id shouldEqualTo 1
-            intProperty shouldEqual 1
+            id shouldBeEqualTo 1
+            intProperty shouldBeEqualTo 1
         }
     }
 
@@ -66,17 +66,17 @@ class JaversRepositoryShadowE2ETest : JaversRepositoryE2ETest() {
 
         // THEN
 
-        shadows.size shouldEqual 12
+        shadows.size shouldBeEqualTo 12
         repeat(12) {
-            commitSeq(shadows[it].commitMetadata) shouldEqual 20 - it
-            shadows[it].get().id shouldEqualTo 1
-            shadows[it].get().intProperty shouldEqual 19 - it
+            commitSeq(shadows[it].commitMetadata) shouldBeEqualTo 20 - it
+            shadows[it].get().id shouldBeEqualTo 1
+            shadows[it].get().intProperty shouldBeEqualTo 19 - it
         }
 
         // 쿼리 통계도 지원한다
-        query.stats().dbQueriesCount shouldEqualTo 1
-        query.stats().allSnapshotsCount shouldEqualTo 5
-        query.stats().shallowSnapshotsCount shouldEqualTo 5
+        query.stats().dbQueriesCount shouldBeEqualTo 1
+        query.stats().allSnapshotsCount shouldBeEqualTo 5
+        query.stats().shallowSnapshotsCount shouldBeEqualTo 5
     }
 
     @Test
@@ -84,7 +84,7 @@ class JaversRepositoryShadowE2ETest : JaversRepositoryE2ETest() {
         val error = assertThrows<JaversException> {
             javers.findShadowsAndStream<SnapshotEntity>(QueryBuilder.byInstanceId(1, SnapshotEntity::class.java).skip(5).build())
         }
-        error.code shouldEqual JaversExceptionCode.MALFORMED_JQL
+        error.code shouldBeEqualTo JaversExceptionCode.MALFORMED_JQL
     }
 
     @Test
@@ -104,12 +104,12 @@ class JaversRepositoryShadowE2ETest : JaversRepositoryE2ETest() {
         val shadows = javers.findShadowsAndStream<SnapshotEntity>(query).map { it.get() }.toList()
 
         // THEN
-        shadows.size shouldEqualTo 15
-        shadows.first().intProperty shouldEqual 14
-        shadows.last().intProperty shouldEqual 0
+        shadows.size shouldBeEqualTo 15
+        shadows.first().intProperty shouldBeEqualTo 14
+        shadows.last().intProperty shouldBeEqualTo 0
 
         shadows.forEach {
-            it.entityRef?.id ?: -1 shouldEqualTo 2
+            it.entityRef?.id ?: -1 shouldBeEqualTo 2
         }
     }
 
@@ -163,9 +163,9 @@ class JaversRepositoryShadowE2ETest : JaversRepositoryE2ETest() {
         val query = QueryBuilder.byInstance(e).withScopeDeepPlus().build()
         val shadows = javers.findShadows<SnapshotEntity>(query)
 
-        with(shadows[0].get()) { entityRef?.intProperty shouldEqual 4 }
-        with(shadows[1].get()) { entityRef?.intProperty shouldEqual 3 }
-        with(shadows[2].get()) { entityRef?.intProperty shouldEqual 2 }
+        with(shadows[0].get()) { entityRef?.intProperty shouldBeEqualTo 4 }
+        with(shadows[1].get()) { entityRef?.intProperty shouldBeEqualTo 3 }
+        with(shadows[2].get()) { entityRef?.intProperty shouldBeEqualTo 2 }
     }
 
     @Test
@@ -187,15 +187,15 @@ class JaversRepositoryShadowE2ETest : JaversRepositoryE2ETest() {
 
         // THEN
         with(query.stats()) {
-            dbQueriesCount shouldEqualTo 2
-            allSnapshotsCount shouldEqualTo 8
-            deepPlusSnapshotsCount shouldEqual 4
+            dbQueriesCount shouldBeEqualTo 2
+            allSnapshotsCount shouldBeEqualTo 8
+            deepPlusSnapshotsCount shouldBeEqualTo 4
         }
 
         repeat(4) {
             with(shadows[it]) {
-                intProperty shouldEqual 3 - it
-                entityRef?.intProperty shouldEqual 3 - it
+                intProperty shouldBeEqualTo 3 - it
+                entityRef?.intProperty shouldBeEqualTo 3 - it
             }
         }
     }
@@ -221,7 +221,7 @@ class JaversRepositoryShadowE2ETest : JaversRepositoryE2ETest() {
 
         // THEN
         logger.debug { "shadow=${shadows.first()}" }
-        shadows.size shouldEqualTo 1
+        shadows.size shouldBeEqualTo 1
 
         assertThinShadowOfPhone(shadows.first().shallowPhone)
         assertThinShadowOfPhone(shadows.first().shallowPhones.first())
@@ -233,7 +233,7 @@ class JaversRepositoryShadowE2ETest : JaversRepositoryE2ETest() {
         javers.commit("a", entity)
 
         val shadows2 = javers.findShadows<SnapshotEntity>(query).map { it.get() }
-        shadows2.size shouldEqualTo 1
+        shadows2.size shouldBeEqualTo 1
 
         // THEN
         logger.debug { "shadow2 = ${shadows2.first()}" }
@@ -248,7 +248,7 @@ class JaversRepositoryShadowE2ETest : JaversRepositoryE2ETest() {
         shadow shouldBeInstanceOf ShallowPhone::class.java
 
         if (shadow is ShallowPhone) {
-            shadow.id shouldEqualTo 2L
+            shadow.id shouldBeEqualTo 2L
             shadow.number.shouldBeNull()
             shadow.category.shouldBeNull()
         }

@@ -5,7 +5,7 @@ import io.github.debop.avro.examples.ProductRoot
 import io.github.debop.kotlin.tests.extensions.Random
 import io.github.debop.kotlin.tests.extensions.Randomized
 import mu.KLogging
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
 
@@ -27,7 +27,7 @@ class AvroEncodeDecodeExample: AbstractAvroTest() {
         val buffer = employee.toByteBuffer()
 
         val converted = Employee.fromByteBuffer(buffer)
-        converted shouldEqual employee
+        converted shouldBeEqualTo employee
     }
 
     @RepeatedTest(COUNT)
@@ -35,7 +35,7 @@ class AvroEncodeDecodeExample: AbstractAvroTest() {
         val buffer = employee.toByteBuffer()
 
         val decoded = Employee.getDecoder().decode(buffer)
-        decoded shouldEqual employee
+        decoded shouldBeEqualTo employee
     }
 
     @Test
@@ -45,7 +45,7 @@ class AvroEncodeDecodeExample: AbstractAvroTest() {
         val buffer = productRoot.toByteBuffer()
 
         val converted = ProductRoot.fromByteBuffer(buffer)
-        converted shouldEqual productRoot
+        converted shouldBeEqualTo productRoot
     }
 
     @Test
@@ -55,6 +55,6 @@ class AvroEncodeDecodeExample: AbstractAvroTest() {
         val buffer = productRoot.toByteBuffer()
 
         val decoded = ProductRoot.getDecoder().decode(buffer.array())
-        decoded shouldEqual productRoot
+        decoded shouldBeEqualTo productRoot
     }
 }

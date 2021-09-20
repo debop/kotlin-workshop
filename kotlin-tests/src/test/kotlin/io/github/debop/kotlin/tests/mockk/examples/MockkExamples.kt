@@ -9,8 +9,8 @@ import io.mockk.slot
 import io.mockk.spyk
 import io.mockk.verify
 import io.mockk.verifyOrder
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldContainSame
 import org.junit.jupiter.api.Test
 
 /**
@@ -38,7 +38,7 @@ class MockkExamples {
         every { doc2.value2 } returns "6"
 
         val sut = SystemUnderTest(doc1, doc2)
-        sut.calculate() shouldEqualTo 11
+        sut.calculate() shouldBeEqualTo 11
 
         verify(exactly = 1) {
             doc1.value1
@@ -62,8 +62,8 @@ class MockkExamples {
         every { mock.call(more(5)) } returns 1
         every { mock.call(more(5), 6) } returns -1
 
-        mock.call(6) shouldEqualTo 1
-        mock.call(9, 6) shouldEqualTo -1
+        mock.call(6) shouldBeEqualTo 1
+        mock.call(9, 6) shouldBeEqualTo -1
     }
 
     @Test
@@ -74,8 +74,8 @@ class MockkExamples {
 
         every { mock.findAll(10) } returns listOf(1) andThen listOf(2)   // return first argument value ( a=10 )
 
-        mock.findAll(10) shouldEqual listOf(1)  // first call
-        mock.findAll(10) shouldEqual listOf(2)  // second call
+        mock.findAll(10) shouldContainSame listOf(1)  // first call
+        mock.findAll(10) shouldContainSame listOf(2)  // second call
     }
 
     @Test
@@ -99,8 +99,8 @@ class MockkExamples {
 
         every { mock.call(any()) } answers { arg<Int>(0) * 2 }
 
-        mock.call(5) shouldEqualTo 10
-        mock.call(-2) shouldEqualTo -4
+        mock.call(5) shouldBeEqualTo 10
+        mock.call(-2) shouldBeEqualTo -4
 
         verify(exactly = 1) {
             mock.call(5)
@@ -125,8 +125,8 @@ class MockkExamples {
 
         every { mock.divide(capture(slot), any()) } returns 22
 
-        mock.divide(5, 2) shouldEqual 22
-        slot.captured shouldEqual 5
+        mock.divide(5, 2) shouldBeEqualTo 22
+        slot.captured shouldBeEqualTo 5
     }
 
     @Test
@@ -135,12 +135,12 @@ class MockkExamples {
         val mock = mockk<Divider>()
 
         every { mock.divide(capture(slot), any()) } answers { slot.captured * 11 }
-        mock.divide(5, 2) shouldEqualTo 55
+        mock.divide(5, 2) shouldBeEqualTo 55
 
         clearMocks(mock)
 
         every { mock.divide(any(), capture(slot)) } answers { slot.captured * 11 }
-        mock.divide(5, 2) shouldEqualTo 22
+        mock.divide(5, 2) shouldBeEqualTo 22
     }
 
     @Test
@@ -148,7 +148,7 @@ class MockkExamples {
 
         val mock = mockk<Divider>(relaxed = true)
 
-        mock.divide(5, 2) shouldEqualTo 0
+        mock.divide(5, 2) shouldBeEqualTo 0
 
         verify { mock.divide(5, 2) }
     }
@@ -168,12 +168,12 @@ class MockkExamples {
     fun `spies object`() {
         val spy = spyk<Adder>()
 
-        spy.add(4, 5) shouldEqual (4 + 5)
+        spy.add(4, 5) shouldBeEqualTo (4 + 5)
 
         // magnify 함수를 재정의한다
         every { spy.magnify(any()) } answers { firstArg<Int>() * 2 }
 
-        spy.add(4, 5) shouldEqual (4 + 5 * 2)
+        spy.add(4, 5) shouldBeEqualTo (4 + 5 * 2)
 
         verify { spy.add(4, 5) }
         verify { spy.magnify(5) }

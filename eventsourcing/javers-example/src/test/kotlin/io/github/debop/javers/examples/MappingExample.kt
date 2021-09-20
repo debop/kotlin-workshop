@@ -2,7 +2,7 @@ package io.github.debop.javers.examples
 
 import org.amshove.kluent.shouldBeEmpty
 import org.amshove.kluent.shouldBeInstanceOf
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotEqual
 import org.javers.core.JaversBuilder
 import org.javers.core.metamodel.`object`.InstanceId
@@ -37,7 +37,7 @@ class MappingExample {
         println("JaversType of Person: ${personType.prettyPrint()}")
         println("Id of bob: `${bobId.value()}`")
 
-        bobId.value() shouldEqual "Person/Bob"
+        bobId.value() shouldBeEqualTo "Person/Bob"
         bobId shouldBeInstanceOf InstanceId::class
     }
 
@@ -75,7 +75,7 @@ class MappingExample {
         var javers = JaversBuilder.javers().build()
         var id = javers.getTypeMapping<EntityType>(Entity::class.java).createIdFromInstance(entity)
 
-        id.value() shouldEqual "Entity/0.3333333333333333,1.3333333333333333"
+        id.value() shouldBeEqualTo "Entity/0.3333333333333333,1.3333333333333333"
 
         // when custom toString function
         javers = JaversBuilder.javers()
@@ -84,6 +84,6 @@ class MappingExample {
 
         id = javers.getTypeMapping<EntityType>(Entity::class.java).createIdFromInstance(entity)
 
-        id.value() shouldEqual "Entity/(0,1)"
+        id.value() shouldBeEqualTo "Entity/(0,1)"
     }
 }

@@ -2,7 +2,7 @@ package io.github.debop.kotlin.tests.mockk.examples.baeldung
 
 import io.mockk.every
 import io.mockk.mockk
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 /**
@@ -32,7 +32,7 @@ class HierarchicalMockingExample {
             }
         }
 
-        foo.name shouldEqual "Karol"
-        foo.bar.nickname shouldEqual "Tomato"
+        foo.name shouldBeEqualTo "Karol"
+        foo.bar.nickname shouldBeEqualTo "Tomato"
     }
 }

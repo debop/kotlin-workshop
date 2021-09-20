@@ -1,10 +1,9 @@
 package io.github.debop.springdata.jpa.mapping.associations.onetomany.map
 
 import io.github.debop.springdata.jpa.AbstractDataJpaTest
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeFalse
 import org.amshove.kluent.shouldContainAll
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
 import org.amshove.kluent.shouldNotBeEmpty
 import org.amshove.kluent.shouldNotBeNull
 import org.amshove.kluent.shouldNotContain
@@ -47,8 +46,8 @@ class OneToManyMapTests : AbstractDataJpaTest() {
 
         val loaded = carRepo.findByIdOrNull(car.id)
         loaded.shouldNotBeNull()
-        loaded shouldEqual car
-        loaded.options.size shouldEqualTo car.options.size
+        loaded shouldBeEqualTo car
+        loaded.options.size shouldBeEqualTo car.options.size
         loaded.options.values shouldContainAll listOf(option1, option2, option3)
 
         loaded.options.remove("Audio")
@@ -57,8 +56,8 @@ class OneToManyMapTests : AbstractDataJpaTest() {
 
         val loaded2 = carRepo.findByIdOrNull(car.id)
         loaded2.shouldNotBeNull()
-        loaded2 shouldEqual car
-        loaded2.options.size shouldEqualTo car.options.size - 1
+        loaded2 shouldBeEqualTo car
+        loaded2.options.size shouldBeEqualTo car.options.size - 1
         loaded2.options.values shouldContainAll listOf(option1, option3)
         loaded2.options.values shouldNotContain option2
 
@@ -86,8 +85,8 @@ class OneToManyMapTests : AbstractDataJpaTest() {
         clear()
 
         val loaded = carRepo.findByIdOrNull(car.id)!!
-        loaded shouldEqual car
-        loaded.parts.size shouldEqualTo car.parts.size
+        loaded shouldBeEqualTo car
+        loaded.parts.size shouldBeEqualTo car.parts.size
         loaded.parts.values shouldContainAll listOf(engine, wheel, mission)
 
         carRepo.deleteById(loaded.id!!)

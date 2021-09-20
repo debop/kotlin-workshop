@@ -2,9 +2,8 @@ package io.github.debop.ahocorasick.interval
 
 import kotlinx.coroutines.runBlocking
 import mu.KLogging
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldContainSame
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.Test
 
 /**
@@ -21,11 +20,11 @@ class IntervalTreeTest {
         val tree = IntervalTree(intervals)
 
         val overlaps = tree.findOverlaps(Interval(1, 3))
-        overlaps.size shouldEqual 3
+        overlaps.size shouldBeEqualTo 3
 
-        overlaps[0] shouldEqual Interval(2, 4)
-        overlaps[1] shouldEqual Interval(3, 5)
-        overlaps[2] shouldEqual Interval(0, 2)
+        overlaps[0] shouldBeEqualTo Interval(2, 4)
+        overlaps[1] shouldBeEqualTo Interval(3, 5)
+        overlaps[2] shouldBeEqualTo Interval(0, 2)
     }
 
     @Test
@@ -63,12 +62,12 @@ class IntervalTreeTest {
 
         val removed = tree.removeOverlaps(intervals.toMutableList())
         logger.debug { "removed overlaps=$removed" }
-        removed.size shouldEqualTo 2
+        removed.size shouldBeEqualTo 2
         removed shouldContainSame listOf(Interval(2, 10), Interval(12, 16))
     }
 
     private fun assertOverlaps(interval: Intervalable, expectedStart: Int, expectedEnd: Int) {
-        interval.start shouldEqualTo expectedStart
-        interval.end shouldEqualTo expectedEnd
+        interval.start shouldBeEqualTo expectedStart
+        interval.end shouldBeEqualTo expectedEnd
     }
 }

@@ -1,7 +1,7 @@
 package io.github.debop
 
 import mu.KotlinLogging
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -79,6 +79,6 @@ class CircuitBreakerReactiveTest : AbstractResilience4jTest() {
         val circuitBreakerDetails = body.details[circuitBreakerName] as? Map<String, Any?>
 
         circuitBreakerDetails.shouldNotBeNull()
-        circuitBreakerDetails["status"] shouldEqual status.toString()
+        circuitBreakerDetails["status"] shouldBeEqualTo status.toString()
     }
 }

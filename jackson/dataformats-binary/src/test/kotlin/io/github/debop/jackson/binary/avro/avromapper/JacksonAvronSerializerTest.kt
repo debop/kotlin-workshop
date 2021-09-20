@@ -9,8 +9,8 @@ import io.github.debop.jackson.binary.avro.deserializeList
 import io.github.debop.kotlin.tests.extensions.Random
 import io.github.debop.kotlin.tests.extensions.Randomized
 import mu.KLogging
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldContainAll
-import org.amshove.kluent.shouldEqual
 import org.junit.jupiter.api.RepeatedTest
 
 @Randomized
@@ -29,7 +29,7 @@ class JacksonAvronSerializerTest {
         val avroBytes = serializer.serialize(employee)
 
         val copied = serializer.deserialize<Employee>(avroBytes)
-        copied shouldEqual employee
+        copied shouldBeEqualTo employee
     }
 
     @RepeatedTest(TEST_COUNT)

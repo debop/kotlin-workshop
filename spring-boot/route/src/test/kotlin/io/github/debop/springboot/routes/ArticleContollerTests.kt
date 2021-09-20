@@ -3,8 +3,8 @@ package io.github.debop.springboot.routes
 import io.github.debop.springboot.routes.domain.model.Article
 import io.github.debop.springboot.routes.domain.model.ArticleEvent
 import mu.KLogging
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldContain
-import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldNotContain
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
 import org.junit.jupiter.api.Order
@@ -53,10 +53,10 @@ class ArticleContollerTests(@LocalServerPort private val port: Int) {
             .test()
             .consumeNextWith { article ->
                 logger.trace { article }
-                article.slug shouldEqual slug
-                article.title shouldEqual "Spring Framework 5.0 goes GA"
-                article.author shouldEqual "springjuergen"
-                article.addedAt shouldEqual LocalDateTime.of(2017, 9, 28, 11, 30)
+                article.slug shouldBeEqualTo slug
+                article.title shouldBeEqualTo "Spring Framework 5.0 goes GA"
+                article.author shouldBeEqualTo "springjuergen"
+                article.addedAt shouldBeEqualTo LocalDateTime.of(2017, 9, 28, 11, 30)
 
                 article.headline shouldContain ("[repo.spring.io](https://repo.spring.io)")
             }
@@ -73,10 +73,10 @@ class ArticleContollerTests(@LocalServerPort private val port: Int) {
             .test()
             .consumeNextWith { article ->
                 logger.trace { article }
-                article.slug shouldEqual slug
-                article.title shouldEqual "Spring Framework 5.0 goes GA"
-                article.author shouldEqual "springjuergen"
-                article.addedAt shouldEqual LocalDateTime.of(2017, 9, 28, 11, 30)
+                article.slug shouldBeEqualTo slug
+                article.title shouldBeEqualTo "Spring Framework 5.0 goes GA"
+                article.author shouldBeEqualTo "springjuergen"
+                article.addedAt shouldBeEqualTo LocalDateTime.of(2017, 9, 28, 11, 30)
 
                 article.headline shouldNotContain ("[repo.spring.io](https://repo.spring.io)")
                 article.headline shouldContain ("<a href=\"https://repo.spring.io\">repo.spring.io</a>")
@@ -92,7 +92,7 @@ class ArticleContollerTests(@LocalServerPort private val port: Int) {
         client.get().uri("/api/article/$slug?converter=foo").exchange()
             .test()
             .consumeNextWith {
-                it.statusCode() shouldEqual HttpStatus.INTERNAL_SERVER_ERROR
+                it.statusCode() shouldBeEqualTo HttpStatus.INTERNAL_SERVER_ERROR
             }
             .verifyComplete()
     }
@@ -110,8 +110,8 @@ class ArticleContollerTests(@LocalServerPort private val port: Int) {
             }
             .test()
             .consumeNextWith { evt ->
-                evt.slug shouldEqual newArticle.slug
-                evt.title shouldEqual newArticle.title
+                evt.slug shouldBeEqualTo newArticle.slug
+                evt.title shouldBeEqualTo newArticle.title
             }
             .verifyComplete()
     }

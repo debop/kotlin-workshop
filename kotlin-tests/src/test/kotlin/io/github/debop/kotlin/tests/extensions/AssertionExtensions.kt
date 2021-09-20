@@ -1,7 +1,7 @@
 package io.github.debop.kotlin.tests.extensions
 
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeNull
-import org.amshove.kluent.shouldEqualTo
 import org.amshove.kluent.shouldNotBeEmpty
 import org.amshove.kluent.shouldNotBeNull
 import org.amshove.kluent.shouldNotEqual
@@ -38,7 +38,7 @@ fun assertThatDomainObjectIsFullyPopulated(domainObject: DomainObject?) {
 fun assertThatDomainObjectIsPartiallyPopulated(domainObject: DomainObject?) {
     domainObject.shouldNotBeNull()
 
-    domainObject.id.shouldNotBeNull() shouldEqualTo 0
+    domainObject.id.shouldNotBeNull() shouldBeEqualTo 0
     domainObject.name.shouldNotBeNull() shouldNotEqual ""
 
     domainObject.nestedDomainObject?.shouldNotBeNull()

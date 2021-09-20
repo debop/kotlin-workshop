@@ -8,6 +8,7 @@ plugins {
 
 dependencies {
 
+    implementation(Libraries.atomicfu)
     implementation(project(":kotlin-coroutines"))
     testImplementation(project(":kotlin-tests"))
 

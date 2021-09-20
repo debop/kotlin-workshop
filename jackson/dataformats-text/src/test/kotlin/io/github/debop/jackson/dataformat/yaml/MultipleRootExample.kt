@@ -1,7 +1,7 @@
 package io.github.debop.jackson.dataformat.yaml
 
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 /**
@@ -27,8 +27,8 @@ class MultipleRootExample: AbstractYamlExample() {
         val first = iter.nextValue()["num"]
         val second = iter.nextValue()["num"]
 
-        first shouldEqual 42
-        second shouldEqual -42
+        first shouldBeEqualTo 42
+        second shouldBeEqualTo -42
 
         iter.close()
     }

@@ -5,7 +5,7 @@ import com.github.f4b6a3.uuid.factory.LexicalOrderGuidCreator
 import com.github.f4b6a3.uuid.factory.SequentialUuidCreator
 import com.github.f4b6a3.uuid.factory.TimeBasedUuidCreator
 import mu.KLogging
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.RepeatedTest
 import kotlin.streams.toList
 
@@ -32,30 +32,30 @@ class UuidCreatorExample {
     @RepeatedTest(5)
     fun `get timebased uuid`() {
         val ids = TEST_LIST.parallelStream().map { timeBasedCreator.create() }.toList()
-        ids.toSet().size shouldEqualTo ids.size
+        ids.toSet().size shouldBeEqualTo ids.size
     }
 
     @RepeatedTest(5)
     fun `get timebased uuid with hardware address`() {
         val ids = TEST_LIST.parallelStream().map { timeBasedWithMac.create() }.toList()
-        ids.toSet().size shouldEqualTo ids.size
+        ids.toSet().size shouldBeEqualTo ids.size
     }
 
     @RepeatedTest(5)
     fun `get sequence uuid`() {
         val ids = TEST_LIST.parallelStream().map { sequentialCreator.create() }.toList()
-        ids.toSet().size shouldEqualTo ids.size
+        ids.toSet().size shouldBeEqualTo ids.size
     }
 
     @RepeatedTest(5)
     fun `get sequence uuid with hardware address`() {
         val ids = TEST_LIST.parallelStream().map { sequentialWithMac.create() }.toList()
-        ids.toSet().size shouldEqualTo ids.size
+        ids.toSet().size shouldBeEqualTo ids.size
     }
 
     @RepeatedTest(5)
     fun `get lexical ordered guid`() {
         val ids = TEST_LIST.parallelStream().map { lexicalOrderCreator.create() }.toList()
-        ids.toSet().size shouldEqualTo ids.size
+        ids.toSet().size shouldBeEqualTo ids.size
     }
 }

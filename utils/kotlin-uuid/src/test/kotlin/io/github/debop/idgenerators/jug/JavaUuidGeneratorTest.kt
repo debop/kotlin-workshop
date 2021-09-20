@@ -4,8 +4,8 @@ import com.fasterxml.uuid.EthernetAddress
 import com.fasterxml.uuid.Generators
 import com.fasterxml.uuid.UUIDComparator
 import mu.KLogging
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeLessThan
-import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
 import kotlin.streams.toList
@@ -43,6 +43,6 @@ class JavaUuidGeneratorTest {
     fun `generate timebased uuid as parallel`() {
         val uids = TEST_LIST.parallelStream().map { timeBasedGen.generate() }.toList()
 
-        uids.toSet().size shouldEqualTo uids.size
+        uids.toSet().size shouldBeEqualTo uids.size
     }
 }

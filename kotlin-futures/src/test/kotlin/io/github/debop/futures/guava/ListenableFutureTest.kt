@@ -2,10 +2,9 @@ package io.github.debop.futures.guava
 
 import com.google.common.util.concurrent.ListenableFuture
 import org.amshove.kluent.shouldBeEmpty
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeInstanceOf
 import org.amshove.kluent.shouldContainSame
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -28,7 +27,7 @@ class ListenableFutureTest {
 
         @Test
         fun `성공한 Future는 map을 수행합니다`() {
-            success.map { it + 1 }.get() shouldEqualTo 2
+            success.map { it + 1 }.get() shouldBeEqualTo 2
         }
 
         @Test
@@ -44,8 +43,8 @@ class ListenableFutureTest {
 
         @Test
         fun `성공한 Future는 flatMap을 수행합니다`() {
-            success.flatMap { it.asListenableFuture() }.get() shouldEqualTo success.get()
-            success.flatMap { immediateFuture { it + 1 } }.get() shouldEqualTo 2
+            success.flatMap { it.asListenableFuture() }.get() shouldBeEqualTo success.get()
+            success.flatMap { immediateFuture { it + 1 } }.get() shouldBeEqualTo 2
         }
 
         @Test
@@ -61,7 +60,7 @@ class ListenableFutureTest {
 
         @Test
         fun `성공한 Future이고 filter를 만족하면 결과를 반환한다`() {
-            success.filter { it == 1 }.get() shouldEqualTo 1
+            success.filter { it == 1 }.get() shouldBeEqualTo 1
         }
 
         @Test
@@ -84,14 +83,14 @@ class ListenableFutureTest {
 
         @Test
         fun `성공한 Future는 recover를 수행하지 않습니다`() {
-            success.recover { 42 }.get() shouldEqualTo 1
+            success.recover { 42 }.get() shouldBeEqualTo 1
 
-            success.recover { throw RuntimeException() }.get() shouldEqualTo 1
+            success.recover { throw RuntimeException() }.get() shouldBeEqualTo 1
         }
 
         @Test
         fun `실패한 Future는 recover를 수행합니다`() {
-            failed.recover { 42 }.get() shouldEqualTo 42
+            failed.recover { 42 }.get() shouldBeEqualTo 42
         }
 
         @Test
@@ -107,23 +106,23 @@ class ListenableFutureTest {
 
         @Test
         fun `성공한 Future는 recoverWith를 수행하지 않습니다`() {
-            success.recoverWith { 42.asListenableFuture() }.get() shouldEqualTo 1
-            success.recoverWith { throw RuntimeException() }.get() shouldEqualTo 1
+            success.recoverWith { 42.asListenableFuture() }.get() shouldBeEqualTo 1
+            success.recoverWith { throw RuntimeException() }.get() shouldBeEqualTo 1
 
             success
                 .recoverWith { 42.asListenableFuture() }
                 .recoverWith { throw RuntimeException() }
-                .get() shouldEqualTo 1
+                .get() shouldBeEqualTo 1
         }
 
         @Test
         fun `실패한 Future는 recoverWith를 실행합니다`() {
-            failed.recoverWith { 42.asListenableFuture() }.get() shouldEqualTo 42
+            failed.recoverWith { 42.asListenableFuture() }.get() shouldBeEqualTo 42
 
             failed
                 .recoverWith { RuntimeException().asListenableFuture() }
                 .recoverWith { 42.asListenableFuture() }
-                .get() shouldEqualTo 42
+                .get() shouldBeEqualTo 42
         }
 
         @Test
@@ -139,12 +138,12 @@ class ListenableFutureTest {
 
         @Test
         fun `성공한 Future는 fallback를 실행하지 않습니다`() {
-            success.fallback { 42 }.get() shouldEqualTo 1
+            success.fallback { 42 }.get() shouldBeEqualTo 1
         }
 
         @Test
         fun `실패한 Future는 fallback을 실행한다`() {
-            failed.fallback { 42 }.get() shouldEqualTo 42
+            failed.fallback { 42 }.get() shouldBeEqualTo 42
         }
 
         @Test
@@ -160,12 +159,12 @@ class ListenableFutureTest {
 
         @Test
         fun `성공한 Future는 fallbackTo를 실행하지 않습니다`() {
-            success.fallbackTo { 42.asListenableFuture() }.get() shouldEqualTo 1
+            success.fallbackTo { 42.asListenableFuture() }.get() shouldBeEqualTo 1
         }
 
         @Test
         fun `실패한 Future는 fallbackTo을 실행한다`() {
-            failed.fallbackTo { 42.asListenableFuture() }.get() shouldEqualTo 42
+            failed.fallbackTo { 42.asListenableFuture() }.get() shouldBeEqualTo 42
         }
 
         @Test
@@ -181,7 +180,7 @@ class ListenableFutureTest {
 
         @Test
         fun `성공한 Future는 mapError를 실행할 필요가 없습니다`() {
-            success.mapError { _: IllegalArgumentException -> IllegalStateException() }.get() shouldEqualTo 1
+            success.mapError { _: IllegalArgumentException -> IllegalStateException() }.get() shouldBeEqualTo 1
         }
 
         @Test
@@ -215,7 +214,7 @@ class ListenableFutureTest {
 
         @Test
         fun `성공한 Future는 onFailure를 호출하지 않습니다`() {
-            success.onFailure(DirectExecutor) { fail("호출하면 안됩니다") }.get() shouldEqualTo 1
+            success.onFailure(DirectExecutor) { fail("호출하면 안됩니다") }.get() shouldBeEqualTo 1
         }
 
         @Test
@@ -229,7 +228,7 @@ class ListenableFutureTest {
         fun `성공한 Future는 onSuccess를 호출합니다`() {
             var capturedResult: Any? = null
             success.onSuccess(DirectExecutor) { capturedResult = it }.get()
-            capturedResult shouldEqual 1
+            capturedResult shouldBeEqualTo 1
         }
 
         @Test
@@ -245,7 +244,7 @@ class ListenableFutureTest {
                                onSuccess = { capturedResult = it }
             ).get()
 
-            capturedResult shouldEqual 1
+            capturedResult shouldBeEqualTo 1
         }
 
         @Test
@@ -259,7 +258,7 @@ class ListenableFutureTest {
                 .get()
 
             capturedError shouldBeInstanceOf IllegalArgumentException::class
-            result shouldEqualTo 42
+            result shouldBeEqualTo 42
         }
     }
 
@@ -268,8 +267,8 @@ class ListenableFutureTest {
 
         @Test
         fun `성공한 Future 들에 대한 zip operation`() {
-            success.zip(success).get() shouldEqual (1 to 1)
-            success.zip(immediateFuture { "Hello" }).get() shouldEqual (1 to "Hello")
+            success.zip(success).get() shouldBeEqualTo (1 to 1)
+            success.zip(immediateFuture { "Hello" }).get() shouldBeEqualTo (1 to "Hello")
         }
 
         @Test
@@ -281,9 +280,9 @@ class ListenableFutureTest {
 
         @Test
         fun `성공한 Future 들에 대한 zip과 map`() {
-            success.zip(success) { a, b -> a + b }.get() shouldEqualTo 2
-            success.zip(listenableFuture { "Hello" }) { a, b -> a.toString() + b }.get() shouldEqual "1Hello"
-            success.zip(immediateFuture { "Hello" }) { a, b -> a.toString() + b }.get() shouldEqual "1Hello"
+            success.zip(success) { a, b -> a + b }.get() shouldBeEqualTo 2
+            success.zip(listenableFuture { "Hello" }) { a, b -> a.toString() + b }.get() shouldBeEqualTo "1Hello"
+            success.zip(immediateFuture { "Hello" }) { a, b -> a.toString() + b }.get() shouldBeEqualTo "1Hello"
         }
 
         @Test
@@ -312,7 +311,7 @@ class ListenableFutureTest {
                 2.asListenableFuture(),
                 listenableFuture { Thread.sleep(100); 3 }
             )
-            futures.futureFold(0) { acc, it -> acc + it }.get() shouldEqualTo (1 + 2 + 3)
+            futures.futureFold(0) { acc, it -> acc + it }.get() shouldBeEqualTo (1 + 2 + 3)
         }
 
         @Test
@@ -329,7 +328,7 @@ class ListenableFutureTest {
 
         @Test
         fun `빈 Future List를 fold 하기`() {
-            emptyList<ListenableFuture<Int>>().futureFold(0) { acc, it -> acc + it }.get() shouldEqualTo 0
+            emptyList<ListenableFuture<Int>>().futureFold(0) { acc, it -> acc + it }.get() shouldBeEqualTo 0
         }
     }
 
@@ -343,7 +342,7 @@ class ListenableFutureTest {
                 2.asListenableFuture(),
                 listenableFuture { Thread.sleep(100); 3 }
             )
-            futures.futureReduce { acc, i -> acc + i }.get() shouldEqualTo (1 + 2 + 3)
+            futures.futureReduce { acc, i -> acc + i }.get() shouldBeEqualTo (1 + 2 + 3)
         }
 
         @Test

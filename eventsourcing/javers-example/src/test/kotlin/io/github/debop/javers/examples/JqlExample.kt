@@ -3,8 +3,8 @@ package io.github.debop.javers.examples
 import mu.KLogging
 import org.amshove.kluent.shouldBeInstanceOf
 import org.amshove.kluent.shouldBeNull
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.javers.core.JaversBuilder
 import org.javers.core.diff.changetype.ValueChange
 import org.javers.core.metamodel.annotation.Id
@@ -50,7 +50,7 @@ class JqlExample {
             var shadowE1 = shadows[0].get()
 
             shadowE1 shouldBeInstanceOf Entity::class
-            shadowE1.id shouldEqualTo 1
+            shadowE1.id shouldBeEqualTo 1
             shadowE1.ref.shouldBeNull()
         }
 
@@ -61,8 +61,8 @@ class JqlExample {
             val shadowE1 = shadows[0].get()
 
             shadowE1 shouldBeInstanceOf Entity::class
-            shadowE1.id shouldEqualTo 1
-            shadowE1.ref!!.id shouldEqualTo 2
+            shadowE1.id shouldBeEqualTo 1
+            shadowE1.ref!!.id shouldBeEqualTo 2
             shadowE1.ref!!.ref.shouldBeNull()
         }
 
@@ -73,10 +73,10 @@ class JqlExample {
             val shadowE1 = shadows[0].get()
 
             shadowE1 shouldBeInstanceOf Entity::class
-            shadowE1.id shouldEqualTo 1
-            shadowE1.ref!!.id shouldEqualTo 2
-            shadowE1.ref!!.ref!!.id shouldEqualTo 3
-            shadowE1.ref!!.ref!!.ref!!.id shouldEqualTo 4
+            shadowE1.id shouldBeEqualTo 1
+            shadowE1.ref!!.id shouldBeEqualTo 2
+            shadowE1.ref!!.ref!!.id shouldBeEqualTo 3
+            shadowE1.ref!!.ref!!.ref!!.id shouldBeEqualTo 4
         }
     }
 
@@ -96,7 +96,7 @@ class JqlExample {
             val shadows = javers.findShadows<Entity>(byInstanceId(1, Entity::class.java).build())
             val shadowE1 = shadows[0].get()
             shadowE1 shouldBeInstanceOf Entity::class
-            shadowE1.id shouldEqualTo 1
+            shadowE1.id shouldBeEqualTo 1
             shadowE1.ref.shouldBeNull()
         }
 
@@ -107,10 +107,10 @@ class JqlExample {
             val shadowE1 = shadows[0].get()
 
             shadowE1 shouldBeInstanceOf Entity::class
-            shadowE1.id shouldEqualTo 1
-            shadowE1.ref!!.id shouldEqualTo 2
-            shadowE1.ref!!.ref!!.id shouldEqualTo 3
-            shadowE1.ref!!.ref!!.ref!!.id shouldEqualTo 4
+            shadowE1.id shouldBeEqualTo 1
+            shadowE1.ref!!.id shouldBeEqualTo 2
+            shadowE1.ref!!.ref!!.id shouldBeEqualTo 3
+            shadowE1.ref!!.ref!!.ref!!.id shouldBeEqualTo 4
         }
     }
 
@@ -132,17 +132,17 @@ class JqlExample {
 
             val changes = javers.findChanges(QueryBuilder.anyDomainObject().build())
 
-            changes.size shouldEqualTo 2
+            changes.size shouldBeEqualTo 2
             println(changes.prettyPrint())
 
             val filtered = changes.getChangesByType(ValueChange::class.java)
             val salaryChange = filtered.find { it.propertyName == "salary" }!!
             val cityChange = filtered.find { it.propertyName == "city" }!!
 
-            salaryChange.left shouldEqual 1000
-            salaryChange.right shouldEqual 2000
-            cityChange.left shouldEqual "London"
-            cityChange.right shouldEqual "Paris"
+            salaryChange.left shouldBeEqualTo 1000
+            salaryChange.right shouldBeEqualTo 2000
+            cityChange.left shouldBeEqualTo "London"
+            cityChange.right shouldBeEqualTo "Paris"
         }
 
         @Test
@@ -160,17 +160,17 @@ class JqlExample {
 
             val shadows = javers.findShadows<Employee>(QueryBuilder.byInstance(bob).build())
 
-            shadows.size shouldEqualTo 2
+            shadows.size shouldBeEqualTo 2
             val bobNew: Employee = shadows[0].get()
             val bobOld: Employee = shadows[1].get()
 
-            bobNew.salary shouldEqualTo 2000
-            bobOld.salary shouldEqualTo 1000
-            bobNew.primaryAddress?.city shouldEqual "Paris"
-            bobOld.primaryAddress?.city shouldEqual "London"
+            bobNew.salary shouldBeEqualTo 2000
+            bobOld.salary shouldBeEqualTo 1000
+            bobNew.primaryAddress?.city shouldBeEqualTo "Paris"
+            bobOld.primaryAddress?.city shouldBeEqualTo "London"
 
-            shadows[0].commitMetadata.id.majorId shouldEqualTo 2
-            shadows[1].commitMetadata.id.majorId shouldEqualTo 1
+            shadows[0].commitMetadata.id.majorId shouldBeEqualTo 2
+            shadows[1].commitMetadata.id.majorId shouldBeEqualTo 1
         }
 
         @Test
@@ -199,30 +199,30 @@ class JqlExample {
             var bobShadow = shadows[0].get()    // Bob의 최신 버전을 가진다
 
             // THEN
-            shadows.size shouldEqualTo 2
-            bobShadow.name shouldEqual "bob"
+            shadows.size shouldBeEqualTo 2
+            bobShadow.name shouldBeEqualTo "bob"
             // 참조객체는 쿼리 범위에서 벗어났으므로 null을 가진다
             bobShadow.boss.shouldBeNull()
             // 자식으로 있는 `Value Object`는 항상 scope에 포함된다 
-            bobShadow.primaryAddress?.city shouldEqual "London"
+            bobShadow.primaryAddress?.city shouldBeEqualTo "London"
 
             // WHEN `commit-deep scope query`
             shadows = javers.findShadows<Employee>(QueryBuilder.byInstance(bob).withScopeCommitDeep().build())
             bobShadow = shadows[0].get()
 
             // THEN
-            bobShadow.boss?.name shouldEqual "john"  // John is inside the query scope, so his shadow is loaded and linked to Bob
+            bobShadow.boss?.name shouldBeEqualTo "john"  // John is inside the query scope, so his shadow is loaded and linked to Bob
             bobShadow.boss?.boss.shouldBeNull() // Steve is still outside the scope
-            bobShadow.primaryAddress?.city shouldEqual "London"
+            bobShadow.primaryAddress?.city shouldBeEqualTo "London"
 
             // WHEN `deep+2 scope query`
             shadows = javers.findShadows<Employee>(QueryBuilder.byInstance(bob).withScopeDeepPlus(2).build())
             bobShadow = shadows[0].get()
 
             // THEN
-            bobShadow.boss?.name shouldEqual "john"
-            bobShadow.boss?.boss?.name shouldEqual "steve"  // Steve is loaded thanks to deep+2 scope
-            bobShadow.primaryAddress?.city shouldEqual "London"
+            bobShadow.boss?.name shouldBeEqualTo "john"
+            bobShadow.boss?.boss?.name shouldBeEqualTo "steve"  // Steve is loaded thanks to deep+2 scope
+            bobShadow.primaryAddress?.city shouldBeEqualTo "London"
         }
     }
 }

@@ -10,8 +10,7 @@ import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.withContext
 import mu.KLogging
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotEqual
 import org.junit.jupiter.api.Test
 
@@ -28,7 +27,7 @@ class TestCoroutineDispatcherTest {
         scope.launch {
             executed++
         }
-        executed shouldEqualTo 1
+        executed shouldBeEqualTo 1
     }
 
     @Test
@@ -40,9 +39,9 @@ class TestCoroutineDispatcherTest {
             delay(1_000)
             executed++
         }
-        executed shouldEqualTo 0
+        executed shouldBeEqualTo 0
         subject.advanceUntilIdle()
-        executed shouldEqualTo 1
+        executed shouldBeEqualTo 1
     }
 
     @Test
@@ -54,9 +53,9 @@ class TestCoroutineDispatcherTest {
         scope.launch {
             executed++
         }
-        executed shouldEqualTo 0
+        executed shouldBeEqualTo 0
         subject.resumeDispatcher()
-        executed shouldEqualTo 1
+        executed shouldBeEqualTo 1
     }
 
     @Test
@@ -73,7 +72,7 @@ class TestCoroutineDispatcherTest {
         }
 
         runBlocking {
-            deferred.await() shouldEqualTo 3
+            deferred.await() shouldBeEqualTo 3
         }
     }
 
@@ -85,13 +84,13 @@ class TestCoroutineDispatcherTest {
 
         val deferred = scope.async(subject) {
             withContext(subject) {
-                Thread.currentThread() shouldEqual currentThread
+                Thread.currentThread() shouldBeEqualTo currentThread
                 3
             }
         }
 
         runBlocking {
-            deferred.await() shouldEqualTo 3
+            deferred.await() shouldBeEqualTo 3
         }
     }
 }

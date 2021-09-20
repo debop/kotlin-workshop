@@ -2,8 +2,8 @@ package org.javers.spring.jpa
 
 import mu.KLogging
 import org.amshove.kluent.shouldBeNull
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.javers.core.Javers
 import org.javers.hibernate.entity.Person
 import org.javers.hibernate.entity.PersonCrudRepository
@@ -67,15 +67,15 @@ class CacheEvictTest {
         }
 
         // THEN
-        error.message shouldEqual "rollback"
+        error.message shouldBeEqualTo "rollback"
 
         // update snapshot은 취소된다
         val snapshots = javers.findSnapshots(QueryBuilder.anyDomainObject().build())
-        snapshots.size shouldEqualTo 1
+        snapshots.size shouldBeEqualTo 1
         logger.debug { "Latest snapshot=\n${javers.jsonConverter.toJson(snapshots[0])}" }
         snapshots[0].getPropertyValue("name").shouldBeNull()
 
         // GlobalId PK Cache도 clear 된다 
-        javersSqlRepository.globalIdPkCacheSize shouldEqualTo 0
+        javersSqlRepository.globalIdPkCacheSize shouldBeEqualTo 0
     }
 }

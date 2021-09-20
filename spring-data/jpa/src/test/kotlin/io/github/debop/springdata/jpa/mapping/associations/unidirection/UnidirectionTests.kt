@@ -1,8 +1,7 @@
 package io.github.debop.springdata.jpa.mapping.associations.unidirection
 
 import io.github.debop.springdata.jpa.AbstractDataJpaTest
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -35,8 +34,8 @@ class UnidirectionTests : AbstractDataJpaTest() {
         var loaded = cloudRepository.findByIdOrNull(cloud.id)
 
         loaded.shouldNotBeNull()
-        loaded shouldEqual cloud
-        loaded.producedSnowflakes.size shouldEqualTo 2
+        loaded shouldBeEqualTo cloud
+        loaded.producedSnowflakes.size shouldBeEqualTo 2
 
         val sfToRemove = loaded.producedSnowflakes.first()
         val sf3 = Snowflake(name = "sf3").apply { description = "Snowflake 3" }
@@ -47,13 +46,13 @@ class UnidirectionTests : AbstractDataJpaTest() {
         cloudRepository.saveAndFlush(loaded)
         clear()
 
-        snowflakeRepository.count() shouldEqualTo 2
+        snowflakeRepository.count() shouldBeEqualTo 2
 
         loaded = cloudRepository.findByIdOrNull(cloud.id)
 
         loaded.shouldNotBeNull()
-        loaded shouldEqual cloud
-        loaded.producedSnowflakes.size shouldEqualTo 2
+        loaded shouldBeEqualTo cloud
+        loaded.producedSnowflakes.size shouldBeEqualTo 2
 
 
     }

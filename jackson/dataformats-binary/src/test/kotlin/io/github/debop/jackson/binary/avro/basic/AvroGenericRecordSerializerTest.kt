@@ -7,7 +7,7 @@ import io.github.debop.jackson.binary.avro.DefaultAvroGenericRecordSerializer
 import io.github.debop.kotlin.tests.extensions.Random
 import io.github.debop.kotlin.tests.extensions.Randomized
 import mu.KLogging
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeEmpty
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Disabled
@@ -36,7 +36,7 @@ class AvroGenericRecordSerializerTest: AbstractAvroTest() {
         val converted = genericRecordSerializer.deserialize(bytes, schema)
         converted.shouldNotBeNull()
         logger.trace { "converted=$converted" }
-        converted.toString() shouldEqual employee.toString()
+        converted.toString() shouldBeEqualTo employee.toString()
     }
 
     @Test
@@ -51,7 +51,7 @@ class AvroGenericRecordSerializerTest: AbstractAvroTest() {
         converted.shouldNotBeNull()
         logger.trace { "converted=$converted" }
         // generic record 는 이렇게 비교할 수 밖에 없다 (수형이 없고, map 형식이므로)
-        converted.toString() shouldEqual empList.toString()
+        converted.toString() shouldBeEqualTo empList.toString()
     }
 
     @Disabled("enum 수형을 GenericRecord 으로 변환하는 할 때 제대로 못한다!!!")

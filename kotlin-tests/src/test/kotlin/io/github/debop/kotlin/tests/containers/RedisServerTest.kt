@@ -7,9 +7,8 @@ import io.lettuce.core.api.async.RedisAsyncCommands
 import io.lettuce.core.api.reactive.RedisReactiveCommands
 import io.lettuce.core.api.sync.RedisCommands
 import mu.KLogging
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeNull
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -82,7 +81,7 @@ class RedisServerTest {
         redisClient.withCommands {
             set("sync-key", "sync-value")
             val actual = get("sync-key")
-            actual shouldEqual "sync-value"
+            actual shouldBeEqualTo "sync-value"
         }
     }
 
@@ -92,7 +91,7 @@ class RedisServerTest {
             set("async-key", "async-value").get()
 
             get("async-key").whenComplete { v, e ->
-                v shouldEqual "async-value"
+                v shouldBeEqualTo "async-value"
                 e.shouldBeNull()
             }
                 .toCompletableFuture()
@@ -107,7 +106,7 @@ class RedisServerTest {
 
             get("reactive-key")
                 .subscribe {
-                    it shouldEqual "reactive-value"
+                    it shouldBeEqualTo "reactive-value"
                 }
         }
     }
@@ -124,7 +123,7 @@ class RedisServerTest {
                 .toList()
         }
 
-        results.size shouldEqual batchSize
+        results.size shouldBeEqualTo batchSize
     }
 
     @Test
@@ -141,11 +140,11 @@ class RedisServerTest {
         redisServer.start()
 
         val newUrl = redisServer.url
-        newUrl shouldEqual oldUrl
+        newUrl shouldBeEqualTo oldUrl
 
         redisClient.withCommands {
             // not exists 
-            exists("before-restart") shouldEqualTo 0
+            exists("before-restart") shouldBeEqualTo 0
         }
     }
 }

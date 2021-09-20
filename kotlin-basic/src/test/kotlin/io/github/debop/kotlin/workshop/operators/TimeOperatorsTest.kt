@@ -1,7 +1,7 @@
 package io.github.debop.kotlin.workshop.operators
 
 import mu.KLogging
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
@@ -28,7 +28,7 @@ class TimeOperatorsTest {
     fun `times operator with byte`(count: Byte) {
         var runs: Byte = 0
         count times { runs++ }
-        runs shouldEqualTo count
+        runs shouldBeEqualTo count
     }
 
     @ParameterizedTest
@@ -45,7 +45,7 @@ class TimeOperatorsTest {
     fun `times operator with int`(count: Int) {
         var runs = 0
         count times { runs++ }
-        runs shouldEqualTo count
+        runs shouldBeEqualTo count
     }
 
     @ParameterizedTest
@@ -62,6 +62,6 @@ class TimeOperatorsTest {
     fun `times operator with int`(count: Long) {
         var runs = 0L
         count times { runs++ }
-        runs shouldEqualTo count
+        runs shouldBeEqualTo count
     }
 }

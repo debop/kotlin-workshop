@@ -5,8 +5,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.withTimeout
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeTrue
-import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
@@ -32,7 +32,7 @@ class TestRunBlockingTest {
         }
 
         assertRunsFast {
-            withDelay() shouldEqualTo 3
+            withDelay() shouldBeEqualTo 3
         }
     }
 

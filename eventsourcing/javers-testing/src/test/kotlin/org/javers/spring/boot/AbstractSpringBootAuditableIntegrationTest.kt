@@ -1,8 +1,8 @@
 package org.javers.spring.boot
 
 import org.amshove.kluent.shouldBeNull
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.javers.core.Javers
 import org.javers.repository.jql.QueryBuilder
 import org.javers.spring.boot.model.DepartmentEntity
@@ -46,19 +46,19 @@ abstract class AbstractSpringBootAuditableIntegrationTest {
         entity.name = "a"
 
         val persistedEntity = dummyEntityRepository.save(entity)
-        dummyEntityRepository.getOne(persistedEntity.id).name shouldEqual "a"
+        dummyEntityRepository.getOne(persistedEntity.id).name shouldBeEqualTo "a"
 
         persistedEntity.name = "b"
         dummyEntityRepository.saveAndFlush(persistedEntity)
-        dummyEntityRepository.getOne(persistedEntity.id).name shouldEqual "b"
+        dummyEntityRepository.getOne(persistedEntity.id).name shouldBeEqualTo "b"
 
         // WHEN
         val snapshots = javers.findSnapshots(QueryBuilder.byInstanceId(persistedEntity.id, DummyEntity::class.java).build())
 
         // THEN
-        snapshots.size shouldEqualTo 2
-        snapshots[0].getPropertyValue("name") shouldEqual "b"
-        snapshots[1].getPropertyValue("name") shouldEqual "a"
+        snapshots.size shouldBeEqualTo 2
+        snapshots[0].getPropertyValue("name") shouldBeEqualTo "b"
+        snapshots[1].getPropertyValue("name") shouldBeEqualTo "a"
     }
 
     @Test
@@ -74,8 +74,8 @@ abstract class AbstractSpringBootAuditableIntegrationTest {
         val jFreshEmployee = employeeRepositoryWithJavers.save(jEmployee)
         println(jFreshEmployee)
 
-        javers.findSnapshots(QueryBuilder.byInstanceId(jFreshEmployee.id, EmployeeEntity::class.java).build()).size shouldEqualTo 1
-        javers.findSnapshots(QueryBuilder.byInstanceId(jFreshEmployee.department!!.id, DepartmentEntity::class.java).build()).size shouldEqualTo 1
+        javers.findSnapshots(QueryBuilder.byInstanceId(jFreshEmployee.id, EmployeeEntity::class.java).build()).size shouldBeEqualTo 1
+        javers.findSnapshots(QueryBuilder.byInstanceId(jFreshEmployee.department!!.id, DepartmentEntity::class.java).build()).size shouldBeEqualTo 1
     }
 
     fun createEmployee(): EmployeeEntity {

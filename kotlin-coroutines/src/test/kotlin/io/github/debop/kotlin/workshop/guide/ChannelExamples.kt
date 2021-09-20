@@ -1,6 +1,8 @@
 package io.github.debop.kotlin.workshop.guide
 
+import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelChildren
@@ -16,7 +18,7 @@ import mu.KLogging
 import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
-class ChannelExamples {
+class ChannelExamples: CoroutineScope by CoroutineScope(CoroutineName("channel") + Dispatchers.IO) {
 
     companion object: KLogging()
 

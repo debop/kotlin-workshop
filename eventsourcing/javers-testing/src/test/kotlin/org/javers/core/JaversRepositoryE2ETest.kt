@@ -7,8 +7,8 @@ import org.amshove.kluent.shouldBeLessOrEqualTo
 import org.amshove.kluent.shouldBeNull
 import org.amshove.kluent.shouldBeTrue
 import org.amshove.kluent.shouldContainSame
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.javers.common.date.DateProvider
 import org.javers.core.JaversTestBuilder.Companion.javersTestAssembly
 import org.javers.core.commit.CommitMetadata
@@ -125,8 +125,8 @@ open class JaversRepositoryE2ETest {
 
         // THEN:
         abs(ChronoUnit.MILLIS.between(snapshot.commitMetadata.commitDate, now.toLocalDateTime())) shouldBeLessOrEqualTo 1
-        snapshot.commitMetadata.commitDateInstant shouldEqual now.toInstant()
-        snapshot.commitMetadata.author shouldEqual "author"
+        snapshot.commitMetadata.commitDateInstant shouldBeEqualTo now.toInstant()
+        snapshot.commitMetadata.author shouldBeEqualTo "author"
     }
 
     @Test
@@ -157,7 +157,7 @@ open class JaversRepositoryE2ETest {
         javers.commit("author", s)
 
         // THEN
-        javers.findChanges(QueryBuilder.anyDomainObject().build()).size shouldEqualTo 16
+        javers.findChanges(QueryBuilder.anyDomainObject().build()).size shouldBeEqualTo 16
     }
 
     @Test
@@ -182,10 +182,10 @@ open class JaversRepositoryE2ETest {
         val changes = javers.findChanges(QueryBuilder.byValueObject(SnapshotEntity::class.java, "valueObjectRef").build())
 
         // THEN
-        changes.size shouldEqualTo 2
-        commitSeq(changes[0].commitMetadata.get()) shouldEqualTo 6
+        changes.size shouldBeEqualTo 2
+        commitSeq(changes[0].commitMetadata.get()) shouldBeEqualTo 6
         changes.forEach {
-            it.affectedGlobalId.typeName shouldEqual DummyAddress::class.java.name
+            it.affectedGlobalId.typeName shouldBeEqualTo DummyAddress::class.java.name
         }
     }
 
@@ -217,17 +217,17 @@ open class JaversRepositoryE2ETest {
         val snapshot = snapshots.find { (it.globalId as InstanceId).cdoId == 1 }
 
         logger.trace { "majorId = ${snapshot!!.commitMetadata.id.majorId}" }
-        commitSeq(snapshot!!.commitMetadata) shouldEqualTo 2
+        commitSeq(snapshot!!.commitMetadata) shouldBeEqualTo 2
 
-        snapshot.getPropertyValue("id") shouldEqual 1
-        snapshot.getPropertyValue("entityRef") shouldEqual refId
+        snapshot.getPropertyValue("id") shouldBeEqualTo 1
+        snapshot.getPropertyValue("entityRef") shouldBeEqualTo refId
         (snapshot.getPropertyValue("arrayOfIntegers") as IntArray) shouldContainSame intArrayOf(1, 2)
 
         with(snapshots[0]) {
-            commitSeq(commitMetadata) shouldEqualTo 2
-            commitMetadata.author shouldEqual "author2"
-            changed.size shouldEqualTo 1
-            changed[0] shouldEqual "intProperty"
+            commitSeq(commitMetadata) shouldBeEqualTo 2
+            commitMetadata.author shouldBeEqualTo "author2"
+            changed.size shouldBeEqualTo 1
+            changed[0] shouldBeEqualTo "intProperty"
             isInitial.shouldBeFalse()
 
             logger.debug { "Snapshot commitId: ${this.commitId}" }
@@ -238,8 +238,8 @@ open class JaversRepositoryE2ETest {
         }
 
         with(snapshots[1]) {
-            commitSeq(commitMetadata) shouldEqualTo 1
-            commitMetadata.author shouldEqual "author"
+            commitSeq(commitMetadata) shouldBeEqualTo 1
+            commitMetadata.author shouldBeEqualTo "author"
             getPropertyValue("intProperty").shouldBeNull()
             isInitial.shouldBeTrue()
 
@@ -276,12 +276,12 @@ open class JaversRepositoryE2ETest {
             logger.trace { "change=${javers.jsonConverter.toJson(this)}" }
 
             this shouldBeInstanceOf ValueChange::class.java
-            affectedGlobalId shouldEqual GlobalIdTestBuilder.instanceId("John", DummyUser::class.java)
+            affectedGlobalId shouldBeEqualTo GlobalIdTestBuilder.instanceId("John", DummyUser::class.java)
 
             with(this as ValueChange) {
-                propertyName shouldEqual "age"
-                left shouldEqual 18
-                right shouldEqual 19
+                propertyName shouldBeEqualTo "age"
+                left shouldBeEqualTo 18
+                right shouldBeEqualTo 19
             }
         }
     }
@@ -300,16 +300,16 @@ open class JaversRepositoryE2ETest {
         val shadows = javers.findShadows<DummyUser>(QueryBuilder.byInstance(user).build())
 
         // THEN
-        shadows.size shouldEqualTo 2
+        shadows.size shouldBeEqualTo 2
 
         val newUser = shadows[0].get()
         val oldUser = shadows[1].get()
 
-        newUser.age shouldEqualTo 19
-        oldUser.age shouldEqualTo 18
+        newUser.age shouldBeEqualTo 19
+        oldUser.age shouldBeEqualTo 18
 
-        shadows[0].commitMetadata.id.majorId shouldEqualTo 2
-        shadows[1].commitMetadata.id.majorId shouldEqualTo 1
+        shadows[0].commitMetadata.id.majorId shouldBeEqualTo 2
+        shadows[1].commitMetadata.id.majorId shouldBeEqualTo 1
     }
 
     @Test
@@ -320,7 +320,7 @@ open class JaversRepositoryE2ETest {
             cdo.intProperty = it
             javers.commit("login", cdo)
             val snap = javers.findSnapshots(QueryBuilder.byInstanceId(1, SnapshotEntity::class.java).build()).first()
-            snap.getPropertyValue("intProperty") shouldEqual it
+            snap.getPropertyValue("intProperty") shouldBeEqualTo it
         }
     }
 
@@ -343,9 +343,9 @@ open class JaversRepositoryE2ETest {
             elementChange shouldBeInstanceOf ValueAdded::class.java
 
             if (elementChange is ValueAdded) {
-                elementChange.index shouldEqualTo 1
+                elementChange.index shouldBeEqualTo 1
                 elementChange.addedValue shouldBeInstanceOf String::class
-                elementChange.addedValue shouldEqual "2"
+                elementChange.addedValue shouldBeEqualTo "2"
             }
         }
     }
@@ -362,12 +362,12 @@ open class JaversRepositoryE2ETest {
                                              .build())
 
         // THEN
-        changes.size shouldEqualTo 1
+        changes.size shouldBeEqualTo 1
 
         val valueChange = changes.find { it is ValueChange && it.propertyName == "some" } as ValueChange
 
-        valueChange.left shouldEqual 5
-        valueChange.right shouldEqual 6
+        valueChange.left shouldBeEqualTo 5
+        valueChange.right shouldBeEqualTo 6
     }
 
     @ParameterizedTest
@@ -424,9 +424,9 @@ open class JaversRepositoryE2ETest {
 
         // THEN
         val snapshots = javers.findSnapshots(QueryBuilder.byInstanceId(1, SnapshotEntity::class.java).build())
-        snapshots[0].version shouldEqualTo 3
-        snapshots[1].version shouldEqualTo 2
-        snapshots[2].version shouldEqualTo 1
+        snapshots[0].version shouldBeEqualTo 3
+        snapshots[1].version shouldBeEqualTo 2
+        snapshots[2].version shouldBeEqualTo 1
     }
 
 
@@ -444,7 +444,7 @@ open class JaversRepositoryE2ETest {
         val snapshots = repository.getSnapshots(snapshotIdentifiers)
 
         // THEN:
-        snapshots.size shouldEqualTo snapshotIdentifiers.size
+        snapshots.size shouldBeEqualTo snapshotIdentifiers.size
     }
 
     @Test
@@ -484,7 +484,7 @@ open class JaversRepositoryE2ETest {
         val javers = JaversBuilder.javers().registerJaversRepository(javersRepo).build()
         val snapshots = javers.findSnapshots(QueryBuilder.anyDomainObject().build())
 
-        snapshots.map { it.commitId }.toSet().size shouldEqualTo threads
+        snapshots.map { it.commitId }.toSet().size shouldBeEqualTo threads
     }
 
     @Test
@@ -497,13 +497,13 @@ open class JaversRepositoryE2ETest {
         val snapshots = javers.findSnapshots(QueryBuilder.byInstanceId(1, SnapshotEntity::class.java).build())
 
         // THEN
-        snapshots.size shouldEqualTo 1
-        repository.headId shouldEqual commit.id
+        snapshots.size shouldBeEqualTo 1
+        repository.headId shouldBeEqualTo commit.id
 
         // WHEN: 변경이 없는 엔티티는 저장되면 안됩니다
         javers.commit("author", anEntity)
 
         // THEN: 저장되지 않았으므로 headId의 변화가 없다 
-        repository.headId shouldEqual commit.id
+        repository.headId shouldBeEqualTo commit.id
     }
 }

@@ -1,7 +1,7 @@
 package io.github.debop.kotlin.tests.extensions
 
 import mu.KLogging
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeEmpty
 import org.amshove.kluent.shouldNotBeNull
 import org.amshove.kluent.shouldNotBeNullOrEmpty
@@ -74,34 +74,34 @@ class RandomizedFieldTest {
     fun `can inject a random list of default size`() {
         anyList.shouldNotBeNull()
         anyList.shouldNotBeEmpty()
-        anyList.size shouldEqualTo getDefaultSizeOfRandom()
+        anyList.size shouldBeEqualTo getDefaultSizeOfRandom()
     }
 
     @Test
     fun `can inject a random list of specific size`() {
         anyListOfSpecificSize.shouldNotBeNull()
         anyListOfSpecificSize.shouldNotBeEmpty()
-        anyListOfSpecificSize.size shouldEqualTo 5
+        anyListOfSpecificSize.size shouldBeEqualTo 5
     }
 
     @Test
     fun `can inject a random set`() {
         anySet.shouldNotBeNull()
         anySet.shouldNotBeEmpty()
-        anySet.size shouldEqualTo getDefaultSizeOfRandom()
+        anySet.size shouldBeEqualTo getDefaultSizeOfRandom()
     }
 
     @Test
     fun `can inject a random stream`() {
         anyStream.shouldNotBeNull()
-        anyStream.count() shouldEqualTo getDefaultSizeOfRandom().toLong()
+        anyStream.count() shouldBeEqualTo getDefaultSizeOfRandom().toLong()
     }
 
     @Test
     fun `can inject a random collection`() {
         anyCollection.shouldNotBeNull()
         anyCollection.shouldNotBeEmpty()
-        anyCollection.size shouldEqualTo getDefaultSizeOfRandom()
+        anyCollection.size shouldBeEqualTo getDefaultSizeOfRandom()
     }
 
     @Test

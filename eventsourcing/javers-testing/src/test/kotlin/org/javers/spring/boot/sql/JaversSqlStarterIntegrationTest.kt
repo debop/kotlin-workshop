@@ -2,8 +2,8 @@ package org.javers.spring.boot.sql
 
 import mu.KLogging
 import org.amshove.kluent.shouldBeTrue
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.javers.core.Javers
 import org.javers.repository.jql.QueryBuilder
@@ -44,16 +44,16 @@ class JaversSqlStarterIntegrationTest {
     fun `기본 Javers 인스턴스는 auto-audit aspect가 가능합니다`() {
         // WHEN
         val entity = repository.save(DummyEntity.random())
-        repository.getOne(entity.id) shouldEqual entity
+        repository.getOne(entity.id) shouldBeEqualTo entity
 
         val snapshots = javers.findSnapshots(QueryBuilder.byInstanceId(entity.id, DummyEntity::class.java).build())
 
-        snapshots.size shouldEqualTo 1
+        snapshots.size shouldBeEqualTo 1
         with(snapshots[0]) {
             logger.info { "Snapshot=\n${javers.jsonConverter.toJson(this)}" }
 
-            commitMetadata.properties["key"] shouldEqual "ok"
-            commitMetadata.author shouldEqual "unauthenticated"
+            commitMetadata.properties["key"] shouldBeEqualTo "ok"
+            commitMetadata.author shouldBeEqualTo "unauthenticated"
         }
     }
 

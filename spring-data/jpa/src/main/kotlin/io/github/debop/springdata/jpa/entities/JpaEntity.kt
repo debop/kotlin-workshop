@@ -12,7 +12,6 @@ interface JpaEntity<TId : Serializable> {
 
     var id: TId?
 
-    @JvmDefault
     fun resetIdentifier() {
         id = null
     }

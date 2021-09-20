@@ -2,8 +2,8 @@ package io.github.debop.springdata.jpa.mapping.associations.manytoone
 
 import io.github.debop.springdata.jpa.AbstractDataJpaTest
 import org.amshove.kluent.shouldBeEmpty
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldContainAll
-import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldNotBeEmpty
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -36,15 +36,15 @@ class ManyToOneTests : AbstractDataJpaTest() {
         flushAndClear()
 
         val eloaded = jugMeterRepo.findByIdOrNull(emmanuel.id)!!
-        eloaded shouldEqual emmanuel
-        eloaded.memberOf shouldEqual jug
+        eloaded shouldBeEqualTo emmanuel
+        eloaded.memberOf shouldBeEqualTo jug
 
         jugMeterRepo.delete(eloaded)
         flushAndClear()
 
         val jloaded = jugMeterRepo.findByIdOrNull(jerome.id)!!
-        jloaded shouldEqual jerome
-        jloaded.memberOf shouldEqual jug
+        jloaded shouldBeEqualTo jerome
+        jloaded.memberOf shouldBeEqualTo jug
 
         jugMeterRepo.deleteAll()
         flushAndClear()
@@ -72,7 +72,7 @@ class ManyToOneTests : AbstractDataJpaTest() {
         flushAndClear()
 
         val loaded = breweryRepo.findByIdOrNull(brewery.id)!!
-        loaded shouldEqual brewery
+        loaded shouldBeEqualTo brewery
         loaded.beers shouldContainAll brewery.beers
 
         val beerToRemove = loaded.beers.first()
@@ -103,8 +103,8 @@ class ManyToOneTests : AbstractDataJpaTest() {
         flushAndClear()
 
         val loaded = em.find(SalesForce::class.java, salesForce.id)!!
-        loaded shouldEqual salesForce
-        loaded.salesGuys.size shouldEqual salesForce.salesGuys.size
+        loaded shouldBeEqualTo salesForce
+        loaded.salesGuys.size shouldBeEqualTo salesForce.salesGuys.size
 
         val guyToRemove = loaded.salesGuys.last()
         loaded.removeGuys(guyToRemove)
@@ -112,8 +112,8 @@ class ManyToOneTests : AbstractDataJpaTest() {
         flushAndClear()
 
         val loaded2 = em.find(SalesForce::class.java, salesForce.id)!!
-        loaded2 shouldEqual salesForce
-        loaded2.salesGuys.size shouldEqual salesForce.salesGuys.size - 1
+        loaded2 shouldBeEqualTo salesForce
+        loaded2.salesGuys.size shouldBeEqualTo salesForce.salesGuys.size - 1
     }
 
 }

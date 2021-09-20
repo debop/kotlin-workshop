@@ -1,7 +1,7 @@
 package io.github.debop.kotlin.tests.extensions
 
 import mu.KLogging
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeEmpty
 import org.amshove.kluent.shouldNotBeNull
 import org.amshove.kluent.shouldNotBeNullOrEmpty
@@ -57,27 +57,27 @@ class RandomizedParameterTest {
     fun `can inject a random list of default size`(@Random(type = String::class) anyList: List<String>) {
         anyList.shouldNotBeNull()
         anyList.shouldNotBeEmpty()
-        anyList.size shouldEqualTo getDefaultSizeOfRandom()
+        anyList.size shouldBeEqualTo getDefaultSizeOfRandom()
     }
 
     @RepeatedTest(TEST_COUNT)
     fun `can inject a ramdom set`(@Random(type = String::class) anySet: Set<String>) {
         anySet.shouldNotBeNull()
         anySet.shouldNotBeEmpty()
-        anySet.size shouldEqualTo getDefaultSizeOfRandom()
+        anySet.size shouldBeEqualTo getDefaultSizeOfRandom()
     }
 
     @RepeatedTest(TEST_COUNT)
     fun `can inject a random stream`(@Random(type = String::class) anyStream: Stream<String>) {
         anyStream.shouldNotBeNull()
-        anyStream.count() shouldEqualTo getDefaultSizeOfRandom().toLong()
+        anyStream.count() shouldBeEqualTo getDefaultSizeOfRandom().toLong()
     }
 
     @RepeatedTest(TEST_COUNT)
     fun `can inject a ramdom collection`(@Random(type = String::class) anyCollection: Collection<String>) {
         anyCollection.shouldNotBeNull()
         anyCollection.shouldNotBeEmpty()
-        anyCollection.size shouldEqualTo getDefaultSizeOfRandom()
+        anyCollection.size shouldBeEqualTo getDefaultSizeOfRandom()
     }
 
     @RepeatedTest(TEST_COUNT)
@@ -85,7 +85,7 @@ class RandomizedParameterTest {
         @Random(size = 2, type = DomainObject::class) anyFullyPopulatedDomainObjects: List<DomainObject>) {
         anyFullyPopulatedDomainObjects.shouldNotBeNull()
         anyFullyPopulatedDomainObjects.shouldNotBeEmpty()
-        anyFullyPopulatedDomainObjects.size shouldEqualTo 2
+        anyFullyPopulatedDomainObjects.size shouldBeEqualTo 2
         anyFullyPopulatedDomainObjects.forEach {
             it.shouldFullyPopulated()
         }
@@ -98,7 +98,7 @@ class RandomizedParameterTest {
 
         anyPartiallyPopulatedDomainObjects.shouldNotBeNull()
         anyPartiallyPopulatedDomainObjects.shouldNotBeEmpty()
-        anyPartiallyPopulatedDomainObjects.size shouldEqualTo 2
+        anyPartiallyPopulatedDomainObjects.size shouldBeEqualTo 2
         anyPartiallyPopulatedDomainObjects.forEach {
             it.shouldPartiallyPopulated()
         }

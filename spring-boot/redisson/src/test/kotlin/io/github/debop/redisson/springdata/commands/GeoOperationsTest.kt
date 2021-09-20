@@ -1,7 +1,7 @@
 package io.github.debop.redisson.springdata.commands
 
 import mu.KLogging
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -48,7 +48,7 @@ class GeoOperationsTest {
         val byDistance = geoOperations.radius("Sicily",
                                               "Palermo",
                                               Distance(100.0, KILOMETERS))
-        byDistance!!.content.size shouldEqualTo 2
+        byDistance!!.content.size shouldBeEqualTo 2
         // byDistance.map { it.content.name } shouldContainAll listOf("Arigento", "Palermo")
 
         byDistance.forEach {

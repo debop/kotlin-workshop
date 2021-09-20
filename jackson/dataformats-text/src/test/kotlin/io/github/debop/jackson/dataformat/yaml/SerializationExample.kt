@@ -7,7 +7,7 @@ import io.github.debop.jackson.dataformat.FiveMinuteUser
 import io.github.debop.jackson.dataformat.Gender
 import io.github.debop.jackson.dataformat.Name
 import io.github.debop.jackson.dataformat.Outer
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 /**
@@ -35,10 +35,10 @@ class SerializationExample: AbstractYamlExample() {
             |  AQIDBA==
             """.trimMargin()
 
-        output shouldEqual expected
+        output shouldBeEqualTo expected
 
         val parsed = yamlMapper.readValue<FiveMinuteUser>(output)
-        parsed shouldEqual input
+        parsed shouldBeEqualTo input
     }
 
     @Test
@@ -55,10 +55,10 @@ class SerializationExample: AbstractYamlExample() {
             |age: 51
             """.trimMargin()
 
-        output shouldEqual expected
+        output shouldBeEqualTo expected
 
         val parsed = yamlMapper.readValue<Outer>(output)
-        parsed shouldEqual input
+        parsed shouldBeEqualTo input
     }
 
     @Test
@@ -86,9 +86,9 @@ class SerializationExample: AbstractYamlExample() {
             |  - "useServerPrepStmts=true"
             """.trimMargin()
 
-        output shouldEqual expected
+        output shouldBeEqualTo expected
 
         val parsed = yamlMapper.readValue<Database>(output)
-        parsed shouldEqual input
+        parsed shouldBeEqualTo input
     }
 }

@@ -3,7 +3,7 @@ package io.github.debop.flashtext
 import io.github.debop.ahocorasick.trie.Trie
 import kotlinx.coroutines.runBlocking
 import mu.KLogging
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 /**
@@ -44,6 +44,6 @@ class KeywordProcessorTest {
 
         val replaced = trie.replace(text, map)
 
-        replaced shouldEqual "I am a product manager for a java programming platform working from Apple, New york"
+        replaced shouldBeEqualTo "I am a product manager for a java programming platform working from Apple, New york"
     }
 }

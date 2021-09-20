@@ -9,13 +9,12 @@ import io.github.debop.jackson.binary.avro.deserializeList
 import io.github.debop.kotlin.tests.extensions.Random
 import io.github.debop.kotlin.tests.extensions.Randomized
 import mu.KLogging
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldContainAll
-import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldNotBeEmpty
 import org.amshove.kluent.shouldNotBeNull
 import org.apache.avro.specific.SpecificRecord
 import org.junit.jupiter.api.RepeatedTest
-
 import io.github.debop.avro.examples.v1.VersionedItem as ItemV1
 import io.github.debop.avro.examples.v2.VersionedItem as ItemV2
 
@@ -70,7 +69,7 @@ class AvroSerializerTest: AbstractAvroTest() {
         bytes.shouldNotBeNull()
 
         val converted = serializer.deserialize<T>(bytes)
-        converted shouldEqual avroObject
+        converted shouldBeEqualTo avroObject
     }
 
     @RepeatedTest(TEST_COUNT)
@@ -79,8 +78,8 @@ class AvroSerializerTest: AbstractAvroTest() {
 
         val convertedV2 = serializer.deserialize<ItemV2>(bytes)
         convertedV2.shouldNotBeNull()
-        convertedV2.id shouldEqual v1.id
-        convertedV2.key shouldEqual v1.key
+        convertedV2.id shouldBeEqualTo v1.id
+        convertedV2.key shouldBeEqualTo v1.key
     }
 
     @RepeatedTest(TEST_COUNT)
@@ -89,7 +88,7 @@ class AvroSerializerTest: AbstractAvroTest() {
 
         val convertedV1 = serializer.deserialize<ItemV1>(bytes)
         convertedV1.shouldNotBeNull()
-        convertedV1.id shouldEqual v2.id
-        convertedV1.key shouldEqual v2.key
+        convertedV1.id shouldBeEqualTo v2.id
+        convertedV1.key shouldBeEqualTo v2.key
     }
 }

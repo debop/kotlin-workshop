@@ -1,7 +1,7 @@
 package io.github.debop.jackson.dataformat.yaml
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 import java.io.StringWriter
 
@@ -28,7 +28,7 @@ class YamlGenerationExample: AbstractYamlExample() {
             |name: "Brad"
             |age: 39
             """.trimMargin()
-        yaml shouldEqual expected
+        yaml shouldBeEqualTo expected
 
         writer.close()
     }

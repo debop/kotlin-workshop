@@ -19,8 +19,8 @@ import kotlinx.coroutines.channels.consumeEachIndexed
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import mu.KLogging
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeEmpty
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.AfterAll
@@ -67,7 +67,7 @@ class GreeterServiceTest {
 
         logger.debug { "Unary response=${response.message}" }
         response.shouldNotBeNull()
-        response.message shouldEqual "Hello there, John!"
+        response.message shouldBeEqualTo "Hello there, John!"
 
     }
 
@@ -130,7 +130,7 @@ class GreeterServiceTest {
         delay(10)
 
         requestJob.join()
-        responseCount.await() shouldEqualTo requestCount
+        responseCount.await() shouldBeEqualTo requestCount
         coroutineContext.cancelChildren()
     }
 }

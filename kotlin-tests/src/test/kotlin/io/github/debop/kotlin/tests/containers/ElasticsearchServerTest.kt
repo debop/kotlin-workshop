@@ -1,8 +1,8 @@
 package io.github.debop.kotlin.tests.containers
 
 import mu.KLogging
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeTrue
-import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -28,7 +28,7 @@ class ElasticsearchServerTest {
         elasticsearchServer.isRunning.shouldBeTrue()
 
         // BUG: 왜 기본 Port 매핑이 안되는지???
-        elasticsearchServer.port shouldEqualTo ElasticsearchServer.ELASTICSEARCH_PORT
-        elasticsearchServer.tcpPort shouldEqualTo ElasticsearchServer.ELASTICSEARCH_TCP_PORT
+        elasticsearchServer.port shouldBeEqualTo ElasticsearchServer.ELASTICSEARCH_PORT
+        elasticsearchServer.tcpPort shouldBeEqualTo ElasticsearchServer.ELASTICSEARCH_TCP_PORT
     }
 }

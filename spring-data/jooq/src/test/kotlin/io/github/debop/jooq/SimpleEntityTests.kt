@@ -3,8 +3,7 @@ package io.github.debop.jooq
 import io.github.debop.jooq.config.CategoryConfiguration
 import io.github.debop.jooq.tables.Category.CATEGORY
 import mu.KLogging
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.jooq.DSLContext
 import org.junit.jupiter.api.Test
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureJdbc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.ComponentScan
-import org.springframework.test.annotation.Rollback
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.transaction.annotation.Transactional
 
@@ -70,8 +68,8 @@ class SimpleEntityTests {
         // query with JOOQ
         val categories = repository.getCategoriesWithAgeGroup(AgeGroup._3to8)
 
-        categories.size shouldEqualTo 1
-        categories[0] shouldEqual cars
+        categories.size shouldBeEqualTo 1
+        categories[0] shouldBeEqualTo cars
     }
 
     @Transactional
@@ -93,7 +91,7 @@ class SimpleEntityTests {
             // .fetchInto(CATEGORY)
             .fetchInto(io.github.debop.jooq.tables.pojos.Category::class.java)
 
-        records.size shouldEqualTo 2
+        records.size shouldBeEqualTo 2
         records.forEach {
             logger.debug { it }
         }

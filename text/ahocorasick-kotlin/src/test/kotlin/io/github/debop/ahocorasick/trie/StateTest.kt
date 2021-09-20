@@ -1,7 +1,7 @@
 package io.github.debop.ahocorasick.trie
 
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldContainSame
-import org.amshove.kluent.shouldEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
 
@@ -23,15 +23,15 @@ class StateTest {
         val nextState1 = rootState.nextState('a')
 
         nextState1.shouldNotBeNull()
-        nextState1.depth shouldEqualTo 1
+        nextState1.depth shouldBeEqualTo 1
 
         val nextState2 = nextState1.nextState('b')
         nextState2.shouldNotBeNull()
-        nextState2.depth shouldEqualTo 2
+        nextState2.depth shouldBeEqualTo 2
 
         val nextState3 = nextState2.nextState('c')
         nextState3.shouldNotBeNull()
-        nextState3.depth shouldEqualTo 3
+        nextState3.depth shouldBeEqualTo 3
     }
 
     @Test

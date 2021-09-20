@@ -2,7 +2,7 @@ package io.github.debop.springdata.jpa.mapping.inheritance.tableperclass
 
 import io.github.debop.springdata.jpa.AbstractDataJpaTest
 import org.amshove.kluent.shouldBeEmpty
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeEmpty
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -37,10 +37,10 @@ class TablePerClassInheritanceTest: AbstractDataJpaTest() {
         flushAndClear()
 
         val account2 = accountRepo.findByIdOrNull(account.id)!!
-        account2 shouldEqual account
+        account2 shouldBeEqualTo account
 
         val card2 = cardRepo.findByIdOrNull(card.id)!!
-        card2 shouldEqual card
+        card2 shouldBeEqualTo card
 
         accountRepo.deleteAll()
         accountRepo.flush()

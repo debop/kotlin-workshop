@@ -2,9 +2,9 @@ package io.github.debop.redis.examples.springdata.commands
 
 import io.github.debop.redis.examples.springdata.SpringDataRedisApplication
 import mu.KLogging
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeInRange
 import org.amshove.kluent.shouldContainSame
-import org.amshove.kluent.shouldEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -48,7 +48,7 @@ class GeoOperationsTest {
             geoOperations.radius("Sicily", "Palermo", Distance(100.0, DistanceUnit.KILOMETERS))
 
         byDistance.shouldNotBeNull()
-        byDistance.content.size shouldEqualTo 2
+        byDistance.content.size shouldBeEqualTo 2
 
         byDistance.map { it.content.name }.shouldContainSame(listOf("Arigento", "Palermo"))
 
@@ -56,7 +56,7 @@ class GeoOperationsTest {
             geoOperations.radius("Sicily", "Palermo", Distance(200.0, DistanceUnit.KILOMETERS))
 
         greaterDistance.shouldNotBeNull()
-        greaterDistance.content.size shouldEqualTo 3
+        greaterDistance.content.size shouldBeEqualTo 3
 
         greaterDistance.map { it.content.name }.shouldContainSame(listOf("Arigento", "Palermo", "Catania"))
     }
@@ -66,7 +66,7 @@ class GeoOperationsTest {
         val circle = Circle(Point(13.5833333, 37.316667), Distance(100.0, DistanceUnit.KILOMETERS))
         val result = geoOperations.radius("Sicily", circle)!!
 
-        result.content.size shouldEqualTo 2
+        result.content.size shouldBeEqualTo 2
         result.content.map { it.content.name }.shouldContainSame(listOf("Arigento", "Palermo"))
     }
 
@@ -83,7 +83,7 @@ class GeoOperationsTest {
 
         logger.debug { "geohashes=${geohashes}" }
         geohashes.shouldNotBeNull()
-        geohashes.size shouldEqualTo 2
+        geohashes.size shouldBeEqualTo 2
         geohashes shouldContainSame listOf("sqdtr74hyu0", "sq9sm1716e0")
     }
 }

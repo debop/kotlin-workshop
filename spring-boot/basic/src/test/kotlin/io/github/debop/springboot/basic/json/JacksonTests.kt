@@ -1,7 +1,7 @@
 package io.github.debop.springboot.basic.json
 
 import mu.KLogging
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -36,10 +36,10 @@ class JacksonTests {
 
         logger.debug { "book=$book" }
         logger.debug { "json=${jsonContent.json}" }
-        jsonContent.json shouldEqual expectedJson
+        jsonContent.json shouldBeEqualTo expectedJson
 
         val converted = json.parseObject(jsonContent.json)
         converted.shouldNotBeNull()
-        converted shouldEqual book
+        converted shouldBeEqualTo book
     }
 }

@@ -1,8 +1,8 @@
 package io.github.debop.springdata.jpa.mapping.embeddable
 
 import io.github.debop.springdata.jpa.AbstractDataJpaTest
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeNull
-import org.amshove.kluent.shouldEqual
 import org.junit.jupiter.api.Test
 
 /**
@@ -27,9 +27,9 @@ class EmbeddableEntityTest: AbstractDataJpaTest() {
 
         val loaded = em.persistFlushFind(user)
 
-        loaded shouldEqual user
-        loaded.homeAddress shouldEqual user.homeAddress
-        loaded.officeAddress shouldEqual user.officeAddress
+        loaded shouldBeEqualTo user
+        loaded.homeAddress shouldBeEqualTo user.homeAddress
+        loaded.officeAddress shouldBeEqualTo user.officeAddress
 
         em.remove(loaded)
         flushAndClear()

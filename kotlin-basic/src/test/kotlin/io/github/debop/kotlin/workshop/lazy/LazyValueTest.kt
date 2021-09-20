@@ -5,11 +5,10 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import mu.KLogging
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeFalse
 import org.amshove.kluent.shouldBeGreaterThan
 import org.amshove.kluent.shouldBeTrue
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
 import java.io.Serializable
@@ -33,12 +32,12 @@ class LazyValueTest {
 
         lazyVal.isInitialized.shouldBeFalse()
         // initialize when access value
-        lazyVal.value shouldEqualTo time
+        lazyVal.value shouldBeEqualTo time
         lazyVal.isInitialized.shouldBeTrue()
 
         // already initialized
         Thread.sleep(10)
-        lazyVal.value shouldEqualTo time
+        lazyVal.value shouldBeEqualTo time
     }
 
     @RepeatedTest(5)
@@ -65,8 +64,8 @@ class LazyValueTest {
         val str1 = person.toString()
         val str2 = person.toString()
 
-        person.callCount shouldEqualTo 1
-        str1 shouldEqual str2
+        person.callCount shouldBeEqualTo 1
+        str1 shouldBeEqualTo str2
     }
 
     data class Person(val id: Long, val name: String, val age: Int = 0) : Serializable {

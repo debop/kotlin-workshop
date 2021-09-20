@@ -1,6 +1,6 @@
 package org.javers.spring.jpa
 
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.javers.core.Javers
 import org.javers.hibernate.entity.Person
@@ -47,6 +47,6 @@ class MultipleTxManagersTest {
         val person = Person(id = "debop")
         repository.save(person)
 
-        javers.findSnapshots(QueryBuilder.byInstanceId(person.id, Person::class.java).build()).size shouldEqualTo 1
+        javers.findSnapshots(QueryBuilder.byInstanceId(person.id, Person::class.java).build()).size shouldBeEqualTo 1
     }
 }

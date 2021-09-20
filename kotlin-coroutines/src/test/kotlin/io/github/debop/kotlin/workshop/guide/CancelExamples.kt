@@ -1,5 +1,7 @@
 package io.github.debop.kotlin.workshop.guide
 
+import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.TimeoutCancellationException
@@ -17,8 +19,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.lang.System.currentTimeMillis
 
-@Suppress("RemoveExplicitTypeArguments")
-class CancelExamples {
+class CancelExamples: CoroutineScope by CoroutineScope(CoroutineName("example") + Dispatchers.IO) {
 
     companion object: KLogging()
 

@@ -1,6 +1,6 @@
 package org.javers.core
 
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.javers.core.model.CategoryC
 import org.javers.core.model.PhoneWithShallowCategory
 import org.javers.core.model.ShallowPhone
@@ -37,7 +37,7 @@ class JaversCommitE2ETest {
 
         // THEN
         commit.snapshots.forEach { println(it) }
-        commit.snapshots.size shouldEqualTo 1
+        commit.snapshots.size shouldBeEqualTo 1
     }
 
     @Test
@@ -50,6 +50,6 @@ class JaversCommitE2ETest {
         val commit = javers.commit("", entity)
 
         println(commit.snapshots[0])
-        commit.snapshots.size shouldEqualTo 1
+        commit.snapshots.size shouldBeEqualTo 1
     }
 }

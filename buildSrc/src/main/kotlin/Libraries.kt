@@ -29,9 +29,9 @@ object BuildPlugins {
 
 object Versions {
 
-    const val kotlin = "1.5.30"
+    const val kotlin = "1.5.31"
     const val kotlinx_coroutines = "1.5.2"
-    const val atomicfu = "0.15.1"
+    const val atomicfu = "0.16.3"
 
     const val spring_boot = BuildPlugins.Versions.spring_boot
     const val spring_cloud = "2020.0.3"
@@ -70,7 +70,7 @@ object Versions {
 
     const val koin = "2.0.1"
 
-    const val byte_buddy = "1.9.13"
+    const val byte_buddy = "1.11.16"
 
     const val junit_jupiter = "5.7.2"
     const val junit_platform = "1.7.2"
@@ -346,7 +346,7 @@ object Libraries {
     const val byte_buddy_agent = "net.bytebuddy:byte-buddy-agent:${Versions.byte_buddy}"
 
     const val objenesis = "org.objenesis:objenesis:3.0.1"
-    const val ow2_asm = "org.ow2.asm:asm:7.1"
+    const val ow2_asm = "org.ow2.asm:asm:9.0"
 
     // junit 5.4+ 부터는 junit-jupiter 만 있으면 됩니다.
     const val junit_jupiter = "org.junit.jupiter:junit-jupiter:${Versions.junit_jupiter}"
@@ -359,7 +359,7 @@ object Libraries {
 
     const val kluent = "org.amshove.kluent:kluent:1.68"
     const val assertj_core = "org.assertj:assertj-core:3.20.2"
-    const val mockk = "io.mockk:mockk:1.10.5"
+    const val mockk = "io.mockk:mockk:1.12.0"
     const val mockito_core = "org.mockito:mockito-core:${Versions.mockito}"
     const val mockito_junit_jupiter = "org.mockito:mockito-junit-jupiter:${Versions.mockito}"
     const val mockito_kotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"

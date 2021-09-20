@@ -5,8 +5,7 @@ import io.github.debop.jackson.dataformat.FiveMinuteUser
 import io.github.debop.jackson.dataformat.Gender
 import io.github.debop.jackson.dataformat.Point
 import io.github.debop.jackson.dataformat.Rectangle
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
 
@@ -35,12 +34,12 @@ class SerializationExample: AbstractPropertiesExample() {
             |
             """.trimMargin()
 
-        output shouldEqual expected
+        output shouldBeEqualTo expected
 
         val props = propsMapper.writeValueAsProperties(input)
-        props.size shouldEqualTo 5
-        props["verified"] shouldEqual "true"
-        props["gender"] shouldEqual "MALE"
+        props.size shouldBeEqualTo 5
+        props["verified"] shouldBeEqualTo "true"
+        props["gender"] shouldBeEqualTo "MALE"
     }
 
     @Test
@@ -59,7 +58,7 @@ class SerializationExample: AbstractPropertiesExample() {
         val actual = propsMapper.readValue<FiveMinuteUser>(input)
 
         actual.shouldNotBeNull()
-        actual shouldEqual expected
+        actual shouldBeEqualTo expected
     }
 
     @Test
@@ -76,14 +75,14 @@ class SerializationExample: AbstractPropertiesExample() {
             |
             """.trimMargin()
 
-        output shouldEqual expected
+        output shouldBeEqualTo expected
 
         val props = propsMapper.writeValueAsProperties(input)
-        props.size shouldEqualTo 4
-        props["topLeft.x"] shouldEqual "1"
-        props["topLeft.y"] shouldEqual "-2"
-        props["bottomRight.x"] shouldEqual "5"
-        props["bottomRight.y"] shouldEqual "10"
+        props.size shouldBeEqualTo 4
+        props["topLeft.x"] shouldBeEqualTo "1"
+        props["topLeft.y"] shouldBeEqualTo "-2"
+        props["bottomRight.x"] shouldBeEqualTo "5"
+        props["bottomRight.y"] shouldBeEqualTo "10"
     }
 
     @Test
@@ -97,10 +96,10 @@ class SerializationExample: AbstractPropertiesExample() {
         val expected = Rectangle(Point(1, -2), Point(5, 10))
 
         val result = propsMapper.readValue<Rectangle>(input)
-        result shouldEqual expected
+        result shouldBeEqualTo expected
 
         val result2 = propsMapper.readValue<Rectangle>(input.toByteArray())
-        result2 shouldEqual expected
+        result2 shouldBeEqualTo expected
     }
 
     @Test
@@ -110,16 +109,16 @@ class SerializationExample: AbstractPropertiesExample() {
 
         val result = propsMapper.readValue<Map<Any, Any>>(input)
         result.shouldNotBeNull()
-        result.size shouldEqualTo 1
+        result.size shouldBeEqualTo 1
 
         logger.debug { "result=$result" }
 
         val nested = result.getNode("root.comparison")
-        nested.size shouldEqualTo 2
+        nested.size shouldBeEqualTo 2
 
         logger.debug { "nested=$nested" }
 
         val source = nested["source"] as Map<Any, Any>
-        source["database"] shouldEqual "test"
+        source["database"] shouldBeEqualTo "test"
     }
 }

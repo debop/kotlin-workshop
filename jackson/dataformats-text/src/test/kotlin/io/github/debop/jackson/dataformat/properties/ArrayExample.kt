@@ -5,7 +5,7 @@ import io.github.debop.jackson.dataformat.Box
 import io.github.debop.jackson.dataformat.Container
 import io.github.debop.jackson.dataformat.Point
 import io.github.debop.jackson.dataformat.Points
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 /**
@@ -30,10 +30,10 @@ class ArrayExample: AbstractPropertiesExample() {
         val output = propsMapper.writeValueAsString(input)
         logger.debug { "output=$output" }
 
-        output shouldEqual expected
+        output shouldBeEqualTo expected
 
         val parsed = propsMapper.readValue<Container>(output)
-        parsed shouldEqual input
+        parsed shouldBeEqualTo input
     }
 
     @Test
@@ -52,9 +52,9 @@ class ArrayExample: AbstractPropertiesExample() {
         val output = propsMapper.writeValueAsString(input)
         logger.debug { "output=$output" }
 
-        output shouldEqual expected
+        output shouldBeEqualTo expected
 
         val parsed = propsMapper.readValue<Points>(output)
-        parsed shouldEqual input
+        parsed shouldBeEqualTo input
     }
 }

@@ -1,8 +1,8 @@
 package io.github.debop.example.cache
 
 import io.github.debop.example.cache.domain.CountryRepository
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeNull
-import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -27,9 +27,9 @@ class SampleCacheApplicationTest {
         cache.get("BE").shouldBeNull()
 
         val be = countryRepository.findByCode("BE")
-        cache.get("BE")?.get() shouldEqual be
+        cache.get("BE")?.get() shouldBeEqualTo be
 
         val be2 = countryRepository.findByCode("BE")
-        cache.get("BE")?.get() shouldEqual be2
+        cache.get("BE")?.get() shouldBeEqualTo be2
     }
 }

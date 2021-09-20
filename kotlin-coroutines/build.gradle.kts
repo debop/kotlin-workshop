@@ -1,10 +1,10 @@
 dependencies {
 
     api(project(":kotlin-basic"))
-    testImplementation(project(":kotlin-tests"))
+    //testImplementation(project(":kotlin-tests"))
 
-    api(Libraries.kotlinx_coroutines_jdk8)
-    implementation(Libraries.kotlinx_coroutines_rx2)
+    implementation(Libraries.kotlinx_coroutines_jdk8)
+    // implementation(Libraries.kotlinx_coroutines_rx2)
     implementation(Libraries.kotlinx_coroutines_reactor)
 
     testImplementation(Libraries.kotlinx_coroutines_debug)

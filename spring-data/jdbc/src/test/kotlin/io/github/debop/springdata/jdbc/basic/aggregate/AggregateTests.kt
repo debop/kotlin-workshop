@@ -2,7 +2,7 @@ package io.github.debop.springdata.jdbc.basic.aggregate
 
 import io.github.debop.springdata.jdbc.basic.Output
 import org.amshove.kluent.shouldContain
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -74,10 +74,10 @@ class AggregateTests(@Autowired val repository: LegoSetRepository) {
         val report = repository.reportModelForAge(6)
         Output.list(report, "Model Report")
 
-        report.size shouldEqualTo 7
-        report.all { it.description != null && it.modelName != null && it.setName != null } shouldEqualTo true
+        report.size shouldBeEqualTo 7
+        report.all { it.description != null && it.modelName != null && it.setName != null } shouldBeEqualTo true
 
-        repository.lowerCaseMapKeys() shouldEqualTo 3
+        repository.lowerCaseMapKeys() shouldBeEqualTo 3
     }
 
     private fun createLegoSet(name: String, minimumAge: Int, maximumAge: Int): LegoSet {

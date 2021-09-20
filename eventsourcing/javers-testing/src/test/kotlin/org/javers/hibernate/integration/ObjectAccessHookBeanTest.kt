@@ -2,7 +2,7 @@ package org.javers.hibernate.integration
 
 import mu.KLogging
 import org.amshove.kluent.shouldContainSame
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.javers.core.Javers
 import org.javers.hibernate.entity.Author
@@ -71,7 +71,7 @@ class ObjectAccessHookBeanTest {
         authorRepository.save(book.author!!)
 
         val snapshot = javers.getLatestSnapshot("1", Author::class.java).get()
-        snapshot.getPropertyValue("name") shouldEqual "kazik"
+        snapshot.getPropertyValue("name") shouldBeEqualTo "kazik"
         logger.debug { "Author latest snapshot=${javers.jsonConverter.toJson(snapshot)}" }
 
         val shadows = javers

@@ -2,9 +2,9 @@ package io.github.debop.springdata.jpa.mapping.associations.onetoone
 
 import io.github.debop.springdata.jpa.AbstractDataJpaTest
 import mu.KotlinLogging.logger
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeFalse
 import org.amshove.kluent.shouldBeTrue
-import org.amshove.kluent.shouldEqual
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
@@ -32,8 +32,8 @@ class CavalierAndHorseTests : AbstractDataJpaTest() {
         flushAndClear()
 
         val cavalier2 = cavalierRepo.findByIdOrNull(cavalier.id)!!
-        cavalier2 shouldEqual cavalier
-        cavalier2.horse shouldEqual horse
+        cavalier2 shouldBeEqualTo cavalier
+        cavalier2.horse shouldBeEqualTo horse
 
         val horse2 = cavalier2.horse!!
         horseRepo.delete(horse2)

@@ -8,7 +8,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -40,7 +40,7 @@ class BaeldungExample {
 
         // then
         verify { service.getDataFromDb("Expected param") }
-        result shouldEqual "Expected Output"
+        result shouldBeEqualTo "Expected Output"
     }
 
 
@@ -72,7 +72,7 @@ class BaeldungExample {
 
         every { service1.getDataFromDb(any()) } returns "Good output"
 
-        objectUnderTest.invokeService1() shouldEqual "Good output"
+        objectUnderTest.invokeService1() shouldBeEqualTo "Good output"
 
         verify {
             service1.getDataFromDb(any())
@@ -86,9 +86,9 @@ class BaeldungExample {
         every { service.getDataFromDb(any()) } returns "Mocked Output"
 
         // then
-        service.getDataFromDb("Any Param") shouldEqual "Mocked Output"
+        service.getDataFromDb("Any Param") shouldBeEqualTo "Mocked Output"
 
-        service.doSomethingElse("Any Param") shouldEqual "I don't want to `Any Param`"
+        service.doSomethingElse("Any Param") shouldBeEqualTo "I don't want to `Any Param`"
     }
 
 }

@@ -1,7 +1,7 @@
 package org.javers.spring.jpa
 
 import mu.KLogging
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.javers.core.Javers
 import org.javers.repository.jql.QueryBuilder
@@ -70,6 +70,6 @@ class JaversSpringDataAuditableTest {
         val snapshots = javers.findSnapshots(query)
 
         // THEN
-        snapshots.size shouldEqualTo 1
+        snapshots.size shouldBeEqualTo 1
     }
 }

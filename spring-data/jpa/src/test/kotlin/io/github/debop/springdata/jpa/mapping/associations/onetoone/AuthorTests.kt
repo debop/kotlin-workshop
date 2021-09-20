@@ -2,9 +2,9 @@ package io.github.debop.springdata.jpa.mapping.associations.onetoone
 
 import io.github.debop.springdata.jpa.AbstractDataJpaTest
 import mu.KotlinLogging.logger
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeFalse
 import org.amshove.kluent.shouldBeNull
-import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -36,7 +36,7 @@ class AuthorTests : AbstractDataJpaTest() {
         log.debug { "load biography" }
         val biography = em.find(Biography::class.java, author.id)
         biography.shouldNotBeNull()
-        biography.author shouldEqual author
+        biography.author shouldBeEqualTo author
 
         /*
             select
@@ -48,12 +48,12 @@ class AuthorTests : AbstractDataJpaTest() {
                 author0_.id=?
          */
         val author2 = authorRepo.findByIdOrNull(author.id)!!
-        author2 shouldEqual author
+        author2 shouldBeEqualTo author
 
-        author2.biography shouldEqual biography
-        author2.biography.information shouldEqual biography.information
+        author2.biography shouldBeEqualTo biography
+        author2.biography.information shouldBeEqualTo biography.information
 
-        author2.picture shouldEqual author.picture
+        author2.picture shouldBeEqualTo author.picture
 
         // cascade delete (author -> biography, picture)
         authorRepo.delete(author2)

@@ -2,9 +2,8 @@ package io.github.debop.ahocorasick.trie
 
 import kotlinx.coroutines.runBlocking
 import mu.KLogging
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeTrue
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
 import java.util.concurrent.ThreadLocalRandom
@@ -91,7 +90,7 @@ class TrieTest {
             .build()
 
         val emits = trie.parseText("ushers")
-        emits.size shouldEqualTo 1
+        emits.size shouldBeEqualTo 1
         checkEmit(emits.firstOrNull(), 2, 3, "he")
     }
 
@@ -115,7 +114,7 @@ class TrieTest {
         }
         trie.parseText("ushers", testEmitHandler)
         val emits = testEmitHandler.emits
-        emits.size shouldEqualTo 1
+        emits.size shouldBeEqualTo 1
         checkEmit(emits.firstOrNull(), 1, 3, "she")
     }
 
@@ -126,7 +125,7 @@ class TrieTest {
             .build()
 
         val emits = trie.parseText("ushers")
-        emits.size shouldEqualTo 3
+        emits.size shouldBeEqualTo 3
         checkEmit(emits[0], 2, 3, "he")
         checkEmit(emits[1], 1, 3, "she")
         checkEmit(emits[2], 2, 5, "hers")
@@ -140,7 +139,7 @@ class TrieTest {
             .build()
 
         val emits = trie.parseText("ushers")
-        emits.size shouldEqualTo 3
+        emits.size shouldBeEqualTo 3
         checkEmit(emits[0], 2, 3, "he")
         checkEmit(emits[1], 1, 3, "she")
         checkEmit(emits[2], 2, 5, "hers")
@@ -168,7 +167,7 @@ class TrieTest {
         }
         trie.runParseText("ushers", emitHandler)
 
-        emits.size shouldEqualTo 3
+        emits.size shouldBeEqualTo 3
         checkEmit(emits[0], 2, 3, "he")
         checkEmit(emits[1], 1, 3, "she")
         checkEmit(emits[2], 2, 5, "hers")
@@ -191,7 +190,7 @@ class TrieTest {
             .build()
 
         val emits = trie.parseText("2 cauliflowers, 3 tomatoes, 4 slices of veal, 100g broccoli")
-        emits.size shouldEqual 4
+        emits.size shouldBeEqualTo 4
         checkEmit(emits[0], 2, 12, "cauliflower")
         checkEmit(emits[1], 18, 25, "tomatoes")
         checkEmit(emits[2], 40, 43, "veal")
@@ -217,7 +216,7 @@ class TrieTest {
 
         val emits = trie.parseText("hehehehehe")
 
-        emits.size shouldEqualTo 7
+        emits.size shouldBeEqualTo 7
         checkEmit(emits[0], 0, 1, "he")
         checkEmit(emits[1], 2, 3, "he")
         checkEmit(emits[2], 4, 5, "he")
@@ -238,7 +237,7 @@ class TrieTest {
 
         val emits = trie.parseText("ababcbab")
 
-        emits.size shouldEqualTo 2
+        emits.size shouldBeEqualTo 2
         checkEmit(emits[0], 0, 4, "ababc")
         checkEmit(emits[1], 6, 7, "ab")
     }
@@ -275,7 +274,7 @@ class TrieTest {
             .build()
 
         val emits = trie.parseText("Turning")
-        emits.size shouldEqualTo 2
+        emits.size shouldBeEqualTo 2
         checkEmit(emits[0], 0, 0, "T")
         checkEmit(emits[1], 1, 6, "urning")
     }
@@ -288,7 +287,7 @@ class TrieTest {
             .build()
 
         val emits = trie.parseText("sugarcane sugarcane sugar canesugar") // left, middle, right test
-        emits.size shouldEqualTo 1
+        emits.size shouldBeEqualTo 1
         checkEmit(emits[0], 20, 24, "sugar")
     }
 
@@ -311,14 +310,14 @@ class TrieTest {
 
         val tokens = trie.tokenize("Hear: Alpha team first, Beta from the rear, Gamma in reserve")
 
-        tokens.size shouldEqualTo 7
-        tokens[0].fragment shouldEqual "Hear: "
-        tokens[1].fragment shouldEqual "Alpha"
-        tokens[2].fragment shouldEqual " team first, "
-        tokens[3].fragment shouldEqual "Beta"
-        tokens[4].fragment shouldEqual " from the rear, "
-        tokens[5].fragment shouldEqual "Gamma"
-        tokens[6].fragment shouldEqual " in reserve"
+        tokens.size shouldBeEqualTo 7
+        tokens[0].fragment shouldBeEqualTo "Hear: "
+        tokens[1].fragment shouldBeEqualTo "Alpha"
+        tokens[2].fragment shouldBeEqualTo " team first, "
+        tokens[3].fragment shouldBeEqualTo "Beta"
+        tokens[4].fragment shouldBeEqualTo " from the rear, "
+        tokens[5].fragment shouldBeEqualTo "Gamma"
+        tokens[6].fragment shouldBeEqualTo " in reserve"
     }
 
     @Test
@@ -331,7 +330,7 @@ class TrieTest {
 
         val emits = trie.parseText("TurninG OnCe AgAiN BÖRKÜ")
 
-        emits.size shouldEqualTo 4
+        emits.size shouldBeEqualTo 4
 
         checkEmit(emits[0], 0, 6, "turning")
         checkEmit(emits[1], 8, 11, "once")
@@ -349,7 +348,7 @@ class TrieTest {
 
         val emits = trie.parseText("TurninG OnCe AgAiN BÖRKÜ")
 
-        emits.size shouldEqualTo 4
+        emits.size shouldBeEqualTo 4
 
         checkEmit(emits[0], 0, 6, "turning")
         checkEmit(emits[1], 8, 11, "once")
@@ -377,7 +376,7 @@ class TrieTest {
             .build()
         val tokens = trie.tokenize("Alpha Beta Gamma")
         logger.debug { "tokens=$tokens" }
-        tokens.size shouldEqualTo 5   // 2 space
+        tokens.size shouldBeEqualTo 5   // 2 space
     }
 
     @Test
@@ -398,14 +397,14 @@ class TrieTest {
 
         val tokens = trie.tokenize(sentence)
 
-        tokens.size shouldEqualTo 1
-        tokens[0].fragment shouldEqual sentence
+        tokens.size shouldBeEqualTo 1
+        tokens[0].fragment shouldBeEqualTo sentence
     }
 
     @Test
     fun `parse unicode text 1`() = runBlocking<Unit> {
         val target = "LİKE THIS"  // The second character ('İ') is Unicode, which was read by AC as a 2-byte char
-        target.substring(5, 9) shouldEqual "THIS"
+        target.substring(5, 9) shouldBeEqualTo "THIS"
 
         val trie = Trie.builder()
             .ignoreCase()
@@ -414,14 +413,14 @@ class TrieTest {
             .build()
 
         val emits = trie.parseText(target)
-        emits.size shouldEqualTo 1
+        emits.size shouldBeEqualTo 1
         checkEmit(emits[0], 5, 8, "this")
     }
 
     @Test
     fun `parse unicode text 2`() = runBlocking<Unit> {
         val target = "LİKE THIS"  // The second character ('İ') is Unicode, which was read by AC as a 2-byte char
-        target.substring(5, 9) shouldEqual "THIS"
+        target.substring(5, 9) shouldBeEqualTo "THIS"
 
         val trie = Trie.builder()
             .ignoreCase()
@@ -441,7 +440,7 @@ class TrieTest {
             .build()
 
         val emits = trie.parseText("#sugar-123 #sugar-1234")
-        emits.size shouldEqualTo 1
+        emits.size shouldBeEqualTo 1
         checkEmit(emits.firstOrNull(), 0, 9, "#sugar-123")
     }
 
@@ -460,7 +459,7 @@ class TrieTest {
             .build()
 
         val emits = trie.parseText(text)
-        emits.size shouldEqualTo textSize / interval
+        emits.size shouldBeEqualTo textSize / interval
     }
 
     private fun randomInt(min: Int, max: Int): Int = ThreadLocalRandom.current().nextInt(min, max)
@@ -483,8 +482,8 @@ class TrieTest {
     private fun checkEmit(emit: Emit?, expectedStart: Int, expectedEnd: Int, expectedKeyword: String) {
         logger.trace { "start=$expectedStart, end=$expectedEnd, keyword=$expectedKeyword, emit=$emit" }
         emit.shouldNotBeNull()
-        emit.start shouldEqual expectedStart
-        emit.end shouldEqual expectedEnd
-        emit.keyword shouldEqual expectedKeyword
+        emit.start shouldBeEqualTo expectedStart
+        emit.end shouldBeEqualTo expectedEnd
+        emit.keyword shouldBeEqualTo expectedKeyword
     }
 }

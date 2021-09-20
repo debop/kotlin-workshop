@@ -2,8 +2,7 @@ package io.github.debop.springboot.webmvc
 
 import io.github.debop.springboot.webmvc.domain.model.User
 import mu.KLogging
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -24,7 +23,7 @@ class UserApiTests(@Autowired private val restTemplate: TestRestTemplate) {
     fun `find all users and parse`() {
         val users = restTemplate.getForObject<List<User>>("/api/user/")
         users.shouldNotBeNull()
-        users.size shouldEqualTo 11
+        users.size shouldBeEqualTo 11
     }
 
     @Test
@@ -36,6 +35,6 @@ class UserApiTests(@Autowired private val restTemplate: TestRestTemplate) {
                             description = "All views are my own!")
 
         val user = restTemplate.getForObject<User>("/api/user/{userId}", userId)
-        user shouldEqual expected
+        user shouldBeEqualTo expected
     }
 }

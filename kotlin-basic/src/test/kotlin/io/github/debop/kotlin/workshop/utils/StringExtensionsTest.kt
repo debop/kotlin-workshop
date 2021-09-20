@@ -1,7 +1,7 @@
 package io.github.debop.kotlin.workshop.utils
 
 import mu.KLogging
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 class StringExtensionsTest {
@@ -10,16 +10,16 @@ class StringExtensionsTest {
 
     @Test
     fun `string is null or empty`() {
-        null.ifNullOrEmpty { "<null>" } shouldEqual "<null>"
-        "".ifNullOrEmpty { "<empty>" } shouldEqual "<empty>"
-        "  ".ifNullOrEmpty { "<empty>" } shouldEqual "  "
+        null.ifNullOrEmpty { "<null>" } shouldBeEqualTo "<null>"
+        "".ifNullOrEmpty { "<empty>" } shouldBeEqualTo "<empty>"
+        "  ".ifNullOrEmpty { "<empty>" } shouldBeEqualTo "  "
     }
 
     @Test
     fun `string is null or whitespace`() {
-        null.ifNullOrBlank { "<null>" } shouldEqual "<null>"
-        "".ifNullOrBlank { "<empty>" } shouldEqual "<empty>"
-        "  ".ifNullOrBlank { "<empty>" } shouldEqual "<empty>"
-        " \t  ".ifNullOrBlank { "<empty>" } shouldEqual "<empty>"
+        null.ifNullOrBlank { "<null>" } shouldBeEqualTo "<null>"
+        "".ifNullOrBlank { "<empty>" } shouldBeEqualTo "<empty>"
+        "  ".ifNullOrBlank { "<empty>" } shouldBeEqualTo "<empty>"
+        " \t  ".ifNullOrBlank { "<empty>" } shouldBeEqualTo "<empty>"
     }
 }

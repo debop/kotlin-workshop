@@ -1,6 +1,6 @@
 package io.github.debop.kotlin.workshop.concurrent
 
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
@@ -21,26 +21,26 @@ class RoundRobinAtomicIntTest {
     fun `round limits with maximum is 1`() {
         val atomic = RoundRobinAtomicInt(1)
 
-        atomic.get() shouldEqualTo 0
+        atomic.get() shouldBeEqualTo 0
 
-        atomic.next() shouldEqualTo 0
-        atomic.next() shouldEqualTo 0
-        atomic.next() shouldEqualTo 0
+        atomic.next() shouldBeEqualTo 0
+        atomic.next() shouldBeEqualTo 0
+        atomic.next() shouldBeEqualTo 0
     }
 
     @Test
     fun `round limits`() {
         val atomic = RoundRobinAtomicInt(4)
 
-        atomic.get() shouldEqualTo 0
+        atomic.get() shouldBeEqualTo 0
 
-        atomic.next() shouldEqualTo 1
-        atomic.next() shouldEqualTo 2
-        atomic.next() shouldEqualTo 3
-        atomic.next() shouldEqualTo 0
-        atomic.next() shouldEqualTo 1
-        atomic.next() shouldEqualTo 2
-        atomic.next() shouldEqualTo 3
-        atomic.next() shouldEqualTo 0
+        atomic.next() shouldBeEqualTo 1
+        atomic.next() shouldBeEqualTo 2
+        atomic.next() shouldBeEqualTo 3
+        atomic.next() shouldBeEqualTo 0
+        atomic.next() shouldBeEqualTo 1
+        atomic.next() shouldBeEqualTo 2
+        atomic.next() shouldBeEqualTo 3
+        atomic.next() shouldBeEqualTo 0
     }
 }

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.dataformat.avro.AvroSchema
 import com.fasterxml.jackson.dataformat.avro.schema.AvroSchemaGenerator
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import mu.KLogging
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeEmpty
 import org.junit.jupiter.api.Test
 
@@ -37,7 +37,7 @@ class SimpleBindingExample {
         val avro = mapper.writer(employeeSchema).writeValueAsBytes(employee)
 
         val actual: Employee = mapper.readerFor(Employee::class.java).with(employeeSchema).readValue(avro)
-        actual shouldEqual employee
+        actual shouldBeEqualTo employee
     }
 
     @Test
@@ -53,6 +53,6 @@ class SimpleBindingExample {
         avro.shouldNotBeEmpty()
 
         val actual: Employee = mapper.readerFor(Employee::class.java).with(schema).readValue(avro)
-        actual shouldEqual employee
+        actual shouldBeEqualTo employee
     }
 }

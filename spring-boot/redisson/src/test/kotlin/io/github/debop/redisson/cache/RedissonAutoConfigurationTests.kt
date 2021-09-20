@@ -1,10 +1,9 @@
 package io.github.debop.redisson.cache
 
 import mu.KLogging
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeLessThan
 import org.amshove.kluent.shouldBeNull
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -52,7 +51,7 @@ class RedissonAutoConfigurationTests {
 
         val hash = template.boundHashOps<String, String>("test")
         val saved = hash["1"]
-        saved shouldEqual "2"
+        saved shouldBeEqualTo "2"
     }
 
     data class Item(val id: Long, val name: String): Serializable
@@ -73,18 +72,18 @@ class RedissonAutoConfigurationTests {
 
         val item = Item(123, "debop")
 
-        cache.fastPut(item.id, item, 1000, TimeUnit.MILLISECONDS) shouldEqualTo true
+        cache.fastPut(item.id, item, 1000, TimeUnit.MILLISECONDS) shouldBeEqualTo true
 
         val cached = cache[item.id]
         cached.shouldNotBeNull()
-        cached shouldEqual item
+        cached shouldBeEqualTo item
 
         cache.remainTimeToLive(item.id) shouldBeLessThan 0
 
         Thread.sleep(1300)
 
         cache[item.id].shouldBeNull()
-        cache.remainTimeToLive(item.id) shouldEqualTo -2  // key does not exists
+        cache.remainTimeToLive(item.id) shouldBeEqualTo -2  // key does not exists
     }
 
 }

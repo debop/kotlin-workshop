@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.module.kotlin.readValue
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeInstanceOf
 import org.amshove.kluent.shouldBeNull
 import org.amshove.kluent.shouldContainAll
-import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
 
@@ -51,7 +51,7 @@ class PolymorphicIdTest: AbstractYamlExample() {
         val top = yamlMapper.readValue<Wrapper>(yaml)
         top.shouldNotBeNull()
         top.nested.shouldNotBeNull() shouldBeInstanceOf SingleNested::class
-        (top.nested as SingleNested).value shouldEqual "whatever"
+        (top.nested as SingleNested).value shouldBeEqualTo "whatever"
     }
 
     @Test
@@ -83,7 +83,7 @@ class PolymorphicIdTest: AbstractYamlExample() {
         top.nested.shouldNotBeNull() shouldBeInstanceOf MultipleNested::class
 
         val nested = top.nested as MultipleNested
-        nested.value shouldEqual "whatever"
+        nested.value shouldBeEqualTo "whatever"
         nested.props shouldContainAll listOf("option1", "option2")
     }
 
@@ -97,7 +97,7 @@ class PolymorphicIdTest: AbstractYamlExample() {
         val top = yamlMapper.readValue<Wrapper>(yaml)
         top.shouldNotBeNull()
         top.nested.shouldNotBeNull() shouldBeInstanceOf SingleNested::class
-        (top.nested as SingleNested).value shouldEqual "foobar"
+        (top.nested as SingleNested).value shouldBeEqualTo "foobar"
 
     }
 

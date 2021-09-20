@@ -1,9 +1,9 @@
 package io.github.debop.springdata.jpa.mapping.associations.onetoone
 
 import io.github.debop.springdata.jpa.AbstractDataJpaTest
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeFalse
 import org.amshove.kluent.shouldBeTrue
-import org.amshove.kluent.shouldEqual
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
@@ -35,8 +35,8 @@ class UserTests : AbstractDataJpaTest() {
         flushAndClear()
 
         val user2 = userRepo.findByIdOrNull(user.id)!!
-        user2 shouldEqual user
-        user2.shippingAddress shouldEqual addr
+        user2 shouldBeEqualTo user
+        user2.shippingAddress shouldBeEqualTo addr
 
         userRepo.delete(user2)
         flushAndClear()

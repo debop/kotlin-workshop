@@ -1,7 +1,7 @@
 package io.github.debop.springdata.jpa.mapping.associations.join
 
 import io.github.debop.springdata.jpa.AbstractDataJpaTest
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,12 +25,12 @@ class JoinTableTests @Autowired constructor(
 
         val loaded = userRepo.findByIdOrNull(user.id)
         loaded.shouldNotBeNull()
-        loaded.addresses.size shouldEqualTo 2
+        loaded.addresses.size shouldBeEqualTo 2
 
         loaded.addresses.remove("Office")
         userRepo.saveAndFlush(loaded)
 
-        loaded.addresses.size shouldEqualTo 1
+        loaded.addresses.size shouldBeEqualTo 1
     }
 
     @Test
@@ -51,11 +51,11 @@ class JoinTableTests @Autowired constructor(
 
         val loaded = customerRepo.findByIdOrNull(customer.id)
         loaded.shouldNotBeNull()
-        loaded.addresses.size shouldEqualTo 2
+        loaded.addresses.size shouldBeEqualTo 2
 
         loaded.addresses.remove("Office")
         customerRepo.saveAndFlush(loaded)
 
-        loaded.addresses.size shouldEqualTo 1
+        loaded.addresses.size shouldBeEqualTo 1
     }
 }

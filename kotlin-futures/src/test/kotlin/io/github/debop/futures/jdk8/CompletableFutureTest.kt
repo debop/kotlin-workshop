@@ -1,10 +1,9 @@
 package io.github.debop.futures.jdk8
 
 import org.amshove.kluent.shouldBeEmpty
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeInstanceOf
 import org.amshove.kluent.shouldContainSame
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -22,7 +21,7 @@ class CompletableFutureTest {
 
         @Test
         fun `성공한 Future는 map을 수행합니다`() {
-            success.map { it + 1 }.get() shouldEqualTo 2
+            success.map { it + 1 }.get() shouldBeEqualTo 2
         }
 
         @Test
@@ -39,8 +38,8 @@ class CompletableFutureTest {
 
         @Test
         fun `성공한 Future는 flatMap을 수행합니다`() {
-            success.flatMap { it.asCompletableFuture() }.get() shouldEqualTo success.get()
-            success.flatMap { immediateFuture { it + 1 } }.get() shouldEqualTo 2
+            success.flatMap { it.asCompletableFuture() }.get() shouldBeEqualTo success.get()
+            success.flatMap { immediateFuture { it + 1 } }.get() shouldBeEqualTo 2
         }
 
         @Test
@@ -56,7 +55,7 @@ class CompletableFutureTest {
     inner class FlattenTest {
         @Test
         fun `성공한 Future는 flatten을 수행합니다`() {
-            futureOf { futureOf { 1 } }.flatten().get() shouldEqualTo 1
+            futureOf { futureOf { 1 } }.flatten().get() shouldBeEqualTo 1
         }
 
         @Test
@@ -72,7 +71,7 @@ class CompletableFutureTest {
     inner class FilterTest {
         @Test
         fun `성공한 Future 이고 filter를 만족하면 결과를 반환한다`() {
-            success.filter { it == 1 }.get() shouldEqualTo 1
+            success.filter { it == 1 }.get() shouldBeEqualTo 1
         }
 
         @Test
@@ -96,14 +95,14 @@ class CompletableFutureTest {
     inner class RecoverTest {
         @Test
         fun `성공한 Future는 recover를 수행하지 않는다`() {
-            success.recover { 42 }.get() shouldEqualTo 1
+            success.recover { 42 }.get() shouldBeEqualTo 1
 
-            success.recover { throw RuntimeException() }.get() shouldEqualTo 1
+            success.recover { throw RuntimeException() }.get() shouldBeEqualTo 1
         }
 
         @Test
         fun `실패한 Future에 대해서 recover가 수행된다`() {
-            failed.recover { 42 }.get() shouldEqualTo 42
+            failed.recover { 42 }.get() shouldBeEqualTo 42
         }
 
         @Test
@@ -118,22 +117,22 @@ class CompletableFutureTest {
     inner class RecoverWithTest {
         @Test
         fun `성공한 Future는 recoverWith를 실행할 필요가 없습니다`() {
-            success.recoverWith { 42.asCompletableFuture() }.get() shouldEqualTo 1
+            success.recoverWith { 42.asCompletableFuture() }.get() shouldBeEqualTo 1
 
-            success.recoverWith { throw RuntimeException() }.get() shouldEqualTo 1
+            success.recoverWith { throw RuntimeException() }.get() shouldBeEqualTo 1
             success
                 .recoverWith { 42.asCompletableFuture() }
-                .recoverWith { throw RuntimeException() }.get() shouldEqualTo 1
+                .recoverWith { throw RuntimeException() }.get() shouldBeEqualTo 1
         }
 
         @Test
         fun `실패한 Future는 recoverWith를 샐행합니다`() {
-            failed.recoverWith { 42.asCompletableFuture() }.get() shouldEqualTo 42
+            failed.recoverWith { 42.asCompletableFuture() }.get() shouldBeEqualTo 42
 
             failed
                 .recoverWith { RuntimeException().asCompletableFuture() }
                 .recoverWith { 42.asCompletableFuture() }
-                .get() shouldEqualTo 42
+                .get() shouldBeEqualTo 42
         }
 
         @Test
@@ -149,12 +148,12 @@ class CompletableFutureTest {
 
         @Test
         fun `성공한 Future는 fallback를 실행할 필요가 없다`() {
-            success.fallback { 42 }.get() shouldEqualTo 1
+            success.fallback { 42 }.get() shouldBeEqualTo 1
         }
 
         @Test
         fun `예외가 발생한 경우 fallback를 실행한다`() {
-            failed.fallback { 42 }.get() shouldEqualTo 42
+            failed.fallback { 42 }.get() shouldBeEqualTo 42
         }
 
         @Test
@@ -171,12 +170,12 @@ class CompletableFutureTest {
 
         @Test
         fun `성공한 Future는 fallbackTo를 실행할 필요가 없다`() {
-            success.fallbackTo { 42.asCompletableFuture() }.get() shouldEqualTo 1
+            success.fallbackTo { 42.asCompletableFuture() }.get() shouldBeEqualTo 1
         }
 
         @Test
         fun `예외가 발생한 경우 fallbackTo를 실행한다`() {
-            failed.fallbackTo { 42.asCompletableFuture() }.get() shouldEqualTo 42
+            failed.fallbackTo { 42.asCompletableFuture() }.get() shouldBeEqualTo 42
         }
 
         @Test
@@ -193,7 +192,7 @@ class CompletableFutureTest {
 
         @Test
         fun `성공한 Future는 mapError를 실행할 필요가 없습니다`() {
-            success.mapError<Int, IllegalArgumentException> { IllegalStateException() }.get() shouldEqualTo 1
+            success.mapError<Int, IllegalArgumentException> { IllegalStateException() }.get() shouldBeEqualTo 1
         }
 
         @Test
@@ -226,7 +225,7 @@ class CompletableFutureTest {
 
         @Test
         fun `성공한 Future는 onFailure를 호출하지 않습니다`() {
-            success.onFailure { fail("성공한 Future는 onFailure가 발생하지 않습니다.") }.get() shouldEqualTo 1
+            success.onFailure { fail("성공한 Future는 onFailure가 발생하지 않습니다.") }.get() shouldBeEqualTo 1
         }
 
         @Test
@@ -240,7 +239,7 @@ class CompletableFutureTest {
         fun `성공한 Future는 onSuccess 를 호출합니다`() {
             var capturedResult: Any? = null
             success.onSuccess { capturedResult = it }.get()
-            capturedResult shouldEqual 1
+            capturedResult shouldBeEqualTo 1
         }
 
         @Test
@@ -256,7 +255,7 @@ class CompletableFutureTest {
                 onSuccess = { capturedResult = it }
             ).get()
 
-            capturedResult shouldEqualTo success.get()
+            capturedResult shouldBeEqualTo success.get()
         }
 
         @Test
@@ -269,7 +268,7 @@ class CompletableFutureTest {
             ).recover { 42 }.get()
 
             capturedError shouldBeInstanceOf IllegalArgumentException::class
-            result shouldEqualTo 42
+            result shouldBeEqualTo 42
         }
     }
 
@@ -278,8 +277,8 @@ class CompletableFutureTest {
 
         @Test
         fun `성공한 Future에 대한 zip`() {
-            success.zip(success).get() shouldEqual (1 to 1)
-            success.zip(immediateFuture { "Hello" }).get() shouldEqual (1 to "Hello")
+            success.zip(success).get() shouldBeEqualTo (1 to 1)
+            success.zip(immediateFuture { "Hello" }).get() shouldBeEqualTo (1 to "Hello")
         }
 
         @Test
@@ -291,9 +290,9 @@ class CompletableFutureTest {
 
         @Test
         fun `성공한 future에 대한 zip 과 lambda`() {
-            success.zip(success) { a, b -> a + b }.get() shouldEqualTo 2
-            success.zip(futureOf { "Hello" }) { a, b -> a.toString() + b }.get() shouldEqual "1Hello"
-            success.zip(immediateFuture { "Hello" }) { a, b -> a.toString() + b }.get() shouldEqual "1Hello"
+            success.zip(success) { a, b -> a + b }.get() shouldBeEqualTo 2
+            success.zip(futureOf { "Hello" }) { a, b -> a.toString() + b }.get() shouldBeEqualTo "1Hello"
+            success.zip(immediateFuture { "Hello" }) { a, b -> a.toString() + b }.get() shouldBeEqualTo "1Hello"
         }
 
         @Test
@@ -321,7 +320,7 @@ class CompletableFutureTest {
             val f2 = futureOf { Thread.sleep(2000); 2 }
             val f1 = immediateFuture { 1 }
 
-            listOf(f3, f2, f1).futureFirst().get() shouldEqual 1
+            listOf(f3, f2, f1).futureFirst().get() shouldBeEqualTo 1
 
         }
 
@@ -342,7 +341,7 @@ class CompletableFutureTest {
             val f2 = futureOf<Int> { Thread.sleep(2000); throw IllegalArgumentException() }
             val f1 = immediateFuture { 1 }
 
-            listOf(f3, f2, f1).futureFirst().get() shouldEqualTo 1
+            listOf(f3, f2, f1).futureFirst().get() shouldBeEqualTo 1
         }
     }
 
@@ -420,7 +419,7 @@ class CompletableFutureTest {
                 2.asCompletableFuture(),
                 futureOf { Thread.sleep(100); 3 })
 
-            list.futureFold(0) { acc, it -> acc + it }.get() shouldEqualTo 6
+            list.futureFold(0) { acc, it -> acc + it }.get() shouldBeEqualTo 6
         }
 
         @Test
@@ -437,7 +436,9 @@ class CompletableFutureTest {
 
         @Test
         fun `빈 Future List를 fold 하기`() {
-            emptyList<CompletableFuture<Int>>().futureFold(0) { acc, i -> acc + i }.get() shouldEqualTo 0
+            emptyList<CompletableFuture<Int>>()
+                .futureFold(0) { acc, i -> acc + i }
+                .get() shouldBeEqualTo 0
         }
     }
 
@@ -451,7 +452,7 @@ class CompletableFutureTest {
                 2.asCompletableFuture(),
                 futureOf { Thread.sleep(100); 3 })
 
-            futures.futureReduce { acc, it -> acc + it }.get() shouldEqualTo 6
+            futures.futureReduce { acc, it -> acc + it }.get() shouldBeEqualTo 6
         }
 
         @Test

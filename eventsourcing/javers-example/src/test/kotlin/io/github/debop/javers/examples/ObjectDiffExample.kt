@@ -3,8 +3,8 @@ package io.github.debop.javers.examples
 import mu.KLogging
 import org.amshove.kluent.shouldContainSame
 import org.amshove.kluent.shouldEndWith
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.javers.core.JaversBuilder
 import org.javers.core.diff.changetype.NewObject
 import org.javers.core.diff.changetype.ObjectRemoved
@@ -32,7 +32,7 @@ class ObjectDiffExample {
         val diff = javers.compare(tommyOld, tommyNew)
 
         logger.debug { "diff=$diff" }
-        diff.changes.size shouldEqualTo 1
+        diff.changes.size shouldBeEqualTo 1
 
         logger.debug { javers.jsonConverter.toJson(diff) }
     }
@@ -80,12 +80,12 @@ class ObjectDiffExample {
         logger.debug { "Removed diff=\n${javers.jsonConverter.toJson(diff)}" }
 
         val removed = diff.getChangesByType(ObjectRemoved::class.java)
-        removed.size shouldEqualTo 1
+        removed.size shouldBeEqualTo 1
         removed.forEach {
             logger.trace { "removed=$it" }
             logger.trace { it.affectedObject }
         }
-        removed[0].affectedObject.get() shouldEqual Employee("To Be Fired")
+        removed[0].affectedObject.get() shouldBeEqualTo Employee("To Be Fired")
     }
 
     @Test
@@ -103,10 +103,10 @@ class ObjectDiffExample {
         val diff = javers.compare(oldBoss, newBoss)
         val valueChanged = diff.getChangesByType(ValueChange::class.java)[0]
 
-        valueChanged.affectedLocalId shouldEqual "Great Developer"
-        valueChanged.propertyName shouldEqual "salary"
-        valueChanged.left shouldEqual 10_000
-        valueChanged.right shouldEqual 20_000
+        valueChanged.affectedLocalId shouldBeEqualTo "Great Developer"
+        valueChanged.propertyName shouldBeEqualTo "salary"
+        valueChanged.left shouldBeEqualTo 10_000
+        valueChanged.right shouldBeEqualTo 20_000
     }
 
     @Test
@@ -130,7 +130,7 @@ class ObjectDiffExample {
 
         val change = diff.getChangesByType(ReferenceChange::class.java)[0]
 
-        change.affectedLocalId shouldEqual "Great Developer"
+        change.affectedLocalId shouldBeEqualTo "Great Developer"
         change.left.value() shouldEndWith "Manager One"
         change.right.value() shouldEndWith "Manager Two"
     }
@@ -141,13 +141,13 @@ class ObjectDiffExample {
         val address2 = Address("New York", "6th Avenue")
 
         val diff = javers.compare(address1, address2)
-        diff.changes.size shouldEqualTo 1
+        diff.changes.size shouldBeEqualTo 1
 
         val change = diff.getChangesByType(ValueChange::class.java)[0]
-        change.affectedGlobalId.value() shouldEqual "${Address::class.java.name}/"
-        change.propertyName shouldEqual "street"
-        change.left shouldEqual "5th Avenue"
-        change.right shouldEqual "6th Avenue"
+        change.affectedGlobalId.value() shouldBeEqualTo "${Address::class.java.name}/"
+        change.propertyName shouldBeEqualTo "street"
+        change.left shouldBeEqualTo "5th Avenue"
+        change.right shouldBeEqualTo "6th Avenue"
     }
 
     @Test
@@ -161,9 +161,9 @@ class ObjectDiffExample {
 
         logger.debug { "diff=$diff" }
 
-        diff.changes.size shouldEqualTo 1
-        change.propertyName shouldEqual "name"
-        change.left shouldEqual "Tommy Smart"
-        change.right shouldEqual "Tommy C. Smart"
+        diff.changes.size shouldBeEqualTo 1
+        change.propertyName shouldBeEqualTo "name"
+        change.left shouldBeEqualTo "Tommy Smart"
+        change.right shouldBeEqualTo "Tommy C. Smart"
     }
 }

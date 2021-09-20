@@ -9,8 +9,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import mu.KLogging
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
 import javax.sql.DataSource
@@ -100,18 +99,18 @@ class ParseNamedDataSurcePropertiesTest {
         val propertyString = propsMapper.writeValueAsString(root)
 
         logger.info { "properties=\n$propertyString" }
-        propertyString shouldEqual properties
+        propertyString shouldBeEqualTo properties
 
         val parsedRoot = propsMapper.readValue<RootProperty>(propertyString)
 
         parsedRoot.shouldNotBeNull()
-        parsedRoot.coupang.datasources.size shouldEqualTo 2
+        parsedRoot.coupang.datasources.size shouldBeEqualTo 2
 
         val parsedDefault = parsedRoot.coupang.datasources["default"] as Dbcp2DataSourceProperty
         val parsedRead = parsedRoot.coupang.datasources["read"] as HikariDataSourceProperty
 
-        parsedDefault shouldEqual default
-        parsedRead shouldEqual read
+        parsedDefault shouldBeEqualTo default
+        parsedRead shouldBeEqualTo read
     }
 
     val yaml = """
@@ -152,18 +151,18 @@ class ParseNamedDataSurcePropertiesTest {
         val yamlString = yamlMapper.writeValueAsString(root)
 
         logger.info { "properties=\n$yamlString" }
-        yamlString shouldEqual yaml
+        yamlString shouldBeEqualTo yaml
 
         val parsedRoot = yamlMapper.readValue<RootProperty>(yamlString)
 
         parsedRoot.shouldNotBeNull()
-        parsedRoot.coupang.datasources.size shouldEqualTo 2
+        parsedRoot.coupang.datasources.size shouldBeEqualTo 2
 
         val parsedDefault = parsedRoot.coupang.datasources["default"] as Dbcp2DataSourceProperty
         val parsedRead = parsedRoot.coupang.datasources["read"] as HikariDataSourceProperty
 
-        parsedDefault shouldEqual default
-        parsedRead shouldEqual read
+        parsedDefault shouldBeEqualTo default
+        parsedRead shouldBeEqualTo read
     }
 
     @Test
@@ -203,13 +202,13 @@ class ParseNamedDataSurcePropertiesTest {
         val parsedRoot = yamlMapper.readValue<RootProperty>(yaml)
 
         parsedRoot.shouldNotBeNull()
-        parsedRoot.coupang.datasources.size shouldEqualTo 2
+        parsedRoot.coupang.datasources.size shouldBeEqualTo 2
 
         val parsedDefault = parsedRoot.coupang.datasources["default"] as Dbcp2DataSourceProperty
         val parsedRead = parsedRoot.coupang.datasources["read"] as HikariDataSourceProperty
 
-        parsedDefault shouldEqual default
-        parsedRead shouldEqual read
+        parsedDefault shouldBeEqualTo default
+        parsedRead shouldBeEqualTo read
     }
 
     data class RootProperty(val coupang: CoupangProperty)

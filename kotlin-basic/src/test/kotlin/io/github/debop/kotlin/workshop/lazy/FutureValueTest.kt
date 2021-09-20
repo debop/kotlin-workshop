@@ -1,8 +1,8 @@
 package io.github.debop.kotlin.workshop.lazy
 
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeFalse
 import org.amshove.kluent.shouldBeTrue
-import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.Test
 
 class FutureValueTest {
@@ -21,6 +21,6 @@ class FutureValueTest {
         Thread.sleep(500)
 
         futureVal.isDone.shouldBeTrue()
-        futureVal.value shouldEqualTo time
+        futureVal.value shouldBeEqualTo time
     }
 }

@@ -1,12 +1,11 @@
 package io.github.debop.idgenerators.snowflake
 
 import mu.KLogging
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeGreaterOrEqualTo
 import org.amshove.kluent.shouldBeGreaterThan
 import org.amshove.kluent.shouldBeInRange
 import org.amshove.kluent.shouldBeTrue
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -58,22 +57,22 @@ class SnowflakeTest {
         val sorted = ids.sorted()
 
         sorted.forEachIndexed { index, id ->
-            id shouldEqualTo ids[index]
+            id shouldBeEqualTo ids[index]
         }
 
-        ids.toSet().size shouldEqualTo ids.size
+        ids.toSet().size shouldBeEqualTo ids.size
     }
 
     @RepeatedTest(5)
     fun `generate snowflake by nextId as parallel`() {
         val ids = TEST_LIST.parallelStream().map { snowflake.nextId() }.toList()
-        ids.toSet().size shouldEqualTo ids.size
+        ids.toSet().size shouldBeEqualTo ids.size
     }
 
     @RepeatedTest(5)
     fun `generate snowflake by nextIds`() {
         val ids = snowflake.nextIds(TEST_COUNT)
-        ids.toSet().size shouldEqualTo ids.size
+        ids.toSet().size shouldBeEqualTo ids.size
     }
 
     @Test
@@ -93,16 +92,16 @@ class SnowflakeTest {
         val sorted = ids.sorted()
 
         sorted.forEachIndexed { index, id ->
-            id shouldEqual ids[index]
+            id shouldBeEqualTo ids[index]
         }
 
-        ids.toSet().size shouldEqualTo ids.size
+        ids.toSet().size shouldBeEqualTo ids.size
     }
 
     @RepeatedTest(5)
     fun `generate idAsString as parallel`() {
         val ids = TEST_LIST.parallelStream().map { snowflake.nextIdAsString() }.toList()
-        ids.toSet().size shouldEqualTo ids.size
+        ids.toSet().size shouldBeEqualTo ids.size
     }
 
     @Test
@@ -122,9 +121,9 @@ class SnowflakeTest {
         snowflakeId2.timestamp shouldBeGreaterOrEqualTo snowflakeId1.timestamp
         snowflakeId3.timestamp shouldBeGreaterThan snowflakeId2.timestamp
 
-        snowflakeId1.value shouldEqualTo id1
-        snowflakeId2.value shouldEqualTo id2
-        snowflakeId3.value shouldEqualTo id3
+        snowflakeId1.value shouldBeEqualTo id1
+        snowflakeId2.value shouldBeEqualTo id2
+        snowflakeId3.value shouldBeEqualTo id3
     }
 
     @RepeatedTest(5)
@@ -132,7 +131,7 @@ class SnowflakeTest {
         val ids = snowflake.nextIds(TEST_COUNT)
         val snowflakeIds = ids.map { snowflake.parse(it) }
 
-        snowflakeIds.size shouldEqualTo ids.size
+        snowflakeIds.size shouldBeEqualTo ids.size
         snowflakeIds.all { ids.contains(it.value) }.shouldBeTrue()
     }
 
@@ -152,9 +151,9 @@ class SnowflakeTest {
         snowflakeId2.timestamp shouldBeGreaterOrEqualTo snowflakeId1.timestamp
         snowflakeId3.timestamp shouldBeGreaterThan snowflakeId2.timestamp
 
-        snowflakeId1.valueAsString shouldEqual id1
-        snowflakeId2.valueAsString shouldEqual id2
-        snowflakeId3.valueAsString shouldEqual id3
+        snowflakeId1.valueAsString shouldBeEqualTo id1
+        snowflakeId2.valueAsString shouldBeEqualTo id2
+        snowflakeId3.valueAsString shouldBeEqualTo id3
     }
 
     @RepeatedTest(5)
@@ -162,7 +161,7 @@ class SnowflakeTest {
         val ids = snowflake.nextIdsAsString(TEST_COUNT)
         val snowflakeIds = ids.map { snowflake.parse(it) }
 
-        snowflakeIds.size shouldEqualTo ids.size
+        snowflakeIds.size shouldBeEqualTo ids.size
         snowflakeIds.all { ids.contains(it.valueAsString) }.shouldBeTrue()
     }
 }

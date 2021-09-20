@@ -2,8 +2,8 @@ package io.github.debop.springdata.jpa.mapping.associations.onetoone
 
 import io.github.debop.springdata.jpa.AbstractDataJpaTest
 import mu.KotlinLogging.logger
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeFalse
-import org.amshove.kluent.shouldEqual
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
@@ -33,8 +33,8 @@ class CarAndWheelTests : AbstractDataJpaTest() {
         flushAndClear()
 
         val wheel2 = wheelRepo.findByIdOrNull(wheel.id)!!
-        wheel2 shouldEqual wheel
-        wheel2.car shouldEqual car
+        wheel2 shouldBeEqualTo wheel
+        wheel2.car shouldBeEqualTo car
 
         wheelRepo.delete(wheel2)
         carRepo.delete(wheel2.car!!)

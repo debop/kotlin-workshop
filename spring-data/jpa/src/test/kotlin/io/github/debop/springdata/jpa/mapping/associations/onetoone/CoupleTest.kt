@@ -1,7 +1,7 @@
 package io.github.debop.springdata.jpa.mapping.associations.onetoone
 
 import io.github.debop.springdata.jpa.AbstractDataJpaTest
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 /**
@@ -23,8 +23,8 @@ class CoupleTest : AbstractDataJpaTest() {
         flushAndClear()
 
         val debop2 = em.find(Husband::class.java, debop.id)!!
-        debop2 shouldEqual debop
-        debop2.wife shouldEqual midoogi
+        debop2 shouldBeEqualTo debop
+        debop2.wife shouldBeEqualTo midoogi
 
         // 서로 관계를 끊고 삭제해야 합니다.
         val wife2 = debop2.wife!!

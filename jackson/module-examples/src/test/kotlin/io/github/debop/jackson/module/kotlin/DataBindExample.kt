@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import mu.KLogging
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldBeInstanceOf
-import org.amshove.kluent.shouldEqual
 import org.junit.jupiter.api.Test
 
 /**
@@ -51,11 +51,11 @@ class DataBindExample {
 
         val json = mapper.writeValueAsString(invite)
         logger.trace { "json=$json" }
-        json shouldEqual """{"kind":"CONTACT","to":{"name":"Foo"}}"""
+        json shouldBeEqualTo """{"kind":"CONTACT","to":{"name":"Foo"}}"""
 
         val parsed = mapper.readValue<Invite>(json)
-        parsed shouldEqual invite
+        parsed shouldBeEqualTo invite
         parsed.to shouldBeInstanceOf InviteToContact::class
-        parsed.to shouldEqual contact
+        parsed.to shouldBeEqualTo contact
     }
 }

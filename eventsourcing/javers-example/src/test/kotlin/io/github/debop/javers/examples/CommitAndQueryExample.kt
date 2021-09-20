@@ -1,7 +1,7 @@
 package io.github.debop.javers.examples
 
 import mu.KLogging
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.javers.core.JaversBuilder
 import org.javers.repository.jql.QueryBuilder
 import org.junit.jupiter.api.Test
@@ -34,15 +34,15 @@ class CommitAndQueryExample {
 
         val shadows = javers.findShadows<Person>(query)
         shadows.forEach { println(it.get()) }
-        shadows.size shouldEqualTo 2
+        shadows.size shouldBeEqualTo 2
 
         println("Snapshots query:")
         val snapshots = javers.findSnapshots(query)
         snapshots.forEach { println(it) }
-        snapshots.size shouldEqualTo 2
+        snapshots.size shouldBeEqualTo 2
 
         val changes = javers.findChanges(query)
         println(changes.prettyPrint())
-        changes.size shouldEqualTo 2
+        changes.size shouldBeEqualTo 2
     }
 }

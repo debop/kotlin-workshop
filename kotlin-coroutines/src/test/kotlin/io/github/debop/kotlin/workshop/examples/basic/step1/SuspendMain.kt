@@ -1,6 +1,6 @@
 package io.github.debop.kotlin.workshop.examples.basic.step1
 
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
@@ -8,9 +8,9 @@ import kotlinx.coroutines.launch
 /**
  * Suspendable main method
  */
-suspend fun main() {
+suspend fun main() = coroutineScope {
     val jobs = List(100_000) {
-        GlobalScope.launch {
+        launch {
             delay(1000)
             print(".")
         }

@@ -2,7 +2,7 @@ package io.github.debop.kotlin.tests.mockk.examples.baeldung
 
 import io.mockk.every
 import io.mockk.mockkObject
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 /**
@@ -23,10 +23,10 @@ class ObjectMockExample {
         mockkObject(TestableService)
 
         // when calling not mocked method
-        TestableService.getDataFromDb("Any Param") shouldEqual "Any Param"
+        TestableService.getDataFromDb("Any Param") shouldBeEqualTo "Any Param"
 
         // when calling mocked method
         every { TestableService.getDataFromDb(any()) } returns "Mocked Output"
-        TestableService.getDataFromDb("Any Param") shouldEqual "Mocked Output"
+        TestableService.getDataFromDb("Any Param") shouldBeEqualTo "Mocked Output"
     }
 }

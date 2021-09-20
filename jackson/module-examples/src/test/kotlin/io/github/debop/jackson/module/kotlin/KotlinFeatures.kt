@@ -6,9 +6,8 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.fasterxml.jackson.module.kotlin.readValue
 import mu.KLogging
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldContainAll
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
 
@@ -37,9 +36,9 @@ class KotlinFeatures {
 
         val expected = BasicPerson("John Smith", 30)
 
-        inferRightSide shouldEqual expected
-        inferLeftSide shouldEqual expected
-        person shouldEqual expected
+        inferRightSide shouldBeEqualTo expected
+        inferLeftSide shouldBeEqualTo expected
+        person shouldBeEqualTo expected
     }
 
     @Test
@@ -47,7 +46,7 @@ class KotlinFeatures {
         val json = """[{"name":"John Smith", "age":30}, {"name":"Sunghyouk Bae", "age":51}]"""
 
         val persons: List<BasicPerson> = mapper.readValue(json)
-        persons.size shouldEqualTo 2
+        persons.size shouldBeEqualTo 2
         persons shouldContainAll listOf(BasicPerson("John Smith", 30),
                                         BasicPerson("Sunghyouk Bae", 51))
     }
@@ -62,10 +61,10 @@ class KotlinFeatures {
 
         val json = mapper.writeValueAsString(input)
         logger.debug { "json=$json" }
-        json shouldEqual expected
+        json shouldBeEqualTo expected
 
         val output = mapper.readValue<ClassWithPair>(json)
-        output shouldEqual input
+        output shouldBeEqualTo input
     }
 
     private data class ClassWithPairMixedTypes(val person: Pair<String, Int>)
@@ -75,10 +74,10 @@ class KotlinFeatures {
         val json = """{"person":{"first":"John","second":30}}"""
         val expected = ClassWithPairMixedTypes("John" to 30)
 
-        mapper.writeValueAsString(expected) shouldEqual json
+        mapper.writeValueAsString(expected) shouldBeEqualTo json
 
         val parsed = mapper.readValue<ClassWithPairMixedTypes>(json)
-        parsed shouldEqual expected
+        parsed shouldBeEqualTo expected
     }
 
 
@@ -90,10 +89,10 @@ class KotlinFeatures {
         val json = mapper.writeValueAsString(expected)
 
         logger.trace { "json=$json" }
-        json shouldEqual """{"ages":{"start":18,"end":40},"distance":{"start":5,"end":50}}"""
+        json shouldBeEqualTo """{"ages":{"start":18,"end":40},"distance":{"start":5,"end":50}}"""
 
         val actual = mapper.readValue<ClassWithRanges>(json)
-        actual shouldEqual expected
+        actual shouldBeEqualTo expected
     }
 
     data class ClassWithPairMixedNullableTypes(val person: Pair<String?, Int?>)
@@ -104,10 +103,10 @@ class KotlinFeatures {
         val json = mapper.writeValueAsString(expected)
 
         logger.trace { "json=$json" }
-        json shouldEqual """{"person":{"first":"John","second":null}}"""
+        json shouldBeEqualTo """{"person":{"first":"John","second":null}}"""
 
         val actual = mapper.readValue<ClassWithPairMixedNullableTypes>(json)
-        actual shouldEqual expected
+        actual shouldBeEqualTo expected
     }
 
     data class GenericParametersClass<A, B: Any>(val one: A, val two: B)
@@ -119,10 +118,10 @@ class KotlinFeatures {
         val json = mapper.writeValueAsString(expected)
 
         logger.trace { "json=$json" }
-        json shouldEqual """{"thing":{"one":null,"two":123}}"""
+        json shouldBeEqualTo """{"thing":{"one":null,"two":123}}"""
 
         val actual = mapper.readValue<GenericParameterConsumer>(json)
-        actual shouldEqual expected
+        actual shouldBeEqualTo expected
     }
 
     data class TinyPerson(val name: String, val age: Int)
@@ -135,7 +134,7 @@ class KotlinFeatures {
         val json = mapper.writerFor(typeRef).writeValueAsString(expected)
 
         logger.trace { "json=$json" }
-        json shouldEqual """[{"name":"Fred","age":10},{"name":"Max","age":11}]"""
+        json shouldBeEqualTo """[{"name":"Fred","age":10},{"name":"Max","age":11}]"""
 
         val actual = mapper.readValue<List<TinyPerson>>(json)
         actual.shouldNotBeNull()
@@ -153,10 +152,10 @@ class KotlinFeatures {
 
         val json = mapper.writeValueAsString(company)
         logger.trace { "json=$json" }
-        json shouldEqual """{"name":"KidVille","people":[{"name":"Fred","age":10},{"name":"Max","age":11}]}"""
+        json shouldBeEqualTo """{"name":"KidVille","people":[{"name":"Fred","age":10},{"name":"Max","age":11}]}"""
 
         // NOTE: Iterator를 읽어드릴 수는 없네 ...
         //        val actual = mapper.readValue<Company>(json)
-        //        actual shouldEqual company
+        //        actual shouldBeEqualTo company
     }
 }

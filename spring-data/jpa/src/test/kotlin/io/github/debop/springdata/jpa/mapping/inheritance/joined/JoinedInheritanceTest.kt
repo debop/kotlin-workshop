@@ -2,8 +2,8 @@ package io.github.debop.springdata.jpa.mapping.inheritance.joined
 
 import io.github.debop.springdata.jpa.AbstractDataJpaTest
 import org.amshove.kluent.shouldBeEmpty
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldContainAll
-import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldNotBeEmpty
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -35,11 +35,11 @@ class JoinedInheritanceTest: AbstractDataJpaTest() {
         flushAndClear()
 
         val customer1 = customerRepo.findByIdOrNull(customer.id)!!
-        customer1 shouldEqual customer
-        customer1.contactEmployee shouldEqual emp2
+        customer1 shouldBeEqualTo customer
+        customer1.contactEmployee shouldBeEqualTo emp2
 
         val employee1 = empRepo.findByIdOrNull(emp1.id)!!
-        employee1 shouldEqual emp1
+        employee1 shouldBeEqualTo emp1
         employee1.members shouldContainAll setOf(emp2)
 
         employee1.members.forEach { it.manager = null }

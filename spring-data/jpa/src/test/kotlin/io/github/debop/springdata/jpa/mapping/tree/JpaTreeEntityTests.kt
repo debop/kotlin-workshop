@@ -1,10 +1,9 @@
 package io.github.debop.springdata.jpa.mapping.tree
 
 import io.github.debop.springdata.jpa.AbstractDataJpaTest
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldContain
 import org.amshove.kluent.shouldContainAll
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.amshove.kluent.shouldNotContain
 import org.junit.jupiter.api.Test
@@ -38,21 +37,21 @@ class JpaTreeEntityTests : AbstractDataJpaTest() {
         val loaded = repository.findByIdOrNull(child1.id)
 
         loaded.shouldNotBeNull()
-        loaded shouldEqual child1
-        loaded.parent shouldEqual root
+        loaded shouldBeEqualTo child1
+        loaded.parent shouldBeEqualTo root
         loaded.children.shouldContainAll(setOf(child11, child12))
 
         val roots = repository.findAllRoot()
-        roots.size shouldEqualTo 1
-        roots.first() shouldEqual root
+        roots.size shouldBeEqualTo 1
+        roots.first() shouldBeEqualTo root
 
         repository.delete(loaded)
         repository.flush()
         clear()
 
         val roots2 = repository.findAllRoot()
-        roots2.size shouldEqualTo 1
-        roots2.first() shouldEqual root
+        roots2.size shouldBeEqualTo 1
+        roots2.first() shouldBeEqualTo root
         roots2.first().children.shouldContain(child2)
         roots2.first().children.shouldNotContain(child1)
     }

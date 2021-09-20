@@ -2,7 +2,7 @@ package io.github.debop.springdata.jpa.mapping
 
 import io.github.debop.springdata.jpa.AbstractDataJpaTest
 import mu.KLogging
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.amshove.kluent.shouldNotEqual
 import org.junit.jupiter.api.Test
@@ -26,10 +26,10 @@ class SimpleEntityTests : AbstractDataJpaTest() {
         val transient2 = SimpleEntity(name = "transient1")
 
         // name, description 으로
-        transient2 shouldEqual transient1
+        transient2 shouldBeEqualTo transient1
 
         transient2.description = "added description"
-        transient2 shouldEqual transient1
+        transient2 shouldBeEqualTo transient1
 
         transient2.name = "other name"
         transient2 shouldNotEqual transient1
@@ -45,7 +45,7 @@ class SimpleEntityTests : AbstractDataJpaTest() {
         simpleRepo.saveAll(setOf(entity1, entity2, entity3))
         flushAndClear()
 
-        simpleRepo.findAll().size shouldEqual 2
+        simpleRepo.findAll().size shouldBeEqualTo 2
 
         simpleRepo.deleteAll()
 

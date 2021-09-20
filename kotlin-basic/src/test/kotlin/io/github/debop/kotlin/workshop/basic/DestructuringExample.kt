@@ -1,8 +1,7 @@
 package io.github.debop.kotlin.workshop.basic
 
 import mu.KLogging
-import org.amshove.kluent.shouldEqual
-import org.amshove.kluent.shouldEqualTo
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Test
 
 /**
@@ -10,17 +9,17 @@ import org.junit.jupiter.api.Test
  */
 class DestructuringExample {
 
-    companion object : KLogging()
+    companion object: KLogging()
 
     @Test
     fun `destruct variables`() {
         val (a, b) = Pair(1, "a")
-        a shouldEqualTo 1
-        b shouldEqual "a"
+        a shouldBeEqualTo 1
+        b shouldBeEqualTo "a"
 
         val (first, second) = "Hello world".split(" ", limit = 2)
-        first shouldEqual "Hello"
-        second shouldEqual "world"
+        first shouldBeEqualTo "Hello"
+        second shouldBeEqualTo "world"
     }
 
 
@@ -32,8 +31,8 @@ class DestructuringExample {
 
         val (id, name) = user
 
-        id shouldEqual user.id
-        name shouldEqual user.name
+        id shouldBeEqualTo user.id
+        name shouldBeEqualTo user.name
     }
 
     @Test

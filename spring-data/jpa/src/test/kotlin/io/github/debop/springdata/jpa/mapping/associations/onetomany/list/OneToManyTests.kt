@@ -4,7 +4,7 @@ import io.github.debop.springdata.jpa.AbstractDataJpaTest
 import mu.KotlinLogging.logger
 import org.amshove.kluent.`should contain all`
 import org.amshove.kluent.shouldBeEmpty
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeEqualTo
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -42,7 +42,7 @@ class OneToManyTests : AbstractDataJpaTest() {
         val loaded = userRepo.findByIdOrNull(user.id!!)
 
         loaded.shouldNotBeNull()
-        loaded shouldEqual user
+        loaded shouldBeEqualTo user
 
         userRepo.deleteById(loaded.id!!)
         userRepo.flush()
@@ -63,10 +63,10 @@ class OneToManyTests : AbstractDataJpaTest() {
 
         val loaded = orderRepo.findByIdOrNull(order.id)
         loaded.shouldNotBeNull()
-        loaded shouldEqual order
+        loaded shouldBeEqualTo order
 
         // select count(id) from order_item
-        loaded.items.size shouldEqual order.items.size
+        loaded.items.size shouldBeEqualTo order.items.size
 
         loaded.items.forEach {
             log.debug("$it")
@@ -75,7 +75,7 @@ class OneToManyTests : AbstractDataJpaTest() {
         // Inner Join 을 이용하여 조회한다.
         val loaded2 = orderRepo.findAllWithInnerJoins()
         loaded2.shouldNotBeNull()
-        loaded.items.size shouldEqual order.items.size
+        loaded.items.size shouldBeEqualTo order.items.size
 
         /*
             Hibernate:
@@ -111,9 +111,9 @@ class OneToManyTests : AbstractDataJpaTest() {
 
         val loaded = batchRepo.findByIdOrNull(batch.id)
         loaded.shouldNotBeNull()
-        loaded shouldEqual batch
+        loaded shouldBeEqualTo batch
 
-        loaded.items.size shouldEqual batch.items.size
+        loaded.items.size shouldBeEqualTo batch.items.size
 
         loaded.removeItems(item1)
         /*
@@ -136,7 +136,7 @@ class OneToManyTests : AbstractDataJpaTest() {
         batchRepo.saveAndFlush(loaded)
         batchItemRepo.flush()
 
-        loaded.items.size shouldEqual batch.items.size - 1
+        loaded.items.size shouldBeEqualTo batch.items.size - 1
 
         clear()
 
@@ -167,7 +167,7 @@ class OneToManyTests : AbstractDataJpaTest() {
         val loaded = fatherRepo.findByIdOrNull(father.id)
 
         loaded.shouldNotBeNull()
-        loaded shouldEqual father
+        loaded shouldBeEqualTo father
         loaded.orderedChildren `should contain all` listOf(child1, child2, child3)
 
         loaded.orderedChildren.removeAt(0)
@@ -176,8 +176,8 @@ class OneToManyTests : AbstractDataJpaTest() {
 
         val loaded2 = fatherRepo.findByIdOrNull(father.id)
         loaded2.shouldNotBeNull()
-        loaded2 shouldEqual father
-        loaded2.orderedChildren.size shouldEqual 2
+        loaded2 shouldBeEqualTo father
+        loaded2.orderedChildren.size shouldBeEqualTo 2
 
         fatherRepo.delete(loaded2)
         fatherRepo.flush()
