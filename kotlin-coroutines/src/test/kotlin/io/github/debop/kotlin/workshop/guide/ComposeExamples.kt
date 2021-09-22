@@ -1,8 +1,9 @@
 package io.github.debop.kotlin.workshop.guide
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -102,8 +103,10 @@ class ComposeExamples {
             return 29
         }
 
-        fun doOneAsync(): Deferred<Int> = GlobalScope.async { doOne() }
-        fun doTwoAsync(): Deferred<Int> = GlobalScope.async { doTwo() }
+        val scope = CoroutineScope(Dispatchers.IO)
+
+        fun doOneAsync(): Deferred<Int> = scope.async { doOne() }
+        fun doTwoAsync(): Deferred<Int> = scope.async { doTwo() }
 
 
         val time = measureTimeMillis {

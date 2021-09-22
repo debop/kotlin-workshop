@@ -24,7 +24,7 @@ class BasicConnectionExample: AbstractJasyncTest() {
 
     companion object: KLogging()
 
-    lateinit var connection: ConnectionPool<MySQLConnection>
+    private lateinit var connection: ConnectionPool<MySQLConnection>
 
     @BeforeAll
     fun setup() {

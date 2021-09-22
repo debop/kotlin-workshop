@@ -1,12 +1,13 @@
 package io.github.debop.kotlin.workshop.examples.basic.step2
 
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import mu.KLogging
-import org.amshove.kluent.shouldNotEqual
+import org.amshove.kluent.shouldNotBeEqualTo
 import org.junit.jupiter.api.Test
 import kotlin.coroutines.CoroutineContext
 
@@ -16,7 +17,7 @@ import kotlin.coroutines.CoroutineContext
  */
 class ContextExamples {
 
-    companion object : KLogging()
+    companion object: KLogging()
 
     private fun printLog(output: () -> String) {
         println("[${Thread.currentThread().name}]: ${output()}")
@@ -36,10 +37,10 @@ class ContextExamples {
     fun `coroutines context in launch`() = runBlocking<Unit> {
         val ctx1 = coroutineContext
 
-        val job = GlobalScope.launch {
+        val job = CoroutineScope(Dispatchers.IO).launch {
             val ctx2 = coroutineContext
             logger.info { "ctx2=$ctx2" }
-            ctx2 shouldNotEqual ctx1
+            ctx2 shouldNotBeEqualTo ctx1
         }
         job.join()
     }
@@ -51,7 +52,7 @@ class ContextExamples {
         val job = launch(coroutineContext) {
             val ctx2 = coroutineContext
             printLog { "launch" }
-            ctx2 shouldNotEqual ctx1
+            ctx2 shouldNotBeEqualTo ctx1
         }
         job.join()
     }
@@ -76,7 +77,7 @@ class ContextExamples {
         printLog { "4. Coroutine scope is over" }
     }
 
-    suspend fun doWorld() {
+    private suspend fun doWorld() {
         delay(1000)
         println("World!")
     }

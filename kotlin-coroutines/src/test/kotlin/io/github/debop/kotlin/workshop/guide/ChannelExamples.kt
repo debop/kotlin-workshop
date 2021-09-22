@@ -25,7 +25,7 @@ class ChannelExamples: CoroutineScope by CoroutineScope(CoroutineName("channel")
     @Test
     fun `send data and receive by channel`() {
         val channel = Channel<Int>()
-        runBlocking {
+        runBlocking(Dispatchers.IO) {
             launch {
                 (1..5).forEach { channel.send(it * it) }
             }
@@ -39,7 +39,7 @@ class ChannelExamples: CoroutineScope by CoroutineScope(CoroutineName("channel")
     }
 
     @Test
-    fun `explicit close channel`() = runBlocking<Unit> {
+    fun `explicit close channel`() = runBlocking<Unit>(Dispatchers.IO) {
         val channel = Channel<Int>()
 
         launch {
@@ -60,7 +60,7 @@ class ChannelExamples: CoroutineScope by CoroutineScope(CoroutineName("channel")
         fun CoroutineScope.produceSquares(): ReceiveChannel<Int> = produce(capacity = 3) {
             (1..5).forEach { send(it * it) }
         }
-        runBlocking {
+        runBlocking(Dispatchers.IO) {
             val squares = produceSquares()
             squares.consumeEach {
                 logger.debug { "received: $it" }
@@ -87,7 +87,7 @@ class ChannelExamples: CoroutineScope by CoroutineScope(CoroutineName("channel")
             }
         }
 
-        runBlocking {
+        runBlocking(Dispatchers.IO) {
             val numbers = produceNumbers()
             val squares = square(numbers)
 
@@ -121,7 +121,7 @@ class ChannelExamples: CoroutineScope by CoroutineScope(CoroutineName("channel")
             }
         }
 
-        runBlocking {
+        runBlocking(Dispatchers.IO) {
             var cur = numbersFrom(2)
             for (i in 1..10) {
                 val prime = cur.receive()
@@ -158,7 +158,7 @@ class ChannelExamples: CoroutineScope by CoroutineScope(CoroutineName("channel")
             return job
         }
 
-        runBlocking {
+        runBlocking(Dispatchers.IO) {
             val producer = produceNumbers()
             repeat(5) {
                 // 5개의 worker coroutines가 생성되고, 독립적으로 작업을 수행합니다.
@@ -180,7 +180,7 @@ class ChannelExamples: CoroutineScope by CoroutineScope(CoroutineName("channel")
             }
         }
 
-        runBlocking {
+        runBlocking(Dispatchers.IO) {
             val channel = Channel<String>()
             launch { sendString(channel, "foo", 200L) }
             launch { sendString(channel, "BAR!", 500L) }
@@ -196,7 +196,7 @@ class ChannelExamples: CoroutineScope by CoroutineScope(CoroutineName("channel")
 
     @Test
     fun `send and receive string with buffered channel`() {
-        runBlocking {
+        runBlocking(Dispatchers.IO) {
             val channel = Channel<Int>(4)
 
             val sender = launch {
@@ -226,7 +226,7 @@ class ChannelExamples: CoroutineScope by CoroutineScope(CoroutineName("channel")
             }
         }
 
-        runBlocking {
+        runBlocking(Dispatchers.IO) {
             val table = Channel<Ball>()
 
             launch { player("ping", table) }

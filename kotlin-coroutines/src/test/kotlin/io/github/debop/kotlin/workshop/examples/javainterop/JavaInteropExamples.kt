@@ -1,6 +1,7 @@
 package io.github.debop.kotlin.workshop.examples.javainterop
 
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.future.await
 import kotlinx.coroutines.future.future
 import java.util.concurrent.CompletableFuture
@@ -37,7 +38,9 @@ fun loadAndCombineAsync(name1: String, name2: String): CompletableFuture<Image> 
 
 // Kotlin Coroutines
 fun loadAndCombine(name1: String, name2: String): CompletableFuture<Image> {
-    return GlobalScope.future {
+    val scope = CoroutineScope(Dispatchers.Default)
+
+    return scope.future {
         val future1 = loadImageAsync(name1)
         val future2 = loadImageAsync(name2)
 

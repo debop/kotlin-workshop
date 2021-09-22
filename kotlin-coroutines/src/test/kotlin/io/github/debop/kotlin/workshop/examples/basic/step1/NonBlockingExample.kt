@@ -1,7 +1,7 @@
 package io.github.debop.kotlin.workshop.examples.basic.step1
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 import kotlin.concurrent.thread
 
 class NonBlockingExample {
-    companion object : KLogging()
+    companion object: KLogging()
 
     @Disabled("Blocking 때문에 엄청난 시간이 걸린다")
     @Test
@@ -33,8 +33,9 @@ class NonBlockingExample {
     @Order(2)
     fun `blocking with coroutines`() {
         runBlocking {
+            val scope = CoroutineScope(Dispatchers.IO)
             val jobs = List(100_000) {
-                GlobalScope.launch {
+                scope.launch {
                     Thread.sleep(1000)
                     print(".")
                 }

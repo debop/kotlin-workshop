@@ -1,7 +1,8 @@
 package io.github.debop.kotlin.workshop.examples.basic.step2
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -14,10 +15,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.system.measureTimeMillis
 
-/**
- * ComposeExamples
- * @author debop (Sunghyouk Bae)
- */
 class ComposeExamples {
 
     val log = logger { }
@@ -85,13 +82,13 @@ class ComposeExamples {
     }
 
     @Nested
-    inner class Step04 {
+    inner class Step04: CoroutineScope by CoroutineScope(Dispatchers.IO) {
 
-        fun somethingUsefulOneAsync() = GlobalScope.async {
+        private fun somethingUsefulOneAsync() = async {
             doSomethingOne()
         }
 
-        fun somethingUsefulTwoAsync() = GlobalScope.async {
+        private fun somethingUsefulTwoAsync() = async {
             doSomethingTwo()
         }
 
@@ -113,7 +110,7 @@ class ComposeExamples {
     @Nested
     inner class Step05 {
 
-        suspend fun concurrentSum(): Int = coroutineScope {
+        private suspend fun concurrentSum(): Int = coroutineScope {
             val one = async { doSomethingOne() }
             val two = async { doSomethingTwo() }
             one.await() + two.await()
@@ -132,7 +129,7 @@ class ComposeExamples {
     @Nested
     inner class Step06 {
 
-        suspend fun failedConcurrentSum(): Int = coroutineScope {
+        private suspend fun failedConcurrentSum(): Int = coroutineScope {
             val one = async<Int> {
                 try {
                     delay(Long.MAX_VALUE)
