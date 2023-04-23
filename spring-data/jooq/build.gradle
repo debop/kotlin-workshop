@@ -1,15 +1,11 @@
-import nu.studer.gradle.jooq.JooqEdition
-
 plugins {
     id "idea"
     id "org.jetbrains.kotlin.plugin.spring"
     id "org.jetbrains.kotlin.plugin.noarg"
     id "org.jetbrains.kotlin.plugin.jpa"
 
-    id 'nu.studer.jooq' version '3.0.3'
+    id "nu.studer.jooq" version "8.2"
 }
-
-ext.jooqVersion = "3.11.11"
 
 dependencies {
 
@@ -17,56 +13,54 @@ dependencies {
     api("org.springframework.data:spring-data-jdbc")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-    api("org.jooq:jooq:$jooqVersion")
-
+    api(Libraries.jooq)
     // JOOQ schema generation
-    jooqRuntime("org.jooq:jooq-meta-extensions:$jooqVersion")
-    jooqRuntime("com.h2database:h2:1.4.199")
-
-    testImplementation("com.h2database:h2:1.4.199")
+    jooqRuntime(Libraries.jooq_meta_extensions)
+    jooqRuntime(Libraries.h2)
+    testImplementation(Libraries.h2)
 }
 
 // see : https://www.jooq.org/doc/3.11/manual/code-generation/codegen-ddl/
 jooq {
-    version = "$jooqVersion"
-    edition = JooqEdition.OSS
+//    version = Versions.jooq
+//    edition = JooqEdition.OSS
 
     // category 는 Configuration Name에 해당한다.
     // 아래 `generate[Category]JooqSchemaSource`에 사용되므로 같이 변경해야 한다
-    category(sourceSets.main) {
-        jdbc {
-            driver = "org.h2.Driver"
-            url = "jdbc:h2:~/jooq-category;MVCC=true;AUTO_SERVER=TRUE"
-            user = "sa"
-            password = ''
-        }
-        generator {
-            name = 'org.jooq.codegen.DefaultGenerator'
-            strategy {
-                name = 'org.jooq.codegen.DefaultGeneratorStrategy'
-            }
-            database {
-                // 테스트 용은 DB Script를 사용하므로, DDLDatabase를 사용한다
-                name = 'org.jooq.meta.extensions.ddl.DDLDatabase'
-                properties {
-                    property {
-                        key = "scripts"
-                        value = "./src/main/resources/schema.sql"
-                    }
-                }
-            }
-            generate {
-                relations = true
-                deprecated = false
-                records = true
-                immutablePojos = true  // generate entity class
-                fluentSetters = true
-            }
-            target {
-                packageName = "io.github.debop.jooq"
-            }
-        }
-    }
+//    category(sourceSets.main) {
+//        jdbc {
+//            driver = "org.h2.Driver"
+//            url = "jdbc:h2:~/jooq-category;MVCC=true;AUTO_SERVER=TRUE"
+//            user = "sa"
+//            password = ''
+//        }
+//        generator {
+//            name = 'org.jooq.codegen.DefaultGenerator'
+//            strategy {
+//                name = 'org.jooq.codegen.DefaultGeneratorStrategy'
+//            }
+//            database {
+//                // 테스트 용은 DB Script를 사용하므로, DDLDatabase를 사용한다
+//                name = 'org.jooq.meta.extensions.ddl.DDLDatabase'
+//                properties {
+//                    property {
+//                        key = "scripts"
+//                        value = "./src/main/resources/schema.sql"
+//                    }
+//                }
+//            }
+//            generate {
+//                relations = true
+//                deprecated = false
+//                records = true
+//                immutablePojos = true  // generate entity class
+//                fluentSetters = true
+//            }
+//            target {
+//                packageName = "io.github.debop.jooq"
+//            }
+//        }
+//    }
 }
 
 idea {

@@ -1,8 +1,10 @@
 package io.github.debop.redisson.cache
 
+import java.io.Serializable
+import java.util.concurrent.TimeUnit
 import mu.KLogging
 import org.amshove.kluent.shouldBeEqualTo
-import org.amshove.kluent.shouldBeLessThan
+import org.amshove.kluent.shouldBeGreaterThan
 import org.amshove.kluent.shouldBeNull
 import org.amshove.kluent.shouldNotBeNull
 import org.junit.jupiter.api.Test
@@ -15,8 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import java.io.Serializable
-import java.util.concurrent.TimeUnit
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [RedissonApplication::class],
@@ -78,8 +78,9 @@ class RedissonAutoConfigurationTests {
         cached.shouldNotBeNull()
         cached shouldBeEqualTo item
 
-        cache.remainTimeToLive(item.id) shouldBeLessThan 0
+        cache.remainTimeToLive(item.id) shouldBeGreaterThan 0
 
+        // expiry가 1초 이므로, 그 이상의 시간을 보내면 key는 expire 된다.
         Thread.sleep(1300)
 
         cache[item.id].shouldBeNull()

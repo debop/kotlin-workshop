@@ -1,14 +1,14 @@
 object BuildPlugins {
 
     object Versions {
-        const val detekt = "1.2.2"
+        const val detekt = "1.7.20"
         const val dokka = "0.9.18"
-        const val dependency_management = "1.0.10.RELEASE"
-        const val jooq = "3.0.3"
-        const val protobuf = "0.8.13"
-        const val avro = "0.17.0"
+        const val dependency_management = "1.1.0"
+        const val jooq = "8.2"
+        const val protobuf = "0.8.19"
+        const val avro = "1.7.0"
         const val jarTest = "1.0.1"
-        const val spring_boot = "2.5.4"
+        const val spring_boot = "2.7.10"
     }
 
     const val detekt = "io.gitlab.arturbosch.detekt"
@@ -22,19 +22,19 @@ object BuildPlugins {
     const val protobuf = "com.google.protobuf"
 
     // https://github.com/davidmc24/gradle-avro-plugin
-    const val avro = "com.commercehub.gradle.plugin.avro"
+    const val avro = "com.github.davidmc24.gradle.plugin.avro" //"com.commercehub.gradle.plugin.avro"
 
     const val jarTest = "com.github.hauner.jarTest"
 }
 
 object Versions {
 
-    const val kotlin = "1.5.31"
-    const val kotlinx_coroutines = "1.5.2"
-    const val atomicfu = "0.16.3"
+    const val kotlin = "1.8.20"
+    const val kotlinx_coroutines = "1.6.4"
+    const val atomicfu = "0.20.2"
 
     const val spring_boot = BuildPlugins.Versions.spring_boot
-    const val spring_cloud = "2020.0.3"
+    const val spring_cloud = "2021.0.5"
     const val resilience4j = "1.7.0"
     const val vavr = "0.10.0"
     const val netty = "4.1.58.Final"
@@ -42,7 +42,8 @@ object Versions {
     const val grpc = "1.22.1"
     const val protobuf = "3.9.0"
     const val krotoplus = "0.4.0"
-    const val avro = "1.10.2"   // 1.9.0 은 jackson-dataformat-avro 에서 아직 지원하지 않습니다.
+    // https://mvnrepository.com/artifact/org.apache.avro/avro
+    const val avro = "1.11.1"
 
     const val kafka = "2.8.1"
 
@@ -59,7 +60,7 @@ object Versions {
     const val hibernate_validator = "6.0.17.Final"
     const val javers = "5.6.3"
     const val querydsl = "4.2.1"
-    const val jooq = "3.11.11"
+    const val jooq = "3.18.3"
 
     const val kotlin_logging = "1.7.6"
     const val slf4j = "1.7.26"
@@ -72,20 +73,43 @@ object Versions {
 
     const val byte_buddy = "1.11.16"
 
-    const val junit_jupiter = "5.7.2"
-    const val junit_platform = "1.7.2"
+    const val junit_jupiter = "5.9.2"
+    const val junit_platform = "1.9.2"
     const val mockito = "3.0.0"
-    const val testcontainers = "1.16.0"
+    const val testcontainers = "1.18.0"
 }
 
 object Libraries {
 
-    const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
-    const val kotlin_stdlib_jdk7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
-    const val kotlin_stdlib_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
-    const val kotlin_reflect = "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
-    const val kotlin_test = "org.jetbrains.kotlin:kotlin-test:${Versions.kotlin}"
-    const val kotlin_test_junit5 = "org.jetbrains.kotlin:kotlin-test-junit5:${Versions.kotlin}"
+
+    // kotlin
+    fun kotlin(module: String, version: String = Versions.kotlin) = "org.jetbrains.kotlin:kotlin-$module:$version"
+
+    val kotlin_bom get() = kotlin("bom")
+    val kotlin_stdlib get() = kotlin("stdlib")
+    val kotlin_stdlib_common get() = kotlin("stdlib-common")
+    val kotlin_stdlib_jdk7 get() = kotlin("stdlib-jdk7")
+    val kotlin_stdlib_jdk8 get() = kotlin("stdlib-jdk8")
+    val kotlin_reflect get() = kotlin("reflect")
+    val kotlin_test get() = kotlin("test")
+    val kotlin_test_common get() = kotlin("test-common")
+    val kotlin_test_junit5 get() = kotlin("test-junit5")
+
+    // Kotlin 1.3.40 부터는 kotlin-scripting-jsr223 만 참조하면 됩니다.
+    val kotlin_scripting_jsr223 get() = kotlin("scripting-jsr223")
+    val kotlin_compiler get() = kotlin("compiler")
+
+    // Kotlin 1.4+ 부터는 kotlin-scripting-dependencies 를 참조해야 합니다.
+    val kotlin_scripting_dependencies get() = kotlin("scripting-dependencies")
+
+    val kotlin_compiler_embeddable get() = kotlin("compiler-embeddable")
+    val kotlin_daemon_client get() = kotlin("daemon-client")
+    val kotlin_scripting_common get() = kotlin("scripting-common")
+    val kotlin_scripting_compiler_embeddable get() = kotlin("scripting-compiler-embeddable")
+    val kotlin_scripting_jvm get() = kotlin("scripting-jvm")
+    val kotlin_script_runtime get() = kotlin("script-runtime")
+    val kotlin_script_util get() = kotlin("scripting-util")
+
 
     const val kotlinx_coroutines_core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinx_coroutines}"
     const val kotlinx_coroutines_jdk7 = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk7:${Versions.kotlinx_coroutines}"
@@ -195,6 +219,9 @@ object Libraries {
     const val avro_ipc_netty = "org.apache.avro:avro-ipc-netty:${Versions.avro}"
     const val avro_compiler = "org.apache.avro:avro-compiler:${Versions.avro}"
     const val avro_protobuf = "org.apache.avro:avro-protobuf:${Versions.avro}"
+
+    // https://mvnrepository.com/artifact/com.github.avro-kotlin.avro4k/avro4k-core
+    val avro_kotlin get() = "com.github.avro-kotlin.avro4k:avro4k-core:1.7.0"
 
     const val kafka_clients = "org.apache.kafka:kafka-clients:${Versions.kafka}"
     const val kafka_streams = "org.apache.kafka:kafka-streams:${Versions.kafka}"

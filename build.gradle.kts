@@ -1,39 +1,32 @@
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformJvmPlugin
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.jetbrains.kotlinx:atomicfu-gradle-plugin:${Versions.atomicfu}")
-    }
-}
 
 plugins {
-
     base
-    kotlin("jvm") version Versions.kotlin apply false
+    `maven-publish`
+    jacoco
+    kotlin("jvm") version Versions.kotlin
 
     // see: https://kotlinlang.org/docs/reference/compiler-plugins.html
     kotlin("plugin.spring") version Versions.kotlin apply false
     kotlin("plugin.allopen") version Versions.kotlin apply false
     kotlin("plugin.noarg") version Versions.kotlin apply false
     kotlin("plugin.jpa") version Versions.kotlin apply false
+    kotlin("plugin.serialization") version Versions.kotlin apply false
+    // kotlin("plugin.atomicfu") version Versions.kotlin apply false
+    kotlin("kapt") version Versions.kotlin apply false
 
     //id(BuildPlugins.detekt) version BuildPlugins.Versions.detekt apply false
     id(BuildPlugins.dokka) version BuildPlugins.Versions.dokka apply false
     id(BuildPlugins.dependency_management) version BuildPlugins.Versions.dependency_management
     id(BuildPlugins.spring_boot) version BuildPlugins.Versions.spring_boot apply false
-    `maven-publish`
+
 }
 
 allprojects {
     repositories {
         mavenCentral()
         google()
-        jcenter()
     }
 }
 
@@ -43,33 +36,87 @@ subprojects {
         plugin<JavaLibraryPlugin>()
         plugin<KotlinPlatformJvmPlugin>()
 
-        plugin("kotlinx-atomicfu")
-
         plugin("jacoco")
         plugin("maven-publish")
 
         // plugin("io.gitlab.arturbosch.detekt")
         plugin("org.jetbrains.dokka")
         plugin("io.spring.dependency-management")
-        plugin("maven-publish")
     }
 
-    tasks.withType<KotlinCompile> {
-        sourceCompatibility = "11"
-        kotlinOptions {
-            val experimentalAnnotations = listOf("kotlin.Experimental",
-                                                 "kotlin.experimental.ExperimentalTypeInference",
-                                                 "kotlin.ExperimentalMultiplatform",
-                                                 "kotlinx.coroutines.ExperimentalCoroutinesApi",
-                                                 "kotlinx.coroutines.ObsoleteCoroutinesApi",
-                                                 "kotlinx.coroutines.InternalCoroutinesApi",
-                                                 "kotlinx.coroutines.FlowPreview")
-            jvmTarget = "11"
-            freeCompilerArgs.plus("-Xjsr305=strict")
-            freeCompilerArgs.plus("-Xjvm-default=enable")
-            freeCompilerArgs.plus(experimentalAnnotations.map { "-Xuse-experimental=$it" })
-            freeCompilerArgs.plus("-progressive")
-            freeCompilerArgs.plus("-XXLanguage:+InlineClasses")
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(17))
+        }
+    }
+
+    val javaVersion = JavaVersion.VERSION_17.toString()
+
+    tasks {
+        compileJava {
+            sourceCompatibility = javaVersion
+            targetCompatibility = javaVersion
+        }
+
+        compileKotlin {
+            kotlinOptions {
+                jvmTarget = javaVersion
+                languageVersion = "1.8"
+                apiVersion = "1.8"
+                freeCompilerArgs = listOf(
+                    "-Xjsr305=strict",
+                    "-Xjvm-default=all",
+                    "-Xinline-classes",
+                    "-Xallow-result-return-type",
+                    "-Xstring-concat=indy",         // since Kotlin 1.4.20 for JVM 9+
+                    "-progressive",                 // since Kotlin 1.6
+                    "-Xenable-builder-inference",   // since Kotlin 1.6
+                    "-Xbackend-threads=0",          // since 1.6.20 (0 means one thread per CPU core)
+                    // "-Xuse-k2"                   // since Kotlin 1.7  // kapt not support
+                )
+
+                val experimentalAnnotations = listOf(
+                    "kotlin.RequiresOptIn",
+                    "kotlin.contracts.ExperimentalContracts",
+                    "kotlin.experimental.ExperimentalTypeInference",
+                    "kotlinx.coroutines.ExperimentalCoroutinesApi",
+                    "kotlinx.coroutines.InternalCoroutinesApi",
+                    "kotlinx.coroutines.FlowPreview",
+                )
+                freeCompilerArgs = freeCompilerArgs.plus(experimentalAnnotations.map { "-opt-in=$it" })
+            }
+        }
+
+        compileTestKotlin {
+            kotlinOptions {
+                jvmTarget = javaVersion
+                languageVersion = "1.8"
+                apiVersion = "1.8"
+                freeCompilerArgs = listOf(
+                    "-Xjsr305=strict",
+                    "-Xjvm-default=all",
+                    "-Xinline-classes",
+                    "-Xallow-result-return-type",
+                    "-Xstring-concat=indy",         // since Kotlin 1.4.20 for JVM 9+
+                    "-progressive",                 // since Kotlin 1.6
+                    "-Xenable-builder-inference",   // since Kotlin 1.6
+                    "-Xbackend-threads=0",          // since 1.6.20 (0 means one thread per CPU core)
+                    // "-Xuse-k2"                      // since Kotlin 1.7 // kapt not support
+                )
+
+                val experimentalAnnotations = listOf(
+                    "kotlin.RequiresOptIn",
+                    "kotlin.Experimental",
+                    "kotlin.ExperimentalStdlibApi",
+                    "kotlin.time.ExperimentalTime",
+                    "kotlin.contracts.ExperimentalContracts",
+                    // "kotlin.experimental.ExperimentalTypeInference",
+                    "kotlinx.coroutines.ExperimentalCoroutinesApi",
+                    "kotlinx.coroutines.InternalCoroutinesApi",
+                    "kotlinx.coroutines.FlowPreview",
+                )
+                freeCompilerArgs = freeCompilerArgs.plus(experimentalAnnotations.map { "-opt-in=$it" })
+            }
         }
     }
 
@@ -138,6 +185,7 @@ subprojects {
         imports {
             mavenBom("org.springframework.boot:spring-boot-dependencies:${Versions.spring_boot}")
             mavenBom("org.springframework.cloud:spring-cloud-dependencies:${Versions.spring_cloud}")
+            mavenBom(Libraries.kotlin_bom)
         }
         dependencies {
             dependency(Libraries.kotlin_stdlib)
@@ -247,7 +295,7 @@ subprojects {
         testImplementation(Libraries.kotlin_test_junit5)
 
         implementation(Libraries.kotlinx_coroutines_jdk8)
-        implementation(Libraries.atomicfu)
+        // implementation(Libraries.atomicfu)
 
         api(Libraries.commons_lang3)
 

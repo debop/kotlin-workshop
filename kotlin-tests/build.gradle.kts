@@ -1,5 +1,5 @@
 configurations {
-    testImplementation.get().extendsFrom(compileOnly.get())
+    testImplementation.get().extendsFrom(compileOnly.get(), runtimeOnly.get())
 }
 
 dependencies {

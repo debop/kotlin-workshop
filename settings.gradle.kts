@@ -2,10 +2,7 @@
 pluginManagement {
     repositories {
         gradlePluginPortal()
-        jcenter()
         mavenCentral()
-        // for Avro plugin
-        maven(url = "https://dl.bintray.com/gradle/gradle-plugins")
     }
 }
 
@@ -42,7 +39,7 @@ include("spring-boot:resilience4j")
 include("spring-boot:redisson")
 
 //include("spring-data:jdbc")
-include("spring-data:jooq")
+// include("spring-data:jooq")
 include("spring-data:jpa")
 include("spring-data:multi-store")
 include("spring-data:redis")
